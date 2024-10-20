@@ -18,6 +18,7 @@ Frontend bomo razviali v Node.js-u.
 Uporabljali bomo Amazon Azure cloud.
 Za podatkovno bazo bomo uporabljali MySQL bazo.
 ## Shema arhitekture
+![image](https://github.com/user-attachments/assets/e051d697-7713-4a44-b330-c76288e284d5)
 
 ## Mikrostoritve
 ### 1 - Uporabniki
