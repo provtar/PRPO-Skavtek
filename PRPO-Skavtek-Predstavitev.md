@@ -21,15 +21,15 @@ Za podatkovno bazo bomo uporabljali MySQL bazo.
 ![image](https://github.com/user-attachments/assets/e051d697-7713-4a44-b330-c76288e284d5)
 
 ## Mikrostoritve
-### 1 - Uporabniki
-Funkcionalnosti:
+### 1 - Upravljanje članov
 * Registracija uporabnikov
+* Posodabljenje podatkov in pravic uporabnikov
 * Vpis v storitev
 * Dostop do podatkov drugih uporabnikov
-* Delitev uporabnikov v delavne skupine
-### 2 - Člani vej
-* Dodajanje članov veje, ki niso uporbniki, katerim beležiš atribute
-* Dostop do podatkov o članih
+### 2 - Delovne skupine
+* Dodeljevanje skupin članom
+* Posodabljanje skupin
+* Dostop do podatkov o skupini
 ### 3 - Beleženje prisotnosti
 * Vpisovanje prisotnosti članov na srečanjih
 ### 4 - Srečanja - registrirane uporabnike registrirati v gruče
