@@ -21,8 +21,8 @@ public class SimpleServlet extends HttpServlet {
     PrintWriter writer = resp.getWriter();
 
     // izpis uporabnikov
-    writer.append("<br/><br/>Uporabniki:<br/>");
-    writer.append("Bo treba pa še kaj narediti preden se kaj izpiše tu :))" + "<br/><br/>");
+    writer.append("<br/><br/>Clani:<br/>");
+    writer.append("Sam da vsaj to dela :))" + "<br/><br/>");
 
     writer.close();
     // TODO: missing implementation
