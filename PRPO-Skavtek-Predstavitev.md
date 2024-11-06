@@ -32,7 +32,7 @@ Za podatkovno bazo bomo uporabljali MySQL bazo.
 * Dostop do podatkov o skupini
 ### 3 - Beleženje prisotnosti
 * Vpisovanje prisotnosti članov na srečanjih
-### 4 - Srečanja - registrirane uporabnike registrirati v gruče
+### 4 - Srečanja
 * Omogoča, da ustvariš novo srečanje
 * Udeležencem srečanja komunicira podatke o srečanju
 * Posodobi razpoložljivost udeležencev srečanja

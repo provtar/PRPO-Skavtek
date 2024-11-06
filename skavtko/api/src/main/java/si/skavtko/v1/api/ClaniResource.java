@@ -2,7 +2,6 @@ package si.skavtko.v1.api;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Min;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,13 +12,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.ext.MessageBodyReader;
 
-import java.io.BufferedReader;
 import com.google.gson.Gson;
 
 import si.skavtko.dto.ClanDTO;
@@ -39,7 +35,7 @@ public class ClaniResource {
 
     //je smiselno dodat moùnost izpisa vseh clanov? boljse 
     @GET
-    public Response getResources(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
+    public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
         Integer id = clanZrno.getId(ime, priimek);
 
         if(id < 0){
@@ -78,13 +74,8 @@ public class ClaniResource {
         // if(br == null)System.out.println("Je null");
 
         ClanDTO ustvarjen = clanZrno.dodajClana(data);
-
+        
         return Response.ok(ustvarjen).build();
-
-        // Gson gson = new Gson();
-        // ClanDTO novClan = gson.fromJson(br, ClanDTO.class);
-        // novClan = clanZrno.dodajClana(novClan);
-        // return Response.ok(gson.toJson(novClan)).build();
     }
 
     @PUT
