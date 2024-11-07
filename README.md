@@ -5,7 +5,7 @@ Repository for a project at the PRPO subject
 BUILD:
 mvn clean package
 ZAGON:
-java -jar api/target/api-1.0-SNAPSHOT.jar
+java -jar api/target/api-1.0.0-SNAPSHOT.jar
 DOSTOP do aplikacije:
 http://localhost:8080/
 
