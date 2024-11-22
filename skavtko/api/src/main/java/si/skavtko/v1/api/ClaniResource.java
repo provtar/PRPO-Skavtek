@@ -2,7 +2,6 @@ package si.skavtko.v1.api;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.validation.constraints.Min;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -11,7 +10,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -34,24 +32,24 @@ public class ClaniResource {
 
 
     //je smiselno dodat moùnost izpisa vseh clanov? boljse 
-    @GET
-    public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
-        Integer id = clanZrno.getId(ime, priimek);
+    // @GET
+    // public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
+    //     UUID id = clanZrno.getId(ime, priimek);
 
-        if(id < 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+    //     if(id < 0){
+    //         return Response.status(Status.NOT_FOUND).build();
+    //     }
 
-        ClanDTO clan = clanZrno.getClan(id);
-        Gson gson = new Gson();
-        return Response.ok(gson.toJson(clan)).build();
-    }
+    //     ClanDTO clan = clanZrno.getClan(id);
+    //     Gson gson = new Gson();
+    //     return Response.ok(gson.toJson(clan)).build();
+    // }
 
     @GET
     @Path("/{id}")
-    public Response getResourceById(@PathParam("id") int id){
+    public Response getResourceById(@PathParam("id") Long id){
         ClanDTO result = clanZrno.getClan(id);
-        if(result.getId() < 0)return Response.status(Status.NOT_FOUND).build();
+        if(result == null)return Response.status(Status.NOT_FOUND).build();
 
         Gson gson = new Gson();
         return Response.ok(gson.toJson(result)).build();
@@ -75,7 +73,8 @@ public class ClaniResource {
 
         ClanDTO ustvarjen = clanZrno.dodajClana(data);
         
-        return Response.ok(ustvarjen).build();
+        Gson gson = new Gson();
+        return Response.ok(gson.toJson(ustvarjen)).build();
     }
 
     @PUT
@@ -83,13 +82,12 @@ public class ClaniResource {
     public Response updateResource(ClanDTO data){
         
         data = clanZrno.posodobiClan(data);
-        if(data.getId() < 0) return Response.status(Status.NOT_FOUND).build();
         return Response.ok(data).build();
     }
 
     @DELETE
     @Path("/{id}")
-    public Response deleteResource(@PathParam("id") @Min(0) Integer id){
+    public Response deleteResource(@PathParam("id") Long id){
         clanZrno.deleteClan(id);
         return Response.status(Status.NO_CONTENT).build();
 

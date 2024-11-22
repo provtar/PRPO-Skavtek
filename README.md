@@ -9,6 +9,23 @@ java -jar api/target/api-1.0.0-SNAPSHOT.jar
 DOSTOP do aplikacije:
 http://localhost:8080/
 
+Zagon odcker compose fila
+docker compose  -f .\entitete\src\main\resources\docker-compose.yaml up
+Startaj container:
+docker start resources-db-1 resources-adminer-1
+Stop container:
+docker stop resources-db-1 resources-adminer-1
+Dostop do adminer
+http://localhost:8081/
+Database specifikacije za login (so tud u docker compose):
+Tip Postgresql
+Database: db
+User: admin
+Password: admin
+
+## Database
+Hibernate ima nastavitve, da se poveže na postgres DB
+
 ## Clan
 * id
 * username

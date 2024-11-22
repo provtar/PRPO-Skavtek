@@ -36,6 +36,11 @@
             <groupId>si.skavtko</groupId>
             <artifactId>storitve</artifactId>
         </dependency>
+        <dependency>
+            <groupId>si.skavtko</groupId>
+            <artifactId>entitete</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
