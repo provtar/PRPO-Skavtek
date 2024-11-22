@@ -26,6 +26,5 @@
             <groupId>si.skavtko</groupId>
             <artifactId>entitete</artifactId>
         </dependency>
-
     </dependencies>
 </project>
