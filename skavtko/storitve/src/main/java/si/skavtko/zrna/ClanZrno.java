@@ -4,17 +4,17 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import si.skavtko.dto.ClanDTO;
 import si.skavtko.entitete.Clan;
-import si.skavtko.entitete.Clan.UserRole;
+import si.skavtko.entitete.enums.UserRole;
 
 @ApplicationScoped
 public class ClanZrno {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "skavtko")
     EntityManager entityManager;
     
     @PostConstruct
@@ -27,44 +27,57 @@ public class ClanZrno {
 
     //za posameznega uporabika - za vec uporabnikov hkrati za zdaj bo skrbel resource skupina
     
-    public ClanDTO getClan(Long id){
+    public Clan getClan(Long id){
         Clan clan = entityManager.find(Clan.class, id);
-        clan.setRole(UserRole.PASSIVE);
-        return new ClanDTO(clan);
+        entityManager.detach(clan);
+        return clan;
     }
 
-    @Transactional
-    public ClanDTO dodajClana(ClanDTO data){
-        entityManager.getTransaction().begin();
-        Clan novClan = new Clan();
-        novClan.setIme(data.getIme());
-        novClan.setPriimek(data.getPriimek());
-        novClan.setRole(data.getRole());
+    //TODO zbrisat al posodobt t metodo, za zdaj je samo za primer
+    public Clan getClan(String ime, String priimek){
+        Clan res = entityManager.createQuery("select c from Clani c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.ime = :arg2)", Clan.class).setParameter("arg1", ime).setParameter("arg2", ime).getSingleResult();
+        entityManager.detach(res);
+        return res;
+    }
 
-        entityManager.persist(novClan);
+    //TEST, vidim, ce vrne ID
+    @Transactional
+    public Clan dodajClana(Clan data){
+        entityManager.getTransaction().begin();
+        // Clan novClan = new Clan();
+        // novClan.setIme(data.getIme());
+        // novClan.setPriimek(data.getPriimek());
+        // novClan.setRole(data.getRole());
+        entityManager.persist(data);
         entityManager.flush();
         entityManager.getTransaction().commit();
-
-        return new ClanDTO(novClan);
+        //entityManager.detach(data);
+        return data;
     }
 
     @Transactional
-    public ClanDTO posodobiClan(ClanDTO data){
-        Clan clan = data.toClan();
-
-        entityManager.merge(clan);
+    public Clan posodobiClan(Clan data){
+        try {
+            entityManager.getReference(Clan.class, data.getId());
+        } catch(EntityNotFoundException enf){
+            return null;
+        } catch(Exception e){
+            throw e;
+        }
+        entityManager.getTransaction().begin();
+        Clan clan = entityManager.merge(data);
         entityManager.flush();
-
+        entityManager.getTransaction().commit();
         //TODO error handling
-
-        return new ClanDTO(clan);
+        entityManager.detach(clan);
+        return clan;
     }
 
     @Transactional
     public void deleteClan( Long id){
+        entityManager.getTransaction().begin();
         Clan clan = entityManager.find(Clan.class, id);
-        entityManager.detach(clan);
+        entityManager.remove(clan);
+        entityManager.getTransaction().commit();
     }
-
-    //nekaj metod bo imelo @Transactional annotatio
 }

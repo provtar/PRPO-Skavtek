@@ -10,13 +10,14 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
-import si.skavtko.dto.ClanDTO;
+import si.skavtko.entitete.Clan;
 import si.skavtko.zrna.ClanZrno;
 
 @Path("/clani")
@@ -32,23 +33,22 @@ public class ClaniResource {
 
 
     //je smiselno dodat moùnost izpisa vseh clanov? boljse 
-    // @GET
-    // public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
-    //     UUID id = clanZrno.getId(ime, priimek);
+    @GET
+    public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
+        Clan clan = clanZrno.getClan(ime, priimek);
 
-    //     if(id < 0){
-    //         return Response.status(Status.NOT_FOUND).build();
-    //     }
+        if(clan == null){
+            return Response.status(Status.NOT_FOUND).build();
+        }
 
-    //     ClanDTO clan = clanZrno.getClan(id);
-    //     Gson gson = new Gson();
-    //     return Response.ok(gson.toJson(clan)).build();
-    // }
+        Gson gson = new Gson();
+        return Response.ok(gson.toJson(clan)).build();
+    }
 
     @GET
     @Path("/{id}")
     public Response getResourceById(@PathParam("id") Long id){
-        ClanDTO result = clanZrno.getClan(id);
+        Clan result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
 
         Gson gson = new Gson();
@@ -59,7 +59,7 @@ public class ClaniResource {
 
     //Doda novega clana
     @POST
-    public Response addResource(ClanDTO data){
+    public Response addResource(Clan data){
         // BufferedReader br = null;
         // try {
         //     br = request.getReader();
@@ -71,15 +71,15 @@ public class ClaniResource {
         // }
         // if(br == null)System.out.println("Je null");
 
-        ClanDTO ustvarjen = clanZrno.dodajClana(data);
+        Clan ustvarjen = clanZrno.dodajClana(data);
         
         Gson gson = new Gson();
         return Response.ok(gson.toJson(ustvarjen)).build();
     }
 
     @PUT
-    //ClanDTO data kliće providerja, ki sprova prebrati telo requesta, providaer je v mapi provider
-    public Response updateResource(ClanDTO data){
+    //Clan data kliće providerja, ki sprova prebrati telo requesta, providaer je v mapi provider
+    public Response updateResource(Clan data){
         
         data = clanZrno.posodobiClan(data);
         return Response.ok(data).build();
