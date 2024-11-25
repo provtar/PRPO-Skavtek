@@ -28,7 +28,7 @@ import si.skavtko.entitete.enums.UserRole;
 @Entity
 
 
-@Table(name = "Clani")
+
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue(UserRole.Values.ADMIN)
 @DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)

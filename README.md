@@ -165,3 +165,10 @@ Upravljanje s clani skupine
 ### Path /prisotnosti/id
 ### Path prisotnost/id/clani/clanId
 ### Termini /clanId
+
+## Zrna
+### Clan:
+* Dodaj uporabnika
+* Dodaj aktivnega uporabnika
+* Posodabljaj uporabnika
+* Dostopaj do javnih podatkov uporabnikov
