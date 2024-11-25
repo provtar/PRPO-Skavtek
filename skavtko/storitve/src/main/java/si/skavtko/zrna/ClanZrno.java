@@ -14,7 +14,7 @@ import si.skavtko.entitete.enums.UserRole;
 @ApplicationScoped
 public class ClanZrno {
 
-    @PersistenceContext(unitName = "skavtko")
+    @PersistenceContext
     EntityManager entityManager;
     
     @PostConstruct

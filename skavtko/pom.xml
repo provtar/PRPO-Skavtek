@@ -35,11 +35,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-                <groupId>com.kumuluz.ee.config</groupId>
-                <artifactId>kumuluzee-config-mp</artifactId>
-                <version>${kumuluzee-config-mp.version}</version>
-            </dependency>
 
 
             <dependency>

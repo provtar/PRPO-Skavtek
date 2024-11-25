@@ -1,24 +1,13 @@
-
-<?xml version="1.0" encoding="UTF-8" ?>
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence https://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-             version="2.1">
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="2.0">
 
-    <persistence-unit name="skavtko">
-
+    <persistence-unit name="db-provider">
 
         <class>si.skavtko.entitete.Clan</class>
-        <class>si.skavtko.entitete.ClanPassive</class>
-        <class>si.skavtko.entitete.ClanActive</class>
-        <class>si.skavtko.entitete.ClanSkupina</class>
-        <class>si.skavtko.entitete.Skupina</class>
-
-        <class>si.skavtko.entitete.embeddable.SkavtskoIme</class>
 
         <properties>
-            <jta-data-source>jdbc/SkavtkoDS</jta-data-source>
-
             <!-- PostgreSQL -->
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> 
             <property name="javax.persistence.jdbc.url"
@@ -33,10 +22,7 @@
             <!-- Automatic schema export -->
             <property name="javax.persistence.schema-generation.database.action"
                       value="drop-and-create"/>
-            <property name="javax.persistence.schema-generation.create-source"
-                      value="metadata"/>
-                      <property name="javax.persistence.schema-generation.drop-source"
-                      value="metadata"/>
+
             <!-- SQL statement logging -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
@@ -47,4 +33,3 @@
     </persistence-unit>
 
 </persistence>
-

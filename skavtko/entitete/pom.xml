@@ -24,7 +24,6 @@
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jpa-hibernate</artifactId>
-            <artifactId>kumuluzee-jpa-hibernate</artifactId>
         </dependency>
 
         <dependency>

@@ -5,14 +5,12 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.hibernate.annotations.NaturalId;
 
 import si.skavtko.entitete.enums.UserRole;
 
 @Entity
 @DiscriminatorValue(UserRole.Values.ACTIVE)
 public class ClanActive extends Clan{
-    @NaturalId
     @Basic(optional =  false)
     private String username;
     @Basic(optional = false)
