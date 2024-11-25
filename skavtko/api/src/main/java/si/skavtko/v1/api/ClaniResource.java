@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import com.google.gson.Gson;
 
 import si.skavtko.dto.ClanDTO;
+import si.skavtko.entitete.Clan;
 import si.skavtko.zrna.ClanZrno;
 
 @Path("/clani")
@@ -59,7 +60,7 @@ public class ClaniResource {
 
     //Doda novega clana
     @POST
-    public Response addResource(ClanDTO data){
+    public Response addResource(Clan data){
         // BufferedReader br = null;
         // try {
         //     br = request.getReader();

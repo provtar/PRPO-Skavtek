@@ -21,7 +21,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <hibernate.version>6.6.3.Final</hibernate.version>
         <postgresql.version>42.7.4</postgresql.version>
         <kumuluzee.version>4.1.0</kumuluzee.version>
     </properties>
@@ -36,11 +35,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate.version}</version>
-            </dependency>
+
             <dependency>
  <groupId>org.postgresql</groupId>
  <artifactId>postgresql</artifactId>

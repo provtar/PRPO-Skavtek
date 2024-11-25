@@ -12,7 +12,6 @@ import javax.persistence.Table;
 //vse anotacije vezane s persistance layerjem se doda kasneje
 //treba bo ponovno skonstruirati, da doda vse atribute
 @Entity
-@Table(name = "Clani")
 public class Clan {
     public enum UserRole {
         PASSIVE,

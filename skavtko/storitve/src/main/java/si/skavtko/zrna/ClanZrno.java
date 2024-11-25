@@ -34,13 +34,10 @@ public class ClanZrno {
     }
 
     @Transactional
-    public ClanDTO dodajClana(ClanDTO data){
+    public ClanDTO dodajClana(Clan data){
         entityManager.getTransaction().begin();
-        Clan novClan = new Clan();
-        novClan.setIme(data.getIme());
-        novClan.setPriimek(data.getPriimek());
-        novClan.setRole(data.getRole());
-
+        Clan novClan = data;
+        
         entityManager.persist(novClan);
         entityManager.flush();
         entityManager.getTransaction().commit();
