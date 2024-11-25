@@ -78,8 +78,22 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * vloga (aktiven-pasiven-admin) required
 
 ### AktivenClan (podtip)
+## CLAN
+* id generated
+* ime required
+* priimek required
+* skavtsko_ime
+* steg
+* datumRojstav (moramo èe dodat)
+* vloga (aktiven-pasiven-admin) required
+
+### AktivenClan (podtip)
 * username
 * password
+* mail
+
+### PasivenClan
+* master - skupina kateri pripada
 * mail
 
 ### PasivenClan
@@ -94,6 +108,7 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 ## CLAN-SKUPINA
 * id_clana
 * id_skupine
+* vloga
 * vloga
 
 ## SRECANJE
@@ -118,6 +133,7 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 
 ## PERMISSION
 * id_clanAktiven
+* id_clanAktiven
 * id_skupine
 * #tip premission (view, view_termini, crud, clani; view, upravljaj skupina; view_srecanja, crud_srecanje; view_prisotnosti, crud_priostnposti)
 * token (?strategija)
@@ -128,6 +144,8 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * opis
 
 ## LOG
+* id_oseba
+* id_skupina
 * id_oseba
 * id_skupina
 * akcijo
