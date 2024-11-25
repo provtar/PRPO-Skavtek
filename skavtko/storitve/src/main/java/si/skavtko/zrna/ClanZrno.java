@@ -42,6 +42,7 @@ public class ClanZrno {
 
     //TEST, vidim, ce vrne ID
     @Transactional
+
     public Clan dodajClana(Clan data){
         entityManager.getTransaction().begin();
         // Clan novClan = new Clan();

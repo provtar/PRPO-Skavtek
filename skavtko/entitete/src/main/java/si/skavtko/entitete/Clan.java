@@ -26,10 +26,13 @@ import si.skavtko.entitete.enums.UserRole;
 //vse anotacije vezane s persistance layerjem se doda kasneje
 //treba bo ponovno skonstruirati, da doda vse atribute
 @Entity
+
+
 @Table(name = "Clani")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue(UserRole.Values.ADMIN)
 @DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
+
 public class Clan {
 
     public Clan (){

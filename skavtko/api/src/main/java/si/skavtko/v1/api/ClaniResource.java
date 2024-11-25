@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
+
 import si.skavtko.entitete.Clan;
 import si.skavtko.zrna.ClanZrno;
 
