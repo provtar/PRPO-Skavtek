@@ -48,8 +48,12 @@ Rabimo hibernate core dependency in ne kumuluz-hibernate, ker ce kumuluz rabm je
 * Dodaj equal in hash vsem entitetam @Override
 
 ## Pametni linki do dokumentacij
+* JPQL
 * https://docs.oracle.com/cd/E11035_01/kodo41/full/html/ejb3_langref.html
+* Hibernate
 * https://docs.jboss.org/hibernate/orm/6.6/introduction/html_single/Hibernate_Introduction.html
+* HQL
+* https://docs.jboss.org/hibernate/orm/3.3/reference/en/html/queryhql.html
 ### Entity dodatno
 * https://www.baeldung.com/jpa-hibernate-associations
 * https://www.baeldung.com/hibernate-inheritance
@@ -74,8 +78,22 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * vloga (aktiven-pasiven-admin) required
 
 ### AktivenClan (podtip)
+## CLAN
+* id generated
+* ime required
+* priimek required
+* skavtsko_ime
+* steg
+* datumRojstav (moramo èe dodat)
+* vloga (aktiven-pasiven-admin) required
+
+### AktivenClan (podtip)
 * username
 * password
+* mail
+
+### PasivenClan
+* master - skupina kateri pripada
 * mail
 
 ### PasivenClan
@@ -90,6 +108,7 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 ## CLAN-SKUPINA
 * id_clana
 * id_skupine
+* vloga
 * vloga
 
 ## SRECANJE
@@ -114,6 +133,7 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 
 ## PERMISSION
 * id_clanAktiven
+* id_clanAktiven
 * id_skupine
 * #tip premission (view, view_termini, crud, clani; view, upravljaj skupina; view_srecanja, crud_srecanje; view_prisotnosti, crud_priostnposti)
 * token (?strategija)
@@ -126,11 +146,22 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 ## LOG
 * id_oseba
 * id_skupina
+* id_oseba
+* id_skupina
 * akcijo
 
 ## API na kratko
 ### Path /registracija
+Dodajanje active userjev
 ### Path /clani
+Dodajanje navadnih userjev
 ### Path /clani/id
+Upravljaniìje z userji po id-ju
 ### Path /skupina
+Upravljanje skupin
 ### Path /skupina/id/clani
+Upravljanje s clani skupine
+### Path /srecanje
+### Path /prisotnosti/id
+### Path prisotnost/id/clani/clanId
+### Termini /clanId
