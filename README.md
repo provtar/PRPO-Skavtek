@@ -84,7 +84,7 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * priimek required
 * skavtsko_ime
 * steg
-* datumRojstav (moramo èe dodat)
+* datumRojstva (moramo èe dodat)
 * vloga (aktiven-pasiven-admin) required
 
 ### AktivenClan (podtip)
