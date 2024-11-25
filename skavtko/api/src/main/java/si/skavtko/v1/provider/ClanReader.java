@@ -16,26 +16,27 @@ import javax.ws.rs.ext.Provider;
 
 import com.google.gson.Gson;
 
-import si.skavtko.dto.ClanDTO;
+import si.skavtko.entitete.Clan;
+
 
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
-public class ClanReader implements MessageBodyReader<ClanDTO> {
+public class ClanReader implements MessageBodyReader<Clan> {
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         // TODO Auto-generated method stub
-        return type == ClanDTO.class;
+        return type == Clan.class;
     }
 
     @Override
-    public ClanDTO readFrom(Class<ClanDTO> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+    public Clan readFrom(Class<Clan> type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, String> httpHeaders, InputStream entityStream)
             throws IOException, WebApplicationException {
         // TODO Auto-generated method stub
         try(BufferedReader br =new BufferedReader(new InputStreamReader(entityStream))){
             Gson gson = new Gson();
-            ClanDTO data = gson.fromJson(br, ClanDTO.class);
+            Clan data = gson.fromJson(br, Clan.class);
             return data;
         }catch (Exception e) {
             // TODO: handle exception

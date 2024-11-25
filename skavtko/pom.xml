@@ -23,6 +23,7 @@
 
         <postgresql.version>42.7.4</postgresql.version>
         <kumuluzee.version>4.1.0</kumuluzee.version>
+        <kumuluzee-config-mp.version>2.0.0</kumuluzee-config-mp.version>
     </properties>
 
     <dependencyManagement>
@@ -33,6 +34,11 @@
                 <version>${kumuluzee.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.config</groupId>
+                <artifactId>kumuluzee-config-mp</artifactId>
+                <version>${kumuluzee-config-mp.version}</version>
             </dependency>
 
 
