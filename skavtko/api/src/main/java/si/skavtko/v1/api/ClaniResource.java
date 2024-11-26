@@ -1,5 +1,10 @@
 package si.skavtko.v1.api;
 
+
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -33,17 +38,22 @@ public class ClaniResource {
     //sem bi spadala se avtentikacija, se doda kasneje
 
 
-    //je smiselno dodat moùnost izpisa vseh clanov? boljse 
+    //je smiselno dodat moùnost izpisa vseh clanov? boljse
+    //TODO spremenit al karkoli, ne ve,m ce je klic sploh se aktualen
     @GET
     public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
-        Clan clan = clanZrno.getClan(ime, priimek);
+        ArrayList<Clan> clani = (ArrayList<Clan>) clanZrno.getClan(ime, priimek);
 
-        if(clan == null){
+        if(clani.size() == 0){
             return Response.status(Status.NOT_FOUND).build();
         }
 
+        // clani.get(0).getId();
+        //System.out.println(clani.get(0).getIme());
+
+        // Clan clan = clanZrno.getClan(ime, priimek);
         Gson gson = new Gson();
-        return Response.ok(gson.toJson(clan)).build();
+        return Response.ok(gson.toJson(clani)).build();
     }
 
     @GET
@@ -51,7 +61,7 @@ public class ClaniResource {
     public Response getResourceById(@PathParam("id") Long id){
         Clan result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
-
+        
         Gson gson = new Gson();
         return Response.ok(gson.toJson(result)).build();
     }
