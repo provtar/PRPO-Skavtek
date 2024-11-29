@@ -52,8 +52,8 @@ public class ClaniResource {
         //System.out.println(clani.get(0).getIme());
 
         // Clan clan = clanZrno.getClan(ime, priimek);
-        Gson gson = new Gson();
-        return Response.ok(gson.toJson(clani)).build();
+        //Gson gson = new Gson();
+        return Response.ok(clani).build();
     }
 
     @GET
@@ -62,8 +62,8 @@ public class ClaniResource {
         Clan result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
         
-        Gson gson = new Gson();
-        return Response.ok(gson.toJson(result)).build();
+        // Gson gson = new Gson();
+        return Response.ok(result).build();
     }
 
 
@@ -84,8 +84,8 @@ public class ClaniResource {
 
         Clan ustvarjen = clanZrno.dodajClana(data);
         
-        Gson gson = new Gson();
-        return Response.ok(gson.toJson(ustvarjen)).build();
+        // Gson gson = new Gson();
+        return Response.ok(ustvarjen).build();
     }
 
     @PUT
