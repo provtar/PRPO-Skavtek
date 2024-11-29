@@ -1,5 +1,7 @@
 package si.skavtko.entitete;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -11,6 +13,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +21,10 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import si.skavtko.entitete.embeddable.SkavtskoIme;
 import si.skavtko.entitete.enums.UserRole;
@@ -33,7 +40,8 @@ import si.skavtko.entitete.enums.UserRole;
 @DiscriminatorValue(UserRole.Values.ADMIN)
 @DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
 
-public class Clan {
+//TODO implement serializable
+public class Clan implements Serializable{
 
     public Clan (){
 
@@ -41,7 +49,7 @@ public class Clan {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE)
-    private Long user_id;
+    private Long id;
 
     @Basic(optional = false)
     private String ime;
@@ -62,15 +70,20 @@ public class Clan {
     // public UserRole role;
 
     // TODO Dodaajat Relacije v katerih je Clan
-    @OneToMany(mappedBy = "clan", orphanRemoval = true)
-    Set<ClanSkupina> skupine;
+    
+    //@JsonbTransient
+    //@JsonManagedReference(value = "clan-cs")
+    @JsonIgnore
+    @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<ClanSkupina> skupine;
+
 
     public Long getId() {
-        return user_id;
+        return id;
     }
 
     public void setId(Long id) {
-        this.user_id = id;
+        this.id = id;
     }
 
     public String getIme() {
@@ -112,5 +125,14 @@ public class Clan {
 
     public void setSkavtskoIme(SkavtskoIme skavtskoIme) {
         this.skavtskoIme = skavtskoIme;
+    }
+    
+    
+    public Set<ClanSkupina> getSkupine() {
+        return skupine;
+    }
+
+    public void setSkupine(Set<ClanSkupina> skupine) {
+        this.skupine = skupine;
     }
 }

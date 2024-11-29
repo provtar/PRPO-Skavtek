@@ -1,7 +1,9 @@
 package si.skavtko.zrna;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,9 +18,10 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 
 import si.skavtko.entitete.Clan;
+import si.skavtko.entitete.ClanSkupina;
 import si.skavtko.entitete.enums.UserRole;
 
-@RequestScoped
+@ApplicationScoped
 public class ClanZrno {
 
     @PersistenceContext
@@ -39,14 +42,19 @@ public class ClanZrno {
         //BUG: ce klices detach, se ne bo izvedena poizvedba v database
         //Poizvedba se klice, ko je podatek ze vrnjen resource classu
         //Se pozanimati pr profesorju
+        //entityManager.detach(clan);
 
         return clan;
-        // return entityManager.find(Clan.class, id);
     }
 
     //TODO zbrisat al posodobt t metodo, za zdaj je samo za primer
     public List<Clan> getClan(String ime, String priimek){
-        List<Clan> res = entityManager.createQuery("select c from Clan c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.ime = :arg2)", Clan.class).setParameter("arg1", ime).setParameter("arg2", ime).getResultList();
+        if(priimek == null) System.out.println("Je null");
+        else System.out.printf("String :%s:", priimek);
+        List<Clan> res = entityManager.createQuery("select c from Clan c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.priimek = :arg2)", Clan.class).
+        setParameter("arg1", ime)
+        .setParameter("arg2", priimek)
+        .getResultList();
 
         return res;
     }
@@ -56,15 +64,15 @@ public class ClanZrno {
 
     public Clan dodajClana(Clan data){//dela, manjka kaksen try catch block
         entityManager.getTransaction().begin();
-        // Clan novClan = new Clan();
-        // novClan.setIme(data.getIme());
-        // novClan.setPriimek(data.getPriimek());
-        // novClan.setRole(data.getRole());
-        entityManager.persist(data);
+        Clan novClan = new Clan();
+        novClan.setIme(data.getIme());
+        novClan.setPriimek(data.getPriimek());
+        novClan.setSkupine(new HashSet<ClanSkupina>());
+        entityManager.persist(novClan);
         entityManager.flush();
         entityManager.getTransaction().commit();
         //entityManager.detach(data);
-        return data;
+        return novClan;
     }
 
     @Transactional
