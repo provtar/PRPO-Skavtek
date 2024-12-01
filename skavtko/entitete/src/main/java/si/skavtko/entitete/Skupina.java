@@ -44,9 +44,13 @@ public class Skupina {
     @JsonIgnore
     Set<ClanSkupina> clani;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "skupina", orphanRemoval = true)
+    Set<Srecanje> srecanja;    
+
     // TODO zbrisi in postavi na aktivnega clana
-    @OneToMany(mappedBy = "master", orphanRemoval = true)
-    Set<ClanPassive> childs;
+    // @OneToMany(mappedBy = "master", orphanRemoval = true)
+    // Set<ClanPassive> childs;
 
     public Long getId() {
         return id;

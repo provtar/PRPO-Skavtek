@@ -58,7 +58,7 @@ public class Clan implements Serializable{
 
     //TODO dodamo datum rojstva?
 
-    //TODO spremenit v enum
+    //TODO spremenit v enum ali v eno novo podtabelo
     //@Enumerated(EnumType.STRING)
     private String steg;
 
@@ -77,6 +77,9 @@ public class Clan implements Serializable{
     @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ClanSkupina> skupine;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Prisotnost> prisotnosti;
 
     public Long getId() {
         return id;
@@ -134,5 +137,13 @@ public class Clan implements Serializable{
 
     public void setSkupine(Set<ClanSkupina> skupine) {
         this.skupine = skupine;
+    }
+
+    public Set<Prisotnost> getPrisotnosti() {
+        return prisotnosti;
+    }
+
+    public void setPrisotnosti(Set<Prisotnost> prisotnosti) {
+        this.prisotnosti = prisotnosti;
     }
 }

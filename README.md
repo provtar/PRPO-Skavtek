@@ -120,6 +120,13 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * opis
 * id_skupine
 
+## CLAN-SRECANJE
+(služi istočasno kot notification in kot status uporabnika za srečanje, samo za aktivne uporabnike)
+* clan_id
+* srecanje_id
+* Razpoložljivost (glede na termin)
+* Odgovor (bo, ne bo prisoten, ni se odgovril, online, pozen)
+
 ## PRISOTNOSTI
 * id_clan
 * id_srecanja
