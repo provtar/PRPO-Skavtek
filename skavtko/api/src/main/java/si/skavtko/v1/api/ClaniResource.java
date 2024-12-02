@@ -91,8 +91,8 @@ public class ClaniResource {
     //Clan data kliće providerja, ki sprova prebrati telo requesta, providaer je v mapi provider
     public Response updateResource(Clan data){
         
-        data = clanZrno.posodobiClan(data);
-        return Response.ok(data).build();
+        Clan updated = clanZrno.posodobiClan(data);
+        return Response.ok(updated).build();
     }
 
     @DELETE
