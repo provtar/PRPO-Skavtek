@@ -65,9 +65,9 @@ public class Clan implements Serializable{
     @Embedded
     private SkavtskoIme skavtskoIme;
 
-    // @Column(name = "ROLE", nullable = false, insertable = false, updatable = false) 
-    // @Enumerated(EnumType.STRING)
-    // public UserRole role;
+    @Column(name = "ROLE", nullable = false, insertable = false, updatable = false) 
+    @Enumerated(EnumType.STRING)
+    public UserRole role;
 
     // TODO Dodaajat Relacije v katerih je Clan
     
@@ -106,13 +106,13 @@ public class Clan implements Serializable{
         this.priimek = priimek;
     }
 
-    // public UserRole getRole() {
-    //     return role;
-    // }
+    public UserRole getRole() {
+        return role;
+    }
 
-    // public void setRole(UserRole role) {
-    //     this.role = role;
-    // }
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
     
 
     public String getSteg() {

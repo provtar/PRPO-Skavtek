@@ -2,14 +2,14 @@ package si.skavtko.entitete.enums;
 
 public enum TipPrisotnosti {
 
-    PRST (Values.PRST),
-    ODST (Values.ODST),
-    ONLN (Values.ONLN),
-    POZN (Values.POZN);
+    Prisoten (Values.PRST),
+    Odsoten (Values.ODST),
+    Online (Values.ONLN),
+    Pozen (Values.POZN);
 
     TipPrisotnosti(String role) {
         if (!this.name().equals(role))
-        throw new IllegalArgumentException("Slabo definiran role, ta string ne obstaja.");
+        throw new IllegalArgumentException("Slabo definirana prisotnost, ta string ne obstaja.");
     }
     
     

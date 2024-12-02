@@ -71,16 +71,6 @@ public class ClaniResource {
     //Doda novega clana
     @POST
     public Response addResource(Clan data){
-        // BufferedReader br = null;
-        // try {
-        //     br = request.getReader();
-        // } catch (Exception e) {
-        //     System.out.println("Problem pri obdelavi POST clan/id");
-        //     System.out.println(e.getMessage());
-        //     System.out.println( e.getClass().getCanonicalName());
-        // }finally{
-        // }
-        // if(br == null)System.out.println("Je null");
 
         Clan ustvarjen = clanZrno.dodajClana(data);
         

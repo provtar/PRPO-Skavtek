@@ -1,5 +1,6 @@
 package si.skavtko.entitete;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
@@ -10,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 import si.skavtko.entitete.enums.TipPrisotnosti;
 
+@Entity
 public class Prisotnost {
 
     @Id

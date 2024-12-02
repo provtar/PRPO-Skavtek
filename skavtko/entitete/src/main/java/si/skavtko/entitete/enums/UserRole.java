@@ -6,8 +6,8 @@ public enum UserRole {
         ADMIN (Values.ADMIN);
 
         UserRole(String role) {
-            if (!this.name().equals(role))
-        throw new IllegalArgumentException("Slabo definiran role, ta string ne obstaja.");
+        //     if (!this.name().equals(role))
+        // throw new IllegalArgumentException("Slabo definiran role, ta string ne obstaja.");
         }
         
         
@@ -20,9 +20,9 @@ public enum UserRole {
 
 
     public static class Values {
-        public static final String PASSIVE = "PSSV";
-        public static final String ACTIVE = "ACTV";
-        public static final String ADMIN = "ADMN";
+        public static final String PASSIVE = "PASSIVE";
+        public static final String ACTIVE = "ACTIVE";
+        public static final String ADMIN = "ADMIN";
     }   
     
 }

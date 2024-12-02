@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,7 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@Entity
 public class Srecanje {
 
     @Id
@@ -33,10 +35,10 @@ public class Srecanje {
     private String opis;
     
     //morda boljse ta podatek spravt v prisotnosti
-    private Boolean belezenje;
+    private Boolean belezenje = false;
 
-    // @JsonIgnore
-    @ManyToOne
+    @JsonIgnore //ce to odstranis ima probleme s serializacijo, zakaj se to zgodi, ker klices getReference, zato ne dobis nazaj cele entitete
+    @ManyToOne(fetch = FetchType.LAZY)
     private Skupina skupina;
 
     @JsonIgnore

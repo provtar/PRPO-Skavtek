@@ -64,6 +64,7 @@ public class SkupinaZrno {
         novaSkupina.setIme(skupina.getIme());
         novaSkupina.setOpis(skupina.getOpis());
         novaSkupina.setPovezave(skupina.getPovezave());
+        novaSkupina.setSrecanja(new HashSet<>());
         novaSkupina.setClani(new HashSet<ClanSkupina>());
         
         entityManager.persist(novaSkupina);
