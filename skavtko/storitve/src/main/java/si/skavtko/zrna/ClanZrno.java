@@ -91,6 +91,8 @@ public class ClanZrno {
         //entityManager.detach(clan);
         clan.setIme(data.getIme());
         clan.setPriimek(data.getPriimek());
+        clan.setSkavtskoIme(data.getSkavtskoIme());
+        clan.setSteg(data.getSteg());
         clan = entityManager.merge(clan);
         entityManager.flush();
         entityManager.getTransaction().commit();

@@ -21,10 +21,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jackson.version>2.14.3</jackson.version>
+        <jackson.version>2.12.7</jackson.version>
+        <jackson.jsr310.version>2.15.2</jackson.jsr310.version>
         <postgresql.version>42.7.4</postgresql.version>
         <kumuluzee.version>4.1.0</kumuluzee.version>
         <kumuluzee-config-mp.version>2.0.0</kumuluzee-config-mp.version>
+        <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
+        <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
     </properties>
 
     <dependencyManagement>
@@ -36,6 +39,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+<dependency>
+    <groupId>com.kumuluz.ee.openapi</groupId>
+    <artifactId>kumuluzee-openapi</artifactId>
+    <version>${kumuluzee-openapi.version}</version>
+</dependency><dependency>
+    <groupId>com.kumuluz.ee.openapi</groupId>
+    <artifactId>kumuluzee-openapi-ui</artifactId>
+    <version>${kumuluzee-openapi.version}</version>
+</dependency>
 
 
             <dependency>
@@ -53,6 +66,11 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.jsr310.version}</version>
             </dependency>
 
             <dependency>

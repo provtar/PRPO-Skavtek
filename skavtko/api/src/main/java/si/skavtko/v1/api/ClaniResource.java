@@ -3,7 +3,6 @@ package si.skavtko.v1.api;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -22,11 +21,18 @@ import javax.ws.rs.core.Response.Status;
 
 import com.google.gson.Gson;
 
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import si.skavtko.entitete.Clan;
 import si.skavtko.zrna.ClanZrno;
 
 @Path("/clani")
+@Tag(name = "Upravljanje s clani", description = "CRUD pasivnih clanov")
 @ApplicationScoped
  @Consumes(MediaType.APPLICATION_JSON)
  @Produces(MediaType.APPLICATION_JSON)
@@ -41,50 +47,43 @@ public class ClaniResource {
     //je smiselno dodat moùnost izpisa vseh clanov? boljse
     //TODO spremenit al karkoli, ne ve,m ce je klic sploh se aktualen
     @GET
-    public Response getId(@QueryParam("ime") String ime, @QueryParam("priimek") String priimek){
+    @Operation(summary = "Iskanje po imenu", description = "Velikokrat imamo veliko clanov v skupini in jih ni lahko dobiti, zato jih moremo poisati po imenu in priimku, lahko isces samo po imenu, samo po priimku, po obojem ali pa sam dobis vse clane")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "200", description = "Bil je dobljen vsaj en clan", content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = Clan.class))),
+        @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
+
+    })
+    public Response getId(
+        @Parameter(description = "ime", example = "Peter")
+        @QueryParam("ime") String ime,
+        @Parameter(example = "Klepec") 
+        @QueryParam("priimek") String priimek){
         ArrayList<Clan> clani = (ArrayList<Clan>) clanZrno.getClan(ime, priimek);
 
         if(clani.size() == 0){
             return Response.status(Status.NOT_FOUND).build();
         }
-
-        // clani.get(0).getId();
-        //System.out.println(clani.get(0).getIme());
-
-        // Clan clan = clanZrno.getClan(ime, priimek);
-        //Gson gson = new Gson();
         return Response.ok(clani).build();
     }
 
     @GET
     @Path("/{id}")
-    public Response getResourceById(@PathParam("id") Long id){
+    public Response getResourceById(
+        @PathParam("id") Long id){
         Clan result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
         
-        // Gson gson = new Gson();
         return Response.ok(result).build();
     }
 
 
 
-    //Doda novega clana
+    // Doda novega clana
     @POST
     public Response addResource(Clan data){
-        // BufferedReader br = null;
-        // try {
-        //     br = request.getReader();
-        // } catch (Exception e) {
-        //     System.out.println("Problem pri obdelavi POST clan/id");
-        //     System.out.println(e.getMessage());
-        //     System.out.println( e.getClass().getCanonicalName());
-        // }finally{
-        // }
-        // if(br == null)System.out.println("Je null");
-
         Clan ustvarjen = clanZrno.dodajClana(data);
         
-        // Gson gson = new Gson();
         return Response.ok(ustvarjen).build();
     }
 
@@ -92,8 +91,8 @@ public class ClaniResource {
     //Clan data kliće providerja, ki sprova prebrati telo requesta, providaer je v mapi provider
     public Response updateResource(Clan data){
         
-        data = clanZrno.posodobiClan(data);
-        return Response.ok(data).build();
+        Clan updated = clanZrno.posodobiClan(data);
+        return Response.ok(updated).build();
     }
 
     @DELETE
