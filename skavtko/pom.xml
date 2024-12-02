@@ -21,11 +21,12 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <jackson.version>2.14.3</jackson.version>
+        <jackson.version>2.12.7</jackson.version>
         <postgresql.version>42.7.4</postgresql.version>
         <kumuluzee.version>4.1.0</kumuluzee.version>
         <kumuluzee-config-mp.version>2.0.0</kumuluzee-config-mp.version>
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
+        <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
     </properties>
 
     <dependencyManagement>
@@ -37,15 +38,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <dependency>
-    <groupId>com.kumuluz.ee.swagger</groupId>
-    <artifactId>kumuluzee-swagger</artifactId>
-    <version>${kumuluzee-swagger.version}</version>
-</dependency>
+
 <dependency>
-    <groupId>com.kumuluz.ee.swagger</groupId>
-    <artifactId>kumuluzee-swagger-ui</artifactId>
-    <version>${kumuluzee-swagger.version}</version>
+    <groupId>com.kumuluz.ee.openapi</groupId>
+    <artifactId>kumuluzee-openapi</artifactId>
+    <version>${kumuluzee-openapi.version}</version>
+</dependency><dependency>
+    <groupId>com.kumuluz.ee.openapi</groupId>
+    <artifactId>kumuluzee-openapi-ui</artifactId>
+    <version>${kumuluzee-openapi.version}</version>
 </dependency>
 
 
