@@ -19,6 +19,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 // import io.swagger.annotations.Api;
 // import io.swagger.annotations.ApiOperation;
 // import io.swagger.annotations.ApiParam;
@@ -28,6 +30,8 @@ import si.skavtko.zrna.ClanZrno;
 import si.skavtko.zrna.PrisotnostZrno;
 
 @Path("/prisotnosti")
+@Tag(name = "Upravljanje s prisotnostimi",
+    description = "CRUD prisotnosti na srecanju, oznais kdo je bil, ni bil, pa se lusne opombe napises")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PrisotnostResource {
@@ -36,6 +40,8 @@ public class PrisotnostResource {
     PrisotnostZrno prisotnostZrno;
 
     @GET
+    @Operation(summary = "Iskanje prisotnosti",
+        description = "Lahko se isce na podlagi srecanja ali na podlagi clana in skupine")
     public Response dobiPrisotnosti(
         @QueryParam("skupina") Long skupinaId,
         @QueryParam("clan") Long clanId,
@@ -51,6 +57,8 @@ public class PrisotnostResource {
     }
 
     @POST
+    @Operation(summary = "Dodajanje prisotnosti",
+        description = "Na podlagi srecanja, ustvari prisotnosti za vse clane skupine, ki se sreca")
     @Path("/srecanja/{id}")
     public Response dodajPrisotnosti(
         @PathParam("id") Long skupinaId
@@ -60,12 +68,16 @@ public class PrisotnostResource {
     }
 
     @PUT
+    @Operation(summary = "Posodabljanje prisotnosti",
+        description = "Posodobi vse prisotnosti  v seznamu")
     public Response posodobi(List<Prisotnost> prisotnosti){
         List<Prisotnost> res = prisotnostZrno.posodobiPrisotnosti(prisotnosti);
         return Response.ok(res).build();
     }
 
     @DELETE
+    @Operation(summary = "Posodabljanje prisotnosti",
+        description = "Zbrises tiste prisotnosti, ki te ne vec zanimajo")
     public Response zbrisi(List<Long> prisotnosti){
         prisotnostZrno.zbrisiPrisotnosti(prisotnosti);
         return Response.status(Status.NO_CONTENT).build();

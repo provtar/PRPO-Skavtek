@@ -32,7 +32,8 @@ import si.skavtko.entitete.Clan;
 import si.skavtko.zrna.ClanZrno;
 
 @Path("/clani")
-@Tag(name = "Upravljanje s clani", description = "CRUD pasivnih clanov")
+@Tag(name = "Upravljanje s clani",
+    description = "CRUD pasivnih clanov")
 @ApplicationScoped
  @Consumes(MediaType.APPLICATION_JSON)
  @Produces(MediaType.APPLICATION_JSON)
@@ -47,7 +48,8 @@ public class ClaniResource {
     //je smiselno dodat moùnost izpisa vseh clanov? boljse
     //TODO spremenit al karkoli, ne ve,m ce je klic sploh se aktualen
     @GET
-    @Operation(summary = "Iskanje po imenu", description = "Velikokrat imamo veliko clanov v skupini in jih ni lahko dobiti, zato jih moremo poisati po imenu in priimku, lahko isces samo po imenu, samo po priimku, po obojem ali pa sam dobis vse clane")
+    @Operation(summary = "Iskanje po imenu",
+        description = "Velikokrat imamo veliko clanov v skupini in jih ni lahko dobiti, zato jih moremo poisati po imenu in priimku, lahko isces samo po imenu, samo po priimku, po obojem ali pa sam dobis vse clane")
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Bil je dobljen vsaj en clan", content = @Content(mediaType = "application/json",
         schema = @Schema(implementation = Clan.class))),
@@ -69,6 +71,8 @@ public class ClaniResource {
 
     @GET
     @Path("/{id}")
+    @Operation(summary = "Iskanje clana po id-ju",
+        description = "Vsakotolko si zmislis eno random stevilko, pa se vprasas kateri osebi pripada")
     public Response getResourceById(
         @PathParam("id") Long id){
         Clan result = clanZrno.getClan(id);
@@ -81,6 +85,8 @@ public class ClaniResource {
 
     // Doda novega clana
     @POST
+    @Operation(summary = "Ustvarjanje clana",
+        description = "Priporocam se, vstavljajte samo resnicne podatke")
     public Response addResource(Clan data){
         Clan ustvarjen = clanZrno.dodajClana(data);
         
@@ -88,6 +94,8 @@ public class ClaniResource {
     }
 
     @PUT
+    @Operation(summary = "Posodabljanje clana",
+        description = "Neaktualne podatke posodobi v aktualne")
     //Clan data kliće providerja, ki sprova prebrati telo requesta, providaer je v mapi provider
     public Response updateResource(Clan data){
         
@@ -97,6 +105,8 @@ public class ClaniResource {
 
     @DELETE
     @Path("/{id}")
+    @Operation(summary = "Brisanje clana",
+        description = "Ce ti je kdo antipaticen, ga zbrises")
     public Response deleteResource(@PathParam("id") Long id){
         clanZrno.deleteClan(id);
         return Response.status(Status.NO_CONTENT).build();
