@@ -74,3 +74,12 @@ Za podatkovno bazo bomo uporabljali MySQL bazo.
 * Pregled in upravljanje s srečanji
 
 ## OPIS STANJA PROJEKTA
+
+Napisal bom imena postavk iz navodil za projekt, ki jih izpolnjujeva
+
+* Repozitorij
+* Razvojno okolje in projekt
+* REST
+* Vsebniki
+* Dokumentacija (opisan zagon aplikacije v README.md)
+* Podatkovna baza
