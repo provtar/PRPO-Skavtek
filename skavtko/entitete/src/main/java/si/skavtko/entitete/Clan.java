@@ -1,7 +1,5 @@
 package si.skavtko.entitete;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -19,29 +17,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import si.skavtko.entitete.embeddable.SkavtskoIme;
 import si.skavtko.entitete.enums.UserRole;
 
 
-//vse anotacije vezane s persistance layerjem se doda kasneje
-//treba bo ponovno skonstruirati, da doda vse atribute
 @Entity
 
-
-
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorValue(UserRole.Values.ADMIN)
-@DiscriminatorColumn(name = "ROLE", discriminatorType = DiscriminatorType.STRING)
-
-//TODO implement serializable
-public class Clan implements Serializable{
+@Table(name = "clan")
+public class Clan{
 
     public Clan (){
 
@@ -145,5 +134,43 @@ public class Clan implements Serializable{
 
     public void setPrisotnosti(Set<Prisotnost> prisotnosti) {
         this.prisotnosti = prisotnosti;
+    }
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Clan master;
+
+    
+    private String username;
+    @JsonIgnore
+    private String password;
+    @Column(updatable = false)
+    private String email;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "master", orphanRemoval = true)
+    private Set<Clan> varovanci;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
