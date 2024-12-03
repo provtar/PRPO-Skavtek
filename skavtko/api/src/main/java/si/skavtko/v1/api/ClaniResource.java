@@ -19,8 +19,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.Gson;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -43,11 +41,6 @@ public class ClaniResource {
     @Inject
     ClanZrno clanZrno;
 
-    //sem bi spadala se avtentikacija, se doda kasneje
-
-
-    //je smiselno dodat moùnost izpisa vseh clanov? boljse
-    //TODO spremenit al karkoli, ne ve,m ce je klic sploh se aktualen
     @GET
     @Operation(summary = "Iskanje po imenu",
         description = "Velikokrat imamo veliko clanov v skupini in jih ni lahko dobiti, zato jih moremo poisati po imenu in priimku, lahko isces samo po imenu, samo po priimku, po obojem ali pa sam dobis vse clane")
@@ -89,9 +82,6 @@ public class ClaniResource {
         return Response.ok(result).build();
     }
 
-
-
-    // Doda novega clana
     @POST
     @Operation(summary = "Ustvarjanje clana",
         description = "Priporocam se, vstavljajte samo resnicne podatke")

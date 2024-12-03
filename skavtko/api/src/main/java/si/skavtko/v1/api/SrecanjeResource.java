@@ -19,6 +19,11 @@ import javax.ws.rs.core.Response.Status;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import si.skavtko.entitete.Srecanje;
 import si.skavtko.zrna.SrecanjeZrno;
@@ -37,6 +42,11 @@ public class SrecanjeResource {
     @GET
     @Operation(summary = "Poisce srecanje na podlagi parametrov",
         description = "Si clan in isces srecanja v katerih si, al pa zelis videti srecanja, katerih se kaka skupina udelezi")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "200", description = "Dobil si neakj srecanj", content = @Content(mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = Srecanje.class)))),
+        @ApiResponse(responseCode = "404", description = "Ni bilo dobljenih srecanj")
+    })
     public Response get(
         @Parameter(description = "Id skupine, za katero isces srecanja", example = "6")
         @QueryParam("s") Long skupinaId,
@@ -58,6 +68,11 @@ public class SrecanjeResource {
     @GET
     @Operation(summary = "Dobi srecajne po id-ju",
         description = "Das id, ti vrne srecanje")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Dobil si srecanje", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Srecanje.class))),
+            @ApiResponse(responseCode = "404", description = "Nobeno srecanje nima tega id-ja")
+        })
     @Path("/{id}")
     public Response getResourceById(
         @Parameter(description = "Id srecanja, ki ga isces", example = "13")
@@ -71,6 +86,10 @@ public class SrecanjeResource {
     @POST
     @Operation(summary = "Ustvari srecanje",
         description = "Mu poves skupino, mu poves kaksno srecanje")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "201", description = "Ustvaril si novo srecanje", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Srecanje.class)))
+        })
     @Path("/skupina/{skupinaId}")
     public Response addResource(
         @Parameter(description = "Podatki srecanja, ki ga ustvarjas")
@@ -80,12 +99,17 @@ public class SrecanjeResource {
 
         Srecanje novoSrecanje = srecanjeZrno.novoSrecanje(data, skupinaId);
         
-        return Response.ok(novoSrecanje).build();
+        return Response.status(Status.NOT_FOUND).entity(novoSrecanje).build();
     }
 
     @PUT
     @Operation(summary = "Posodobi srecanje",
         description = "Slovnicna napaka? Posodobi srecanje")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Posodobljeno je bilo srecanje", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Srecanje.class))),
+            @ApiResponse(responseCode = "404", description = "Nobeno srecanje ni imelo tega id-ja")
+        })
     public Response updateResource(
         @Parameter(description = "Novi podatki o srecanju")
         Srecanje data){
@@ -96,6 +120,9 @@ public class SrecanjeResource {
     @DELETE
     @Operation(summary = "Zbrise srecanje",
         description = "Se nocete vec srecat? Zbrisi srecanje in pozabi nanj")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Uniceno je bilo srecanje", content = @Content())
+        })
     @Path("/{id}")
     public Response deleteResource(
         @Parameter(description = "Id srecanja, ki je odpadlo", example = "14")

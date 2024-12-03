@@ -18,7 +18,13 @@ import javax.ws.rs.core.Response.Status;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Prisotnost;
 import si.skavtko.zrna.PrisotnostZrno;
 
@@ -35,6 +41,11 @@ public class PrisotnostResource {
     @GET
     @Operation(summary = "Iskanje prisotnosti",
         description = "Lahko se isce na podlagi srecanja ali na podlagi clana in skupine")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "200", description = "Dobil si nekaj prisotnosti", content = @Content(mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation =  Prisotnost.class)))),
+        @ApiResponse(responseCode = "404", description = "Ni nobene prisotnosti, si kaj falil")
+    })
     public Response dobiPrisotnosti(
         @Parameter(description = "Id skupine rabi se v kombinaciji s clanom", example = "5")
         @QueryParam("skupina") Long skupinaId,
@@ -54,19 +65,27 @@ public class PrisotnostResource {
 
     @POST
     @Operation(summary = "Dodajanje prisotnosti",
-        description = "Na podlagi srecanja, ustvari prisotnosti za vse clane skupine, ki se sreca, default vrednost bo prisoten")
+        description = "Na podlagi srecanja, ustvari prisotnosti za vse clane skupine, ki se sreca, default vrednost bo prisoten")  
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "201", description = "Ustvarjene so bile prisotnosti", content = @Content(mediaType = "application/json", array = 
+        @ArraySchema(schema = @Schema(implementation = Prisotnost.class))))
+    })
     @Path("/srecanja/{id}")
     public Response dodajPrisotnosti(
         @Parameter(description = "Id skupine za katero postas", example = "13")
         @PathParam("id") Long skupinaId
     ){
         List<Prisotnost> res = prisotnostZrno.dodajPrisotnosti(skupinaId);
-        return Response.ok(res).build();
+        return Response.status(Status.CREATED).entity(res).build();
     }
 
     @PUT
     @Operation(summary = "Posodabljanje prisotnosti",
-        description = "Posodobi vse prisotnosti  v seznamu")
+        description = "Posodobi vse prisotnosti  v seznamu")  
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "200", description = "Posodobljen je bila skupina prisotnosti", content = @Content(mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = Clan.class))))
+    })
     public Response posodobi(
         @Parameter(description = "Seznam prisotnosti, ki jih zelis posodobiti")
         List<Prisotnost> prisotnosti){
@@ -77,6 +96,9 @@ public class PrisotnostResource {
     @DELETE
     @Operation(summary = "Posodabljanje prisotnosti",
         description = "Zbrises tiste prisotnosti, ki te ne vec zanimajo")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Zbrisano je bilo nekaj prisotnosti", content = @Content())
+        })
     public Response zbrisi(
         @Parameter(description = "Seznam prisotnosti, ki jih zbrises", example = "[15, 16]")
         List<Long> prisotnosti){
