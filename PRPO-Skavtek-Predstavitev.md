@@ -47,6 +47,14 @@ Za podatkovno bazo bomo uporabljali MySQL bazo.
 * Dostop do podatkov o skupini
 
 ### 3 - Beleženje prisotnosti
+- Pridobivanje prisotnosti clanov na enem srečanju
+- Pridobivanje prisotnosti člana skozi časovno obdobje
+- Priodobivanje prisotnosti za vsa srečanje skupine (v časovnem intervalu)
+- Pridobivanje statistike za skupino (kolkokrat vsak prisoten odsoten)
+- Dodatne analize po potrebi
+- Dodajanje prisotnosti na srečanju (trenutno za vse, se da status ni bilo namenjeno njemu - siv)
+- Posodabljanje posameznih prisotnosti
+- Brisanje prisotnosti(za srečanje)
 
 * Vpisovanje prisotnosti članov na srečanjih
 

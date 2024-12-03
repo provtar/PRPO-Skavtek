@@ -39,6 +39,8 @@ Database: db
 User: admin
 Password: admin
 ```
+### API Dokumentacija
+
 
 ## Warning
 Rabimo hibernate core dependency in ne kumuluz-hibernate, ker ce kumuluz rabm je s persistence.xml nekaj narobe
@@ -116,7 +118,8 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * ime
 * belezenje (ja-ne)
 * kraj
-* datum-ura
+* datum-ura od
+* datum-ura do
 * opis
 * id_skupine
 

@@ -24,13 +24,25 @@
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-jax-rs-jersey</artifactId>
         </dependency>
+        <dependency>
+    <groupId>com.kumuluz.ee.openapi</groupId>
+    <artifactId>kumuluzee-openapi</artifactId>
+</dependency>
+<dependency>
+    <groupId>com.kumuluz.ee.openapi</groupId>
+    <artifactId>kumuluzee-openapi-ui</artifactId>
+</dependency>
 
-         <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>2.11.0</version>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+        </dependency>
+        
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
             </dependency>
-            
 
         <dependency>
             <groupId>si.skavtko</groupId>

@@ -1,14 +1,22 @@
 package si.skavtko.entitete;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
+
 import javax.persistence.Basic;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import si.skavtko.entitete.embeddable.NamedLink;
 
@@ -16,41 +24,47 @@ import si.skavtko.entitete.embeddable.NamedLink;
 public class Skupina {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long skupinaId;
+    private Long id;
 
     @Basic(optional = false)
-    private String imeSkupine;
+    private String ime;
 
     //TODO enum s tipi skuine, ce je treba kje opisat kakèen tip je, ni nujno
 
     private String opis;
 
+
     //Nisem sigurn ali to dela, morem testirat
-    private ArrayList<NamedLink> povezave;
+    @Embedded
+    private List<NamedLink> povezave;
 
     //TODO sproti dopolni Relacije v katerih je
-    @OneToMany(mappedBy = "skupina", orphanRemoval = true)
+    //@JsonbTransient
+    @OneToMany(mappedBy = "skupina", orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonIgnore
     Set<ClanSkupina> clani;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "skupina", orphanRemoval = true)
+    Set<Srecanje> srecanja;    
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getIme() {
+        return ime;
+    }
+
+    public void setIme(String ime) {
+        this.ime = ime;
+    }
     
-    @OneToMany(mappedBy = "master", orphanRemoval = true)
-    Set<ClanPassive> childs;
-
-    public Long getSkupinaId() {
-        return skupinaId;
-    }
-
-    public void setSkupinaId(Long skupinaId) {
-        this.skupinaId = skupinaId;
-    }
-    
-    public String getImeSkupine() {
-        return imeSkupine;
-    }
-
-    public void setImeSkupine(String imeSkupine) {
-        this.imeSkupine = imeSkupine;
-    }
-
     public String getOpis() {
         return opis;
     }
@@ -58,13 +72,29 @@ public class Skupina {
     public void setOpis(String opis) {
         this.opis = opis;
     }
-
-    public ArrayList<NamedLink> getPovezave() {
+    
+    public List<NamedLink> getPovezave() {
         return povezave;
     }
 
-    public void setPovezave(ArrayList<NamedLink> povezave) {
+    public void setPovezave(List<NamedLink> povezave) {
         this.povezave = povezave;
+    }
+    
+    public Set<ClanSkupina> getClani() {
+        return clani;
+    }
+
+    public void setClani(Set<ClanSkupina> clani) {
+        this.clani = clani;
+    }
+
+    public Set<Srecanje> getSrecanja() {
+        return srecanja;
+    }
+
+    public void setSrecanja(Set<Srecanje> srecanja) {
+        this.srecanja = srecanja;
     }
 
 }

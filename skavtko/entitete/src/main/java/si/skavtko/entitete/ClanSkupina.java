@@ -7,17 +7,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
+
+//https://www.baeldung.com/jpa-entities-serializable
 
 public class ClanSkupina {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne
+    //@JsonBackReference(value = "clan-cs")
+    // @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     private Clan clan;
-
-    @ManyToOne
+    
+    //@JsonBackReference
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     private Skupina skupina;
 
     //TODO dodat en enum z vlogo v skupini SVOD, Tehnika, SV, VV, SVV, Izvidnik, Vodnik, POdvodnik, Noviciatovc, Klan, Udelezenec
