@@ -39,7 +39,7 @@ public class SrecanjeZrno {
 
     //TODO dodat pametne query parametre, ki so potrebni, al tukaj al v prisotnosti spada iskanje po stanju prisotnosti
     public List<Srecanje> getSrecanjaPoClanuInSkupini(Long idClan, Long idSkupina, LocalDateTime datumOd, LocalDateTime datumDo){
-        List<Srecanje> res = entityManager.createQuery("select sr from Srecanje sr JOIN sr.clan c ON c.id = :arg2 JOIN sr.skupina s ON (s.id =:arg1 OR :arg1 is null) WHERE (sr.datumOd > :od OR :od is null) AND (sr.datumDo < :do OR :do is null)", Srecanje.class)
+        List<Srecanje> res = entityManager.createQuery("select sr from Srecanje sr JOIN sr.prisotnosti p ON (:arg2 is null or p.clan.id = :arg2) JOIN sr.skupina s ON (s.id =:arg1 OR :arg1 is null) WHERE (sr.datumOd > :od OR :od is null) AND (sr.datumDos < :do OR :do is null)", Srecanje.class)
         .setParameter("arg1", idSkupina).setParameter("arg2", idClan)
         .setParameter("od", datumOd).setParameter("do", datumDo)
         .getResultList();
