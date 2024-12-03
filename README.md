@@ -40,6 +40,8 @@ User: admin
 Password: admin
 ```
 ### API Dokumentacija
+Link do dokumentacije>
+* http://localhost:8080/api-specs/ui/
 
 
 ## Warning

@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,14 +53,14 @@ public class ClaniResource {
         description = "Velikokrat imamo veliko clanov v skupini in jih ni lahko dobiti, zato jih moremo poisati po imenu in priimku, lahko isces samo po imenu, samo po priimku, po obojem ali pa sam dobis vse clane")
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Bil je dobljen vsaj en clan", content = @Content(mediaType = "application/json",
-        schema = @Schema(implementation = Clan.class))),
+        array = @ArraySchema(schema = @Schema(implementation = Clan.class)))),
         @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
 
     })
     public Response getId(
-        @Parameter(description = "ime", example = "Peter")
+        @Parameter(description = "Ime", example = "Peter")
         @QueryParam("ime") String ime,
-        @Parameter(example = "Klepec") 
+        @Parameter(description = "Priimek", example = "Klepec") 
         @QueryParam("priimek") String priimek){
         ArrayList<Clan> clani = (ArrayList<Clan>) clanZrno.getClan(ime, priimek);
 
@@ -73,7 +74,14 @@ public class ClaniResource {
     @Path("/{id}")
     @Operation(summary = "Iskanje clana po id-ju",
         description = "Vsakotolko si zmislis eno random stevilko, pa se vprasas kateri osebi pripada")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Bil je dobljen clan", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Clan.class))),
+            @ApiResponse(responseCode = "404", description = "Noben clan nima tega id-ja")
+    
+        })
     public Response getResourceById(
+        @Parameter(description = "Id clana, ki ga isces", example = "2")
         @PathParam("id") Long id){
         Clan result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
@@ -87,17 +95,29 @@ public class ClaniResource {
     @POST
     @Operation(summary = "Ustvarjanje clana",
         description = "Priporocam se, vstavljajte samo resnicne podatke")
-    public Response addResource(Clan data){
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "201", description = "Ustvaril si clana", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Clan.class)))    
+        })
+    public Response addResource(
+        @Parameter(description = "Specificiras celega clana")
+        Clan data){
         Clan ustvarjen = clanZrno.dodajClana(data);
         
-        return Response.ok(ustvarjen).build();
+        return Response.status(Status.CREATED).entity(ustvarjen).build();
     }
 
     @PUT
     @Operation(summary = "Posodabljanje clana",
         description = "Neaktualne podatke posodobi v aktualne")
-    //Clan data kliće providerja, ki sprova prebrati telo requesta, providaer je v mapi provider
-    public Response updateResource(Clan data){
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Posodobljen je bil clan", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = Clan.class))),
+            @ApiResponse(responseCode = "404", description = "Noben clan ni imel tega id-ja")
+        })
+    public Response updateResource(
+        @Parameter(description = "Napolnes samo polja, ki zelis spremeniti, ostala lahko ostanejo prazna")
+        Clan data){
         
         Clan updated = clanZrno.posodobiClan(data);
         return Response.ok(updated).build();
@@ -107,7 +127,13 @@ public class ClaniResource {
     @Path("/{id}")
     @Operation(summary = "Brisanje clana",
         description = "Ce ti je kdo antipaticen, ga zbrises")
-    public Response deleteResource(@PathParam("id") Long id){
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Ubil si clana")
+    
+        })
+    public Response deleteResource(
+        @Parameter(description = "Id clana", example = "666")
+        @PathParam("id") Long id){
         clanZrno.deleteClan(id);
         return Response.status(Status.NO_CONTENT).build();
 
