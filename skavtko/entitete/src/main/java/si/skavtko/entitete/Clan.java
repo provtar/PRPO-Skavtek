@@ -22,8 +22,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import si.skavtko.entitete.enums.UserRole;
 
 
@@ -49,8 +47,7 @@ public class Clan{
     @Basic(optional =  false)
     private String priimek;
 
-    //TODO spremenit v enum ali v eno novo podtabelo
-    //@Enumerated(EnumType.STRING)
+    //TODO spremenit v eno novo podtabelo
     private String steg;
 
     private String skavtskoIme;
@@ -59,28 +56,25 @@ public class Clan{
     @Enumerated(EnumType.STRING)
     public UserRole role;
 
-    @JsonIgnore
     private String password;
     @Column(updatable = false)
     private String email;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "master")
     private Clan master;
 
-    @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "master", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Clan> varovanci;
 
     // TODO Dodaajat Relacije v katerih je Clan
     
-    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<ClanSkupina> skupine;
 
-    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Prisotnost> prisotnosti;
 
