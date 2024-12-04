@@ -54,6 +54,9 @@ Password: admin
 ```
 
 ### API Dokumentacija
+Link do dokumentacije>
+* http://localhost:8080/api-specs/ui/
+
 
 ## Warning
 
@@ -95,19 +98,6 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * priimek required
 * skavtsko_ime
 * steg
-* datumRojstav (moramo èe dodat)
-* vloga (aktiven-pasiven-admin) required
-
-### AktivenClan (podtip)
-
-## CLAN
-
-* id generated
-* ime required
-* priimek required
-* skavtsko_ime
-* steg
-* datumRojstva (moramo èe dodat)
 * vloga (aktiven-pasiven-admin) required
 
 ### AktivenClan (podtip)
@@ -130,13 +120,12 @@ Hibernate ima nastavitve, da se poveže na postgres DB
 * id
 * ime
 * opis
-* []link, ime
+* []{link, ime}
 
 ## CLAN-SKUPINA
 
 * id_clana
 * id_skupine
-* vloga
 * vloga
 
 ## SRECANJE

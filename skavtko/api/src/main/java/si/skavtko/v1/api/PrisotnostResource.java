@@ -1,11 +1,8 @@
 package si.skavtko.v1.api;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,15 +16,21 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-// import io.swagger.annotations.Api;
-// import io.swagger.annotations.ApiOperation;
-// import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Prisotnost;
-import si.skavtko.zrna.ClanZrno;
 import si.skavtko.zrna.PrisotnostZrno;
 
 @Path("/prisotnosti")
+@Tag(name = "Upravljanje s prisotnostimi",
+    description = "CRUD prisotnosti na srecanju, oznais kdo je bil, ni bil, pa se lusne opombe napises")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class PrisotnostResource {
@@ -36,9 +39,19 @@ public class PrisotnostResource {
     PrisotnostZrno prisotnostZrno;
 
     @GET
+    @Operation(summary = "Iskanje prisotnosti",
+        description = "Lahko se isce na podlagi srecanja ali na podlagi clana in skupine")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "200", description = "Dobil si nekaj prisotnosti", content = @Content(mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation =  Prisotnost.class)))),
+        @ApiResponse(responseCode = "404", description = "Ni nobene prisotnosti, si kaj falil")
+    })
     public Response dobiPrisotnosti(
+        @Parameter(description = "Id skupine rabi se v kombinaciji s clanom", example = "5")
         @QueryParam("skupina") Long skupinaId,
+        @Parameter(description = "Id clana za katerega isces prisotnosti", example = "4")
         @QueryParam("clan") Long clanId,
+        @Parameter(description = "Id srecanja za katerga isces prisotnosti", example = "13")
         @QueryParam("srecanje") Long srecanjeId
     ){
         List<Prisotnost> res = null;
@@ -51,24 +64,45 @@ public class PrisotnostResource {
     }
 
     @POST
+    @Operation(summary = "Dodajanje prisotnosti",
+        description = "Na podlagi srecanja, ustvari prisotnosti za vse clane skupine, ki se sreca, default vrednost bo prisoten")  
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "201", description = "Ustvarjene so bile prisotnosti", content = @Content(mediaType = "application/json", array = 
+        @ArraySchema(schema = @Schema(implementation = Prisotnost.class))))
+    })
     @Path("/srecanja/{id}")
     public Response dodajPrisotnosti(
+        @Parameter(description = "Id skupine za katero postas", example = "13")
         @PathParam("id") Long skupinaId
     ){
         List<Prisotnost> res = prisotnostZrno.dodajPrisotnosti(skupinaId);
-        return Response.ok(res).build();
+        return Response.status(Status.CREATED).entity(res).build();
     }
 
     @PUT
-    public Response posodobi(List<Prisotnost> prisotnosti){
+    @Operation(summary = "Posodabljanje prisotnosti",
+        description = "Posodobi vse prisotnosti  v seznamu")  
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "200", description = "Posodobljen je bila skupina prisotnosti", content = @Content(mediaType = "application/json",
+        array = @ArraySchema(schema = @Schema(implementation = Clan.class))))
+    })
+    public Response posodobi(
+        @Parameter(description = "Seznam prisotnosti, ki jih zelis posodobiti")
+        List<Prisotnost> prisotnosti){
         List<Prisotnost> res = prisotnostZrno.posodobiPrisotnosti(prisotnosti);
         return Response.ok(res).build();
     }
 
     @DELETE
-    public Response zbrisi(List<Long> prisotnosti){
+    @Operation(summary = "Posodabljanje prisotnosti",
+        description = "Zbrises tiste prisotnosti, ki te ne vec zanimajo")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Zbrisano je bilo nekaj prisotnosti", content = @Content())
+        })
+    public Response zbrisi(
+        @Parameter(description = "Seznam prisotnosti, ki jih zbrises", example = "[15, 16]")
+        List<Long> prisotnosti){
         prisotnostZrno.zbrisiPrisotnosti(prisotnosti);
         return Response.status(Status.NO_CONTENT).build();
     }
-
 }
