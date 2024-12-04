@@ -90,3 +90,4 @@ Napisal bom imena postavk iz navodil za projekt, ki jih izpolnjujeva oz. sva že
 ![alt text](slike\image-1.png)
 ![alt text](slike\image.png)
 ![alt text](slike\image-2.png)
+![alt text](slike\image-3.png)
