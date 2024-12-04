@@ -8,7 +8,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -27,7 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import si.skavtko.entitete.Clan;
+import si.skavtko.dto.ClanDTO;
 import si.skavtko.zrna.ClanZrno;
 
 @Path("/clani")
@@ -46,7 +48,7 @@ public class ClaniResource {
         description = "Velikokrat imamo veliko clanov v skupini in jih ni lahko dobiti, zato jih moremo poisati po imenu in priimku, lahko isces samo po imenu, samo po priimku, po obojem ali pa sam dobis vse clane")
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Bil je dobljen vsaj en clan", content = @Content(mediaType = "application/json",
-        array = @ArraySchema(schema = @Schema(implementation = Clan.class)))),
+        array = @ArraySchema(schema = @Schema(implementation = ClanDTO.class)))),
         @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
 
     })
@@ -55,7 +57,7 @@ public class ClaniResource {
         @QueryParam("ime") String ime,
         @Parameter(description = "Priimek", example = "Klepec") 
         @QueryParam("priimek") String priimek){
-        ArrayList<Clan> clani = (ArrayList<Clan>) clanZrno.getClan(ime, priimek);
+        ArrayList<ClanDTO> clani = (ArrayList<ClanDTO>) clanZrno.getClan(ime, priimek);
 
         if(clani.size() == 0){
             return Response.status(Status.NOT_FOUND).build();
@@ -69,31 +71,58 @@ public class ClaniResource {
         description = "Vsakotolko si zmislis eno random stevilko, pa se vprasas kateri osebi pripada")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Bil je dobljen clan", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Clan.class))),
+            schema = @Schema(implementation = ClanDTO.class))),
             @ApiResponse(responseCode = "404", description = "Noben clan nima tega id-ja")
     
         })
     public Response getResourceById(
         @Parameter(description = "Id clana, ki ga isces", example = "2")
         @PathParam("id") Long id){
-        Clan result = clanZrno.getClan(id);
+        ClanDTO result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
         
         return Response.ok(result).build();
     }
 
     @POST
+    @Operation(summary = "Ustvarjanje pasivnega clana",
+        description = "Priporocam se, vstavljajte samo resnicne podatke")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "201", description = "Ustvaril si clana", content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = ClanDTO.class)))    
+    })
+    public Response addResource(
+        @Parameter(description = "Pove, kdo upravlja s clanom", required = true)
+        @HeaderParam("master") Long id,
+        @Parameter(description = "Specificiras celega clana")
+        ClanDTO data){
+        ClanDTO ustvarjen = clanZrno.dodajClana(data, id);
+        
+        return Response.status(Status.CREATED).entity(ustvarjen).build();
+    }
+
+    @POST
     @Operation(summary = "Ustvarjanje clana",
         description = "Priporocam se, vstavljajte samo resnicne podatke")
-        @ApiResponses( value = {
-            @ApiResponse(responseCode = "201", description = "Ustvaril si clana", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Clan.class)))    
-        })
-    public Response addResource(
-        @Parameter(description = "Specificiras celega clana")
-        Clan data){
-        Clan ustvarjen = clanZrno.dodajClana(data);
-        
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "201", description = "Ustvaril si clana", content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = ClanDTO.class))),
+        @ApiResponse(responseCode = "400", description = "Email ze v rabi, ali geslo ali email ni bilo podano")
+    })
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Path("/register")
+    public Response addAktivenClan(
+        @Parameter(description = "Pove, kdo upravlja s clanom")@FormParam("ime")String ime,
+        @Parameter(description = "Priimek")@FormParam("priimek")String priimek,
+        @Parameter(description = "Email, mora biti enolicna za aktivnega clana", required = true)@FormParam("email")String email,
+        @Parameter(description = "Geslo, po moznosti varno", required = true)@FormParam("password")String password
+        ){
+        ClanDTO ustvarjen = null;
+        try{
+            ustvarjen = clanZrno.registrirajClana(ime, priimek, password, email);
+        }catch(Exception e){
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }        
         return Response.status(Status.CREATED).entity(ustvarjen).build();
     }
 
@@ -102,14 +131,14 @@ public class ClaniResource {
         description = "Neaktualne podatke posodobi v aktualne")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Posodobljen je bil clan", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Clan.class))),
+            schema = @Schema(implementation = ClanDTO.class))),
             @ApiResponse(responseCode = "404", description = "Noben clan ni imel tega id-ja")
         })
     public Response updateResource(
         @Parameter(description = "Napolnes samo polja, ki zelis spremeniti, ostala lahko ostanejo prazna")
-        Clan data){
+        ClanDTO data){
         
-        Clan updated = clanZrno.posodobiClan(data);
+        ClanDTO updated = clanZrno.posodobiClan(data);
         return Response.ok(updated).build();
     }
 

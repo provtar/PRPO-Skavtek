@@ -1,19 +1,27 @@
 package si.skavtko.dto;
 
-import si.skavtko.entitete.embeddable.SkavtskoIme;
-import si.skavtko.entitete.enums.UserRole;
-
+import si.skavtko.entitete.Clan;
 
 public class ClanDTO {
 
     public ClanDTO(){}
-
-    public ClanDTO(Long id, String ime, String priimek, String steg) {
+    
+    public ClanDTO(Long id, String ime, String priimek, String steg, String skavtskoIme) {
         this.id = id;
         this.ime = ime;
         this.priimek = priimek;
         this.steg = steg;
+        this.skavtskoIme = skavtskoIme;
     }
+
+    public ClanDTO(Clan clan){
+        this.id = clan.getId();
+        this.ime = clan.getIme();
+        this.priimek = clan.getPriimek();
+        this.steg = clan.getSteg();
+        this.skavtskoIme = clan.getSkavtskoIme();
+    }
+
 
     private Long id;
 
@@ -23,6 +31,7 @@ public class ClanDTO {
 
     private String steg;
 
+    private String skavtskoIme;
 
     public String getSteg() {
         return steg;
@@ -55,6 +64,14 @@ public class ClanDTO {
 
     public void setPriimek(String priimek) {
         this.priimek = priimek;
+    }
+
+    public String getSkavtskoIme() {
+        return skavtskoIme;
+    }
+
+    public void setSkavtskoIme(String skavtskoIme) {
+        this.skavtskoIme = skavtskoIme;
     }
 
     @Override
