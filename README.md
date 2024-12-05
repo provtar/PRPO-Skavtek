@@ -57,6 +57,7 @@ Rabimo hibernate core dependency in ne kumuluz-hibernate, ker ce kumuluz rabm je
 * Hibernate
 * https://docs.jboss.org/hibernate/orm/6.6/introduction/html_single/Hibernate_Introduction.html
 * HQL
+* https://hibernate.org/orm/documentation/5.6/
 * https://docs.jboss.org/hibernate/orm/3.3/reference/en/html/queryhql.html
 ### Entity dodatno
 * https://www.baeldung.com/jpa-hibernate-associations

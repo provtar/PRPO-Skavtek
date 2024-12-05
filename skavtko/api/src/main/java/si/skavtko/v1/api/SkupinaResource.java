@@ -26,9 +26,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import si.skavtko.entitete.Clan;
-import si.skavtko.entitete.ClanSkupina;
-import si.skavtko.entitete.Skupina;
+
+import si.skavtko.dto.ClanSkupineDTO;
+import si.skavtko.dto.SkupinaClanaDTO;
+import si.skavtko.dto.SkupinaDTO;
 import si.skavtko.zrna.SkupinaZrno;
 
 @Path("/skupine")
@@ -47,14 +48,14 @@ public class SkupinaResource {
         description = "Imas id skupine, poisces skupino")
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dobil si iskano skupino", content = @Content(mediaType = "application/json",
-        schema = @Schema(implementation = Skupina.class))),
+        schema = @Schema(implementation = SkupinaDTO.class))),
         @ApiResponse(responseCode = "404", description = "Ni skupine s tem id-jem")
     })
     @Path("/{id}")
     public Response getResourceById(
         @Parameter(description = "Id skupine, ki jo isces", example = "6")
         @PathParam("id") Long id){
-        Skupina skupina = skupinaZrno.getSkupina(id);
+        SkupinaDTO skupina = skupinaZrno.getSkupina(id);
         if(skupina == null)return Response.status(Status.NOT_FOUND).build();
         
         return Response.ok(skupina).build();
@@ -65,14 +66,14 @@ public class SkupinaResource {
         description = "Imas id skupine, poisces njene clane")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Dobil si clane skupine", content = @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Clan.class)))),
+            array = @ArraySchema(schema = @Schema(implementation = ClanSkupineDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Nobena skupin ni imela tega id-ja")
         })
     @Path("/{id}/clani")
     public Response getClaniSkupine (
         @Parameter(description = "Id skupine, katere clane isces", example = "6")
         @PathParam("id") Long id){
-        List<Clan> clani = skupinaZrno.getClaniPoSkupini(id);
+        List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(id);
         
 
         
@@ -88,13 +89,13 @@ public class SkupinaResource {
         description = "Imas id clana, poisces skupine, v katere je bil vpleten")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Dobil si skupine v katerih je clan", content = @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = Skupina.class)))),
+            array = @ArraySchema(schema = @Schema(implementation = SkupinaDTO.class)))),
             @ApiResponse(responseCode = "404", description = "Noben clan ni imel tega id-ja")
         })
     public Response getId(
         @Parameter(description = "Id clana, za katerga ces znat v katerih skupinah je", example = "Peter")
         @QueryParam("clanId") Long clanId){
-        List<Skupina> skupine = skupinaZrno.getSkupinePoClanu(clanId);
+        List<SkupinaClanaDTO> skupine = skupinaZrno.getSkupinePoClanu(clanId);
         
         if(skupine.size() == 0){
             return Response.status(Status.NOT_FOUND).build();
@@ -111,12 +112,12 @@ public class SkupinaResource {
         description = "Ustvarjena skupina je brez clanov")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "201", description = "Posodobljen je bil clan", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Skupina.class)))
+            schema = @Schema(implementation = SkupinaDTO.class)))
         })
     public Response dodajSkupino(
         @Parameter(description = "Podatki o skupini, ki jo ustvaris")
-        Skupina data){
-        Skupina novaSkupina = skupinaZrno.novaSkupina(data);
+        SkupinaDTO data){
+        SkupinaDTO novaSkupina = skupinaZrno.novaSkupina(data);
         
         return Response.status(Status.CREATED).entity(novaSkupina).build();
     }
@@ -126,13 +127,13 @@ public class SkupinaResource {
         description = "Posljes podatke posodobljene skupine")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Posodobljena je bila skupina", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = Skupina.class))),
+            schema = @Schema(implementation = SkupinaDTO.class))),
             @ApiResponse(responseCode = "404", description = "Nobena skupina ni imela tega id-ja")
         })
     public Response posodobiSkupino(
         @Parameter(description = "Podatki o skupini, ki jo posodabljas")
-        Skupina skupina){
-        Skupina posodobljenaSkupina = skupinaZrno.posodobiSkupino(skupina);
+        SkupinaDTO skupina){
+        SkupinaDTO posodobljenaSkupina = skupinaZrno.posodobiSkupino(skupina);
         
         return Response.ok(posodobljenaSkupina).build();
     }
@@ -143,7 +144,7 @@ public class SkupinaResource {
     @Path("/{id}/clani/{clanId}")
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dodal si clana v skupino", content = @Content(mediaType = "application/json",
-        schema = @Schema(implementation = ClanSkupina.class))),
+        schema = @Schema(implementation = ClanSkupineDTO.class))),
         @ApiResponse(responseCode = "404", description = "Noben clan ali skupina nima tega id-ja")
     })
     public Response dodajClanaVSkupino(
@@ -151,7 +152,7 @@ public class SkupinaResource {
         @PathParam("id") Long skupinaId,
         @Parameter(description = "Id clana, ki ga v skupino dodas", example = "3")
         @PathParam("clanId") Long clanId){
-        ClanSkupina cs = skupinaZrno.dodajClana(skupinaId, clanId);
+        ClanSkupineDTO cs = skupinaZrno.dodajClana(skupinaId, clanId);
         
         return Response.ok(cs).build();
     }
@@ -161,7 +162,7 @@ public class SkupinaResource {
         description = "V skupino vstavi vse clane, ki so v seznamu")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Ddanih je bilo nekaj clanov", content = @Content(mediaType = "application/json",
-            array = @ArraySchema(schema = @Schema(implementation = ClanSkupina.class))))
+            array = @ArraySchema(schema = @Schema(implementation = ClanSkupineDTO.class))))
         })
     @Path("/{id}/clani")
     public Response dodajClaneVSkupino(
@@ -169,7 +170,7 @@ public class SkupinaResource {
         @PathParam("id") Long skupinaId, 
         @Parameter(description = "Seznam id-jev clanov, ki jih zelis dodati v skupino", example = "[1, 2, 3]")
         List<Long> clani){
-        Set<ClanSkupina> cs = skupinaZrno.dodajClane(skupinaId, clani);
+        Set<ClanSkupineDTO> cs = skupinaZrno.dodajClane(skupinaId, clani);
         
         return Response.ok(cs).build();
     }
@@ -188,5 +189,35 @@ public class SkupinaResource {
         return Response.status(Status.NO_CONTENT).build();
     }
 
+    @DELETE
+    @Operation(summary = "Zbrise clane skupine",
+        description = "Si se navelical nekaj clanov? Stran jih vrzi iz skupine.")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Nekaj manj clanov je zdaj v skupini", content = @Content())
+        })
+    @Path("/{id}/clani")
+    public Response zbrisiClaneSkupine(
+        @Parameter(description = "Id skupine, katerih clanov se znebis", example = "7")
+        @PathParam("id") Long id,
+        @Parameter(description = "Seznam clanov, ki se jih znebis") List<Long> clanId){
+        skupinaZrno.deleteClaneSkupine(id, clanId);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @DELETE
+    @Operation(summary = "Zbrise enega clana skupine",
+        description = "Si se navelical nekaj clanov? Stran jih crzi iz skupine.")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Nekaj manj clanov je zdaj v skupini", content = @Content())
+        })
+    @Path("/{id}/clani/{clanId}")
+    public Response zbrisiClanaSkupine(
+        @Parameter(description = "Id skupine, katerih clanov se znebis", example = "7")
+        @PathParam("id") Long id,
+        @Parameter(description = "Seznam clan, ki se ga znebis")@PathParam("clanId") Long clanId){
+        skupinaZrno.deleteClanaSkupine(id, clanId);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+    
     // TODO delete za clane skupine
 }

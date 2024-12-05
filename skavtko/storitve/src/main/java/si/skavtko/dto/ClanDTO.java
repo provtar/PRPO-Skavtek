@@ -2,6 +2,7 @@ package si.skavtko.dto;
 
 import si.skavtko.entitete.Clan;
 
+//TODO mu dodat email
 public class ClanDTO {
 
     public ClanDTO(){}

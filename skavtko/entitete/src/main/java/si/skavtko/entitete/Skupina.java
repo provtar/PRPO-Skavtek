@@ -1,24 +1,29 @@
 package si.skavtko.entitete;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
 
 import si.skavtko.entitete.embeddable.NamedLink;
 
 @Entity
 public class Skupina {
+
+    public Skupina() {
+        this.povezave = new ArrayList<>();
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -31,19 +36,12 @@ public class Skupina {
     private String opis;
 
 
-    //Nisem sigurn ali to dela, morem testirat
-    @Embedded
+    // TODO Nisem sigurn ali to dela, morem testirat
+    @ElementCollection
+    @CollectionTable(name = "povezave", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "povezave")
     private List<NamedLink> povezave;
 
-    //TODO sproti dopolni Relacije v katerih je
-    //@JsonbTransient
-    @OneToMany(mappedBy = "skupina", orphanRemoval = true, fetch = FetchType.LAZY)
-    @JsonIgnore
-    Set<ClanSkupina> clani;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "skupina", orphanRemoval = true)
-    Set<Srecanje> srecanja;    
 
 
     public Long getId() {
@@ -78,20 +76,4 @@ public class Skupina {
         this.povezave = povezave;
     }
     
-    public Set<ClanSkupina> getClani() {
-        return clani;
-    }
-
-    public void setClani(Set<ClanSkupina> clani) {
-        this.clani = clani;
-    }
-
-    public Set<Srecanje> getSrecanja() {
-        return srecanja;
-    }
-
-    public void setSrecanja(Set<Srecanje> srecanja) {
-        this.srecanja = srecanja;
-    }
-
 }

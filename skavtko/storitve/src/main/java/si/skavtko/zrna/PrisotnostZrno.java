@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import si.skavtko.dto.ClanSkupineDTO;
 import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Prisotnost;
 import si.skavtko.entitete.Srecanje;
@@ -52,16 +53,17 @@ public class PrisotnostZrno {
         try{
             Srecanje srecanje = entityManager.find(Srecanje.class, idSrecanja);
             Set<Prisotnost> prisotnosti = srecanje.getPrisotnosti();
-            List<Clan> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
-            for(Clan c : clani){
+            List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
+            for(ClanSkupineDTO c : clani){
                 Prisotnost prisotnost = new Prisotnost();
                 prisotnost.setPrisotnost(TipPrisotnosti.Pozen);
-                prisotnost.setClan(c);
+                Clan cc = entityManager.getReference(Clan.class, c.getId());
+                prisotnost.setClan(cc);
                 prisotnost.setSrecanje(srecanje);
                 prisotni.add(prisotnost);
                 entityManager.persist(prisotnost);
                 prisotnosti.add(prisotnost);
-                c.getPrisotnosti().add(prisotnost);
+                cc.getPrisotnosti().add(prisotnost);
                 entityManager.merge(c);
             }
             entityManager.merge(srecanje);

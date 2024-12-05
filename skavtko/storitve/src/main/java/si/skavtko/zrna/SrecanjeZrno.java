@@ -65,7 +65,6 @@ public class SrecanjeZrno {
             novoSrecanje.setOpis(srecanje.getOpis());
             Skupina skupina = entityManager.getReference(Skupina.class, idSkupine);
             novoSrecanje.setSkupina(skupina);
-            skupina.getSrecanja().add(novoSrecanje);
             entityManager.merge(skupina); //provi brez tega za vidt, ce se set sam posodobi
             novoSrecanje.setPrisotnosti(new HashSet<Prisotnost>());
 
@@ -112,7 +111,6 @@ public class SrecanjeZrno {
         ClanSkupina cs;
         try{
         Skupina skupina = entityManager.getReference(Skupina.class, skupinaId);
-        Set<ClanSkupina> clani = skupina.getClani();  
         Clan clan = entityManager.find(Clan.class, clanId);  
         Set<ClanSkupina> skupine = clan.getSkupine();
 
@@ -121,7 +119,6 @@ public class SrecanjeZrno {
         cs.setSkupina(skupina);
         entityManager.persist(cs);
         
-        clani.add(cs);
         skupine.add(cs);
         entityManager.merge(clan);
         entityManager.merge(skupina);

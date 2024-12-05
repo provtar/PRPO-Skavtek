@@ -115,6 +115,9 @@ public class ClanZrno {
 
     //TODO metode za spreminjati status clana v obe smeri
     //TODO metode za spreminjat lastnistvo pasivnih clanov
+    //TODO sprememba password in emaila, kvecjemu dat email se aktivnemu clanu
+    //TODO delete za aktivnega clana
+    // TODO za osebno spreljanje dajat kommente clanom
 
     @Transactional
     public ClanDTO posodobiClan(ClanDTO data){
