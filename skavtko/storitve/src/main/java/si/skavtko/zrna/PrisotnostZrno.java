@@ -2,8 +2,6 @@ package si.skavtko.zrna;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -52,7 +50,6 @@ public class PrisotnostZrno {
         ArrayList<Prisotnost> prisotni = new ArrayList<>();
         try{
             Srecanje srecanje = entityManager.find(Srecanje.class, idSrecanja);
-            Set<Prisotnost> prisotnosti = srecanje.getPrisotnosti();
             List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
             for(ClanSkupineDTO c : clani){
                 Prisotnost prisotnost = new Prisotnost();
@@ -62,11 +59,10 @@ public class PrisotnostZrno {
                 prisotnost.setSrecanje(srecanje);
                 prisotni.add(prisotnost);
                 entityManager.persist(prisotnost);
-                prisotnosti.add(prisotnost);
+                srecanje.getPrisotnosti().add(prisotnost);
                 cc.getPrisotnosti().add(prisotnost);
                 entityManager.merge(c);
             }
-            entityManager.merge(srecanje);
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();

@@ -14,18 +14,21 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import si.skavtko.dto.SkupinaDTO;
+import si.skavtko.dto.SrecanjeDTO;
+
 
 @Provider
 @Consumes(MediaType.APPLICATION_JSON)
-public class SkupinaReader implements MessageBodyReader<SkupinaDTO>  {
+public class SrecanjeReader implements MessageBodyReader<SkupinaDTO>  {
     
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         
-        return type == SkupinaDTO.class;
+        return type == SrecanjeDTO.class;
     }
 
     @Override
@@ -34,8 +37,9 @@ public class SkupinaReader implements MessageBodyReader<SkupinaDTO>  {
             throws IOException, WebApplicationException {
         
         try(BufferedReader br =new BufferedReader(new InputStreamReader(entityStream))){
-            Gson gson = new Gson();
-            SkupinaDTO data = gson.fromJson(br, SkupinaDTO.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            SkupinaDTO data = objectMapper.readValue(br, SkupinaDTO.class);
             return data;
         }catch (Exception e) {
             System.out.println("Napaka v ClanProviderju: " + e.getClass().getCanonicalName());
