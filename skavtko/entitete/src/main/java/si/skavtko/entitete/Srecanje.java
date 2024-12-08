@@ -59,6 +59,7 @@ public class Srecanje {
     @JoinColumn(name = "skupina", referencedColumnName = "id")
     private Skupina skupina;
 
+    //TODO, se ga znebit, za zdaj rabi za iskanje srecanj po clanu
     @OneToMany(mappedBy = "srecanje" , fetch = FetchType.LAZY)
     private Set<Prisotnost> prisotnosti;
 

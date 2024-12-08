@@ -111,19 +111,15 @@ public class SkupinaZrno {
         entityManager.getTransaction().begin();
         ClanSkupineDTO res;
         ClanSkupina cs;
-        try{
-        Skupina skupina = entityManager.getReference(Skupina.class, skupinaId);
-        Clan clan = entityManager.find(Clan.class, clanId);  
-        Set<ClanSkupina> skupine = clan.getSkupine();
 
-        cs = new ClanSkupina();
-        cs.setClan(clan);
-        cs.setSkupina(skupina);
-        entityManager.persist(cs);
-        
-        skupine.add(cs);
-        entityManager.merge(clan);
-        entityManager.merge(skupina);
+        try{
+            Skupina skupina = entityManager.getReference(Skupina.class, skupinaId);
+            Clan clan = entityManager.find(Clan.class, clanId);
+
+            cs = new ClanSkupina();
+            cs.setClan(clan);
+            cs.setSkupina(skupina);
+            entityManager.persist(cs);
 
             res = new ClanSkupineDTO(clanId, clan.getIme(), clan.getPriimek(), clan.getSteg());
         }catch (Exception e){
@@ -148,8 +144,8 @@ public class SkupinaZrno {
             for(Long clanId : claniId){
                 Clan clan = entityManager.getReference(Clan.class, clanId);
                 if(clan != null){
-                    Set<ClanSkupina> skupine = clan.getSkupine();
                     // TODO suboptimalno, ampak dela, nekaj prevec poizvedb se klice, vsaj clana bi si ga lahko evitiral
+                    // Resitev, dobit seznam id-jev clanov in dobt, ce ze obstaja id
                     try {
                         entityManager.createNamedQuery("CS.fromCinS", ClanSkupina.class)
                         .setParameter("clanId", clanId).setParameter("skupinaId", skupinaId).getSingleResult();
@@ -158,8 +154,7 @@ public class SkupinaZrno {
                         cs.setClan(clan);
                         cs.setSkupina(skupina);
                         entityManager.persist(cs);
-                    
-                        skupine.add(cs);
+
                         res.add(new ClanSkupineDTO(clan.getId(), clan.getIme(), clan.getPriimek(), clan.getSteg()));
                         entityManager.merge(clan);
                         continue;

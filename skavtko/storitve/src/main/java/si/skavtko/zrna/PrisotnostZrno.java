@@ -5,10 +5,12 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import si.skavtko.dto.ClanSkupineDTO;
+import si.skavtko.dto.PrisotnostDTO;
 import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Prisotnost;
 import si.skavtko.entitete.Srecanje;
@@ -30,39 +32,45 @@ public class PrisotnostZrno {
     //se brise vse prisotnosti hkrati
     //kasneje dodamo anlitiko
 
-    public List<Prisotnost> isciPoSrecanju(Long idSrecanja){
-        List<Prisotnost> res = entityManager.createQuery("select p from Prisotnost p join p.srecanje s on s.id = :arg1", Prisotnost.class)
-        .setParameter("arg1", idSrecanja).getResultList();
+    public List<PrisotnostDTO> isciPoSrecanju(Long idSrecanja){
+        List<PrisotnostDTO> res = entityManager.createNamedQuery("Prisotnosti.fromSrecanje", PrisotnostDTO.class)
+        .setParameter("srecanjeId", idSrecanja).getResultList();
         return res;
     }
 
-    public List<Prisotnost> isciPoClanuInSkupini(Long idClana, Long idSkupine){
-        List<Prisotnost> res = entityManager.createQuery("select p from Prisotnost p join p.clan c on c.id = :arg1 join p.srecanje s on (:arg2 is null or s.skupina.id = :arg2)", Prisotnost.class)
-        .setParameter("arg1", idClana).setParameter("arg2", idSkupine).getResultList();
+    public List<PrisotnostDTO> isciPoClanuInSkupini(Long idClana, Long idSkupine){
+        List<PrisotnostDTO> res = entityManager.createNamedQuery("Prisotnosti.fromClanInSkupina", PrisotnostDTO.class)
+        .setParameter("clanId", idClana).setParameter("skupinaId", idSkupine).getResultList();
         return res;
     }
 
-    //v parameter se doda se tage prisotnih
     // TODO verzijo, ki ji samo posljes listo prisotnosti in jo persista namesto te stale
     @Transactional
-    public List<Prisotnost> dodajPrisotnosti(Long idSrecanja){
+    public List<PrisotnostDTO> dodajPrisotnosti(Long idSrecanja){
         entityManager.getTransaction().begin();
-        ArrayList<Prisotnost> prisotni = new ArrayList<>();
+        ArrayList<PrisotnostDTO> prisotni = new ArrayList<>();
         try{
             Srecanje srecanje = entityManager.find(Srecanje.class, idSrecanja);
+            if(srecanje == null) throw new NoResultException();
+            srecanje.setBelezenje(true);
             List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
+
             for(ClanSkupineDTO c : clani){
+                Clan cc = entityManager.find(Clan.class, c.getId());
+                if(cc == null) continue; //TODO, razmisli, ce je tko bolj pametno, ali ce rajsi posljes napako, ce je en clan napacen
+                //TODO, pazi, da se prisotnosti ne podvojijo
+                //Skoraj boljse sam zaznat napako in jo poslat tistemu, ki je neumne podatke posiljal
                 Prisotnost prisotnost = new Prisotnost();
-                prisotnost.setPrisotnost(TipPrisotnosti.Pozen);
-                Clan cc = entityManager.getReference(Clan.class, c.getId());
+
+                prisotnost.setPrisotnost(TipPrisotnosti.Prisoten);
                 prisotnost.setClan(cc);
                 prisotnost.setSrecanje(srecanje);
-                prisotni.add(prisotnost);
                 entityManager.persist(prisotnost);
+
                 srecanje.getPrisotnosti().add(prisotnost);
-                cc.getPrisotnosti().add(prisotnost);
-                entityManager.merge(c);
+                prisotni.add(new PrisotnostDTO(prisotnost));
             }
+            entityManager.merge(srecanje);
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
@@ -73,17 +81,17 @@ public class PrisotnostZrno {
     }
 
     @Transactional
-    public List<Prisotnost> posodobiPrisotnosti(List<Prisotnost> prisotnosti){
-        ArrayList<Prisotnost> res = new ArrayList<>(prisotnosti.size());
+    public List<PrisotnostDTO> posodobiPrisotnosti(List<PrisotnostDTO> prisotnosti){
+        ArrayList<PrisotnostDTO> res = new ArrayList<>(prisotnosti.size());
         entityManager.getTransaction().begin();
         try{
-            for(Prisotnost p : prisotnosti){
+            for(PrisotnostDTO p : prisotnosti){
                 Prisotnost prisotnost = entityManager.find(Prisotnost.class, p.getId());
-                if(prisotnost != null){
+                if(prisotnost != null){ //TODO isto tukaj, sam poslt napako, ce je null?
                     prisotnost.setOpomba(p.getOpomba());
                     prisotnost.setPrisotnost(p.getPrisotnost());
                     entityManager.persist(prisotnost);
-                    res.add(prisotnost);
+                    res.add(new PrisotnostDTO(prisotnost));
                 }
             }
         }catch(Exception e){
@@ -102,6 +110,30 @@ public class PrisotnostZrno {
             for(Long id : prisotnosti){
                 Prisotnost prisotnost = entityManager.find(Prisotnost.class, id); 
                 if(prisotnost != null){
+                    prisotnost.getSrecanje().getPrisotnosti().remove(prisotnost);
+                    entityManager.remove(prisotnost);
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
+            return;
+        }
+        entityManager.getTransaction().commit();
+    }
+
+    public void zbrisiPrisotnostiSrecanja(Long srecanjeId){
+        entityManager.getTransaction().begin();
+        List<PrisotnostDTO> prisotnosti = entityManager.createNamedQuery("Prisotnosti.fromSrecanje", PrisotnostDTO.class)
+        .setParameter("srecanjeId", srecanjeId).getResultList();
+        Srecanje srecanje = entityManager.find(Srecanje.class, srecanjeId);
+        if(srecanje == null) throw new NoResultException("Srecanja z id: " + srecanjeId + "ni.\n");
+        srecanje.setBelezenje(false);
+        try{
+            for(PrisotnostDTO id : prisotnosti){
+                Prisotnost prisotnost = entityManager.find(Prisotnost.class, id.getId()); 
+                if(prisotnost != null){
+                    srecanje.getPrisotnosti().remove(prisotnost);
                     entityManager.remove(prisotnost);
                 }
             }

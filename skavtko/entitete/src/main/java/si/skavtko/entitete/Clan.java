@@ -34,8 +34,6 @@ public class Clan{
 
     public Clan (){
         this.varovanci = new HashSet<>();
-        this.skupine = new HashSet<>();
-        this.prisotnosti = new HashSet<>();
     }
 
     @Id
@@ -67,16 +65,6 @@ public class Clan{
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "master", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Clan> varovanci;
-
-    // TODO Dodaajat Relacije v katerih je Clan
-    
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<ClanSkupina> skupine;
-
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Prisotnost> prisotnosti;
 
     public Long getId() {
         return id;
@@ -150,17 +138,7 @@ public class Clan{
         this.email = email;
     }
 
-    
-    public Set<ClanSkupina> getSkupine() {
-        return skupine;
-    }
-
     public Set<Clan> getVarovanci() {
         return varovanci;
     }
-    
-    public Set<Prisotnost> getPrisotnosti() {
-        return prisotnosti;
-    }
-
 }
