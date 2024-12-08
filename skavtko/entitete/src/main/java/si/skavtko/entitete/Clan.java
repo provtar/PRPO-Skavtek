@@ -1,13 +1,10 @@
 package si.skavtko.entitete;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,25 +12,28 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import si.skavtko.entitete.embeddable.SkavtskoIme;
 import si.skavtko.entitete.enums.UserRole;
 
 
 @Entity
-
+@NamedQueries(value = {
+    @NamedQuery(name = "Clan.fromEmail", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email")
+})
 @Table(name = "clan")
 public class Clan{
 
     public Clan (){
-
+        this.varovanci = new HashSet<>();
     }
 
     @Id
@@ -45,30 +45,26 @@ public class Clan{
     @Basic(optional =  false)
     private String priimek;
 
-    //TODO dodamo datum rojstva?
-
-    //TODO spremenit v enum ali v eno novo podtabelo
-    //@Enumerated(EnumType.STRING)
+    //TODO spremenit v eno novo podtabelo
     private String steg;
 
-    @Embedded
-    private SkavtskoIme skavtskoIme;
+    private String skavtskoIme;
 
-    @Column(name = "ROLE", nullable = false, insertable = false, updatable = false) 
+    @Basic(optional = false)
     @Enumerated(EnumType.STRING)
     public UserRole role;
 
-    // TODO Dodaajat Relacije v katerih je Clan
-    
-    //@JsonbTransient
-    //@JsonManagedReference(value = "clan-cs")
-    @JsonIgnore
-    @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<ClanSkupina> skupine;
+    private String password;
+    @Column(updatable = false)
+    private String email;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "clan", orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Prisotnost> prisotnosti;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "master")
+    private Clan master;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "master", orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Clan> varovanci;
 
     public Long getId() {
         return id;
@@ -102,7 +98,6 @@ public class Clan{
     public void setRole(UserRole role) {
         this.role = role;
     }
-    
 
     public String getSteg() {
         return steg;
@@ -111,51 +106,20 @@ public class Clan{
     public void setSteg(String steg) {
         this.steg = steg;
     }
-    public SkavtskoIme getSkavtskoIme() {
+    public String getSkavtskoIme() {
         return skavtskoIme;
     }
 
-    public void setSkavtskoIme(SkavtskoIme skavtskoIme) {
+    public void setSkavtskoIme(String  skavtskoIme) {
         this.skavtskoIme = skavtskoIme;
     }
-    
-    
-    public Set<ClanSkupina> getSkupine() {
-        return skupine;
+
+    public Clan getMaster() {
+        return master;
     }
 
-    public void setSkupine(Set<ClanSkupina> skupine) {
-        this.skupine = skupine;
-    }
-
-    public Set<Prisotnost> getPrisotnosti() {
-        return prisotnosti;
-    }
-
-    public void setPrisotnosti(Set<Prisotnost> prisotnosti) {
-        this.prisotnosti = prisotnosti;
-    }
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Clan master;
-
-    
-    private String username;
-    @JsonIgnore
-    private String password;
-    @Column(updatable = false)
-    private String email;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "master", orphanRemoval = true)
-    private Set<Clan> varovanci;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setMaster(Clan master) {
+        this.master = master;
     }
 
     public String getPassword() {
@@ -172,5 +136,9 @@ public class Clan{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Clan> getVarovanci() {
+        return varovanci;
     }
 }

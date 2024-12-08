@@ -1,6 +1,7 @@
 package si.skavtko.entitete;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -9,13 +10,29 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+//Ta query bo potem spadal med prisotnosti
+@NamedQueries({
+    @NamedQuery(name = "Srecanje.fromIdinDatum",
+    query = "select new si.skavtko.dto.SrecanjeDTO(sr.id, sr.ime, sr.datumOd, sr.datumDo, sr.kraj, sr.opis, sr.belezenje, sr.skupina.id) "+
+    "from Srecanje sr LEFT JOIN sr.prisotnosti p ON  (:cid is null or p.clan.id = :cid) "+
+    "JOIN sr.skupina s ON (s.id =:skid OR :skid is null) "+
+    "WHERE (sr.datumOd >= :od OR cast(:od as date) is null)AND ((sr.datumDo is null and sr.datumOd <= :do) or sr.datumDo <= :do OR cast(:do as date) is null)")
+})
 @Entity
 public class Srecanje {
+
+    public Srecanje() {
+        this.prisotnosti = new HashSet<>();
+    }
 
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE)
@@ -23,6 +40,9 @@ public class Srecanje {
 
     @Basic(optional = false)
     private String ime;
+
+    //TODO enum z vidljivostjo srecanja, za iskanje srecanj
+    //TODO kratek seznam vse ìh clanov, za iskanje po clanu, nesmiselno, se gleda to v prisotnostih
 
     private LocalDateTime datumOd;
 
@@ -32,16 +52,24 @@ public class Srecanje {
 
     private String opis;
     
-    //morda boljse ta podatek spravt v prisotnosti
     private Boolean belezenje = false;
 
-    @JsonIgnore //ce to odstranis ima probleme s serializacijo, zakaj se to zgodi, ker klices getReference, zato ne dobis nazaj cele entitete
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "skupina", referencedColumnName = "id")
     private Skupina skupina;
 
-    @JsonIgnore
+    //TODO, se ga znebit, za zdaj rabi za iskanje srecanj po clanu
     @OneToMany(mappedBy = "srecanje" , fetch = FetchType.LAZY)
     private Set<Prisotnost> prisotnosti;
+
+    public Set<Prisotnost> getPrisotnosti() {
+        return prisotnosti;
+    }
+
+    public void setPrisotnosti(Set<Prisotnost> prisotnosti) {
+        this.prisotnosti = prisotnosti;
+    }
 
     public Long getId() {
         return id;
@@ -105,13 +133,5 @@ public class Srecanje {
 
     public void setSkupina(Skupina skupina) {
         this.skupina = skupina;
-    }
-
-    public Set<Prisotnost> getPrisotnosti() {
-        return prisotnosti;
-    }
-
-    public void setPrisotnosti(Set<Prisotnost> prisotnosti) {
-        this.prisotnosti = prisotnosti;
     }
 }

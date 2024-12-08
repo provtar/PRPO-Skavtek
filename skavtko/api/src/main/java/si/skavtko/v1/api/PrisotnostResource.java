@@ -24,8 +24,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import si.skavtko.entitete.Clan;
-import si.skavtko.entitete.Prisotnost;
+
+import si.skavtko.dto.PrisotnostDTO;
 import si.skavtko.zrna.PrisotnostZrno;
 
 @Path("/prisotnosti")
@@ -43,7 +43,7 @@ public class PrisotnostResource {
         description = "Lahko se isce na podlagi srecanja ali na podlagi clana in skupine")
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dobil si nekaj prisotnosti", content = @Content(mediaType = "application/json",
-        array = @ArraySchema(schema = @Schema(implementation =  Prisotnost.class)))),
+        array = @ArraySchema(schema = @Schema(implementation =  PrisotnostDTO.class)))),
         @ApiResponse(responseCode = "404", description = "Ni nobene prisotnosti, si kaj falil")
     })
     public Response dobiPrisotnosti(
@@ -54,8 +54,8 @@ public class PrisotnostResource {
         @Parameter(description = "Id srecanja za katerga isces prisotnosti", example = "13")
         @QueryParam("srecanje") Long srecanjeId
     ){
-        List<Prisotnost> res = null;
-        if(skupinaId != null){
+        List<PrisotnostDTO> res = null;
+        if(srecanjeId != null){
             res = prisotnostZrno.isciPoSrecanju(srecanjeId);
         }else{
             res = prisotnostZrno.isciPoClanuInSkupini(clanId, skupinaId);
@@ -68,14 +68,14 @@ public class PrisotnostResource {
         description = "Na podlagi srecanja, ustvari prisotnosti za vse clane skupine, ki se sreca, default vrednost bo prisoten")  
     @ApiResponses( value = {
         @ApiResponse(responseCode = "201", description = "Ustvarjene so bile prisotnosti", content = @Content(mediaType = "application/json", array = 
-        @ArraySchema(schema = @Schema(implementation = Prisotnost.class))))
+        @ArraySchema(schema = @Schema(implementation = PrisotnostDTO.class))))
     })
     @Path("/srecanja/{id}")
     public Response dodajPrisotnosti(
         @Parameter(description = "Id skupine za katero postas", example = "13")
         @PathParam("id") Long skupinaId
     ){
-        List<Prisotnost> res = prisotnostZrno.dodajPrisotnosti(skupinaId);
+        List<PrisotnostDTO> res = prisotnostZrno.dodajPrisotnosti(skupinaId);
         return Response.status(Status.CREATED).entity(res).build();
     }
 
@@ -84,12 +84,12 @@ public class PrisotnostResource {
         description = "Posodobi vse prisotnosti  v seznamu")  
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Posodobljen je bila skupina prisotnosti", content = @Content(mediaType = "application/json",
-        array = @ArraySchema(schema = @Schema(implementation = Clan.class))))
+        array = @ArraySchema(schema = @Schema(implementation = PrisotnostDTO.class))))
     })
     public Response posodobi(
         @Parameter(description = "Seznam prisotnosti, ki jih zelis posodobiti")
-        List<Prisotnost> prisotnosti){
-        List<Prisotnost> res = prisotnostZrno.posodobiPrisotnosti(prisotnosti);
+        List<PrisotnostDTO> prisotnosti){
+        List<PrisotnostDTO> res = prisotnostZrno.posodobiPrisotnosti(prisotnosti);
         return Response.ok(res).build();
     }
 
@@ -103,6 +103,20 @@ public class PrisotnostResource {
         @Parameter(description = "Seznam prisotnosti, ki jih zbrises", example = "[15, 16]")
         List<Long> prisotnosti){
         prisotnostZrno.zbrisiPrisotnosti(prisotnosti);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @DELETE
+    @Operation(summary = "Brisanje vseh prisotnosti iz srecanja",
+        description = "Zbrises tiste prisotnosti, ki te ne vec zanimajo")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "204", description = "Zbrisano je bilo nekaj prisotnosti", content = @Content())
+        })
+        @Path("/srecanje/{id}")
+    public Response zbrisiPoSkupini(
+        @Parameter(description = "ime srecanja katerga vse prisotnosti zbrises") @PathParam("id") Long srecanjeId
+    ){
+        prisotnostZrno.zbrisiPrisotnostiSrecanja(srecanjeId);
         return Response.status(Status.NO_CONTENT).build();
     }
 }
