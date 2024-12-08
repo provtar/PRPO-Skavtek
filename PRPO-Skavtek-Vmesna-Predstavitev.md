@@ -75,11 +75,19 @@ Za podatkovno bazo bomo uporabljali MySQL bazo.
 
 ## OPIS STANJA PROJEKTA
 
-Napisal bom imena postavk iz navodil za projekt, ki jih izpolnjujeva
+Napisal bom imena postavk iz navodil za projekt, ki jih izpolnjujeva oz. sva že delala na njih.
 
-* Repozitorij
-* Razvojno okolje in projekt
-* REST
-* Vsebniki
-* Dokumentacija (opisan zagon aplikacije v README.md)
-* Podatkovna baza
+* Repozitorij (github)
+* Razvojno okolje in projekt (Visual Studio Code, Maven, KUMULUZ framework)
+* Mikrostoritve
+* REST APIJI
+* Dokumentacija API (OpenAPI 3.0)
+* Poslovna logika (logika v mikrostoritvah)
+* Dokumentacija (readME)
+* Podatkovna baza (PostgresQL)
+* ORM (Hibernate)
+
+![alt text](slike\image-1.png)
+![alt text](slike\image.png)
+![alt text](slike\image-2.png)
+![alt text](slike\image-3.png)
