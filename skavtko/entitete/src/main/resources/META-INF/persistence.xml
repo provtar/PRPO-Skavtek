@@ -1,0 +1,35 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="db-provider">
+
+        <class>si.skavtko.entitete.Clan</class>
+
+        <properties>
+            <!-- PostgreSQL -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> 
+            <property name="javax.persistence.jdbc.url"
+                      value="jdbc:postgresql://localhost:5435/db"/>
+
+            <!-- Credentials -->
+            <property name="javax.persistence.jdbc.user"
+                      value="admin"/>
+            <property name="javax.persistence.jdbc.password"
+                      value="admin"/>
+
+            <!-- Automatic schema export -->
+            <property name="javax.persistence.schema-generation.database.action"
+                      value="drop-and-create"/>
+
+            <!-- SQL statement logging -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.highlight_sql" value="true"/>
+
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
