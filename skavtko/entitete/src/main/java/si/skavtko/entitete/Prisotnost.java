@@ -8,10 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 import si.skavtko.entitete.enums.TipPrisotnosti;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Prisotnosti.fromSrecanje",
+    query = "select new si.skavtko.dto.PrisotnostDTO(p.id, p.prisotnost, p.opomba, p.clan.id, p.clan.ime, p.clan.priimek, p.srecanje.id, p.srecanje.ime) "+
+    " from Prisotnost p join p.srecanje s on s.id = :srecanjeId"),
+    @NamedQuery(name = "Prisotnosti.fromClanInSkupina",
+    query = "select new si.skavtko.dto.PrisotnostDTO(p.id, p.prisotnost, p.opomba, p.clan.id, p.clan.ime, p.clan.priimek, p.srecanje.id, p.srecanje.ime) "+
+    " from Prisotnost p join p.clan c on c.id = :clanId join p.srecanje s on (:skupinaId is null or s.skupina.id = :skupinaId)"
+    )
+})
 public class Prisotnost {
 
     @Id

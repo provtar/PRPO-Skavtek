@@ -12,5 +12,5 @@ public class Dovoljenje {
     private Long user_id;
 
     @ManyToOne
-    ClanActive user;
+    Clan user;
 }

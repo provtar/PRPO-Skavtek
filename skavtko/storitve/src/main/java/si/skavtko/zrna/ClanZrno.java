@@ -1,24 +1,19 @@
 package si.skavtko.zrna;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
+import javax.ws.rs.NotFoundException;
 
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-
+import si.skavtko.dto.ClanDTO;
 import si.skavtko.entitete.Clan;
-import si.skavtko.entitete.ClanSkupina;
 import si.skavtko.entitete.enums.UserRole;
 
 @ApplicationScoped
@@ -35,76 +30,128 @@ public class ClanZrno {
     private void destroy(){
     }
 
-    //za posameznega uporabika - za vec uporabnikov hkrati za zdaj bo skrbel resource skupina
-    
-    public Clan getClan(Long id){
+    public ClanDTO getClan(Long id){
         Clan clan = entityManager.find(Clan.class, id);
-        //BUG: ce klices detach, se ne bo izvedena poizvedba v database
-        //Poizvedba se klice, ko je podatek ze vrnjen resource classu
-        //Se pozanimati pr profesorju
-        //entityManager.detach(clan);
+        ClanDTO res = null;
+        if(clan != null) res = new ClanDTO(clan);
 
-        return clan;
+        return res;
     }
 
-    //TODO zbrisat al posodobt t metodo, za zdaj je samo za primer
-    public List<Clan> getClan(String ime, String priimek){
-        if(priimek == null) System.out.println("Je null");
-        else System.out.printf("String :%s:", priimek);
-        List<Clan> res = entityManager.createQuery("select c from Clan c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.priimek = :arg2)", Clan.class).
+    public List<ClanDTO> getClan(String ime, String priimek){
+        List<ClanDTO> res = entityManager
+        .createQuery("select new si.skavtko.dto.ClanDTO(c.id, c.ime, c.priimek, c.steg, c.skavtskoIme) from Clan c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.priimek = :arg2) and c.role = :arg3", ClanDTO.class).
         setParameter("arg1", ime)
         .setParameter("arg2", priimek)
+        .setParameter("arg3", UserRole.ACTIVE)
         .getResultList();
 
         return res;
     }
 
-    //TEST, vidim, ce vrne ID
     @Transactional
-
-    public Clan dodajClana(Clan data){//dela, manjka kaksen try catch block
+    public ClanDTO dodajClana(ClanDTO data, Long id){
         entityManager.getTransaction().begin();
-        Clan novClan = new Clan();
-        novClan.setIme(data.getIme());
-        novClan.setPriimek(data.getPriimek());
-        novClan.setSkupine(new HashSet<ClanSkupina>());
-        entityManager.persist(novClan);
-        entityManager.flush();
-        entityManager.getTransaction().commit();
-        //entityManager.detach(data);
-        return novClan;
-    }
+        try{
+            Clan newClan = new Clan();
+            newClan.setIme(data.getIme());
+            newClan.setPriimek(data.getPriimek());
+            newClan.setSteg(data.getSteg());
+            newClan.setSkavtskoIme(data.getSkavtskoIme());
 
-    @Transactional
-    public Clan posodobiClan(Clan data){
-        Clan clan;
-        try {
-            clan = entityManager.getReference(Clan.class, data.getId());
-        } catch(EntityNotFoundException enf){
+            newClan.setRole(UserRole.PASSIVE);
+            Clan master = entityManager.find(Clan.class, id);
+            if (master == null) {
+                throw new NotFoundException("Master z id-jem "+ id + " ne obstaja");
+            }else{
+                newClan.setMaster(master);
+            }
+            
+
+            entityManager.persist(newClan);
+            entityManager.flush();
+            data = new ClanDTO(newClan);
+            entityManager.getTransaction().commit();
+        }catch(NotFoundException nfe){
+            entityManager.getTransaction().rollback();
+            throw nfe;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
             return null;
-        } catch(Exception e){
-            throw e;
         }
-        entityManager.getTransaction().begin();
-        //BUG ne detachat, nikoli, nimam pojma sploh kdaj bi se to metodo rabilo, 
-        //enkrat ko deteachas, ne mores pridobit podatkov
-        //entityManager.detach(clan);
-        clan.setIme(data.getIme());
-        clan.setPriimek(data.getPriimek());
-        clan.setSkavtskoIme(data.getSkavtskoIme());
-        clan.setSteg(data.getSteg());
-        clan = entityManager.merge(clan);
-        entityManager.flush();
-        entityManager.getTransaction().commit();
-        //TODO error handling
-        return clan;
+        return data;
     }
 
     @Transactional
-    public void deleteClan( Long id){
+    public ClanDTO registrirajClana(String ime, String priimek, String password, String email)
+    throws NonUniqueResultException, ConstraintViolationException{
         entityManager.getTransaction().begin();
+        ClanDTO data = null;
+        try{
+            if(password == null || email == null) throw new ConstraintViolationException("Email ali priimek je null", null);
+            List<Clan> enaki = entityManager.createNamedQuery("Clan.fromEmail", Clan.class).setParameter("email", email).getResultList();
+            if(enaki.size() > 0) throw new NonUniqueResultException("Aktiven clan s tem emailom ze obstaja");
+            Clan newClan = new Clan();
+            newClan.setIme(ime);
+            newClan.setPriimek(priimek);
+            newClan.setPassword(password);
+            newClan.setEmail(email);
+            newClan.setRole(UserRole.ACTIVE);
+
+            entityManager.persist(newClan);
+            data = new ClanDTO(newClan);
+            entityManager.getTransaction().commit();
+        }catch(NonUniqueResultException nure){
+            entityManager.getTransaction().rollback();
+            throw nure;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
+            return null;
+        }
+        return data;
+    }
+
+    //TODO metode za spreminjati status clana v obe smeri
+    //TODO metode za spreminjat lastnistvo pasivnih clanov
+    //TODO sprememba password in emaila, kvecjemu dat email se aktivnemu clanu
+    //TODO delete za aktivnega clana
+    // TODO za osebno spreljanje dajat kommente clanom
+
+    @Transactional
+    public ClanDTO posodobiClan(ClanDTO data){
+        try{
+            Clan clan = entityManager.getReference(Clan.class, data.getId());
+            if(clan == null) return null;
+
+            entityManager.getTransaction().begin();
+
+            if(data.getIme() != null) clan.setIme(data.getIme());
+            if(data.getPriimek() != null) clan.setPriimek(data.getPriimek());
+            if(data.getSkavtskoIme() != null) clan.setSkavtskoIme(data.getSkavtskoIme());
+            if(data.getSteg() != null) clan.setSteg(data.getSteg());
+
+            clan = entityManager.merge(clan);
+            data = new ClanDTO(clan);
+
+            entityManager.getTransaction().commit();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
+            return null;
+        }
+
+        return data;
+    }
+
+    @Transactional
+    public void deleteClan(Long id){
+        entityManager.getTransaction().begin();
+
         Clan clan = entityManager.find(Clan.class, id);
-        entityManager.remove(clan);
+        if(clan != null)entityManager.remove(clan);
+
         entityManager.getTransaction().commit();
     }
 }

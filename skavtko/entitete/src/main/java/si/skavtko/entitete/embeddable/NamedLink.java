@@ -2,9 +2,12 @@ package si.skavtko.entitete.embeddable;
 
 import javax.persistence.Embeddable;
 
+//TODO, dodat stevilko za urejanje v vizualizaciji
 @Embeddable
 public class NamedLink {
     
+    public NamedLink() {
+    }
     public NamedLink(String link, String name) {
         this.link = link;
         this.name = name;
