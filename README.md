@@ -53,6 +53,13 @@ User: admin
 Password: admin
 ```
 
+### Namestitev v oblak
+Dtabase predogi:
+* https://codeless.co/free-postgresql-hosting/
+* https://heliohost.org/ (problem : je v ameriki, velik ping)
+Za mikrostoritve:
+*
+
 ### API Dokumentacija
 Link do dokumentacije>
 * http://localhost:8080/api-specs/ui/
