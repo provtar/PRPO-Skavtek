@@ -60,6 +60,9 @@ Link do dokumentacije>
 ## Angular
 instalacija:
 * npm install -g @angular/cli@18.2
+* npm run ng serve (zazene server, stran dostopna na http://localhost:4200 )
+* npm run ng generate component|service (ustvari nove komponente za spletno stran)
+* stvar je se v delu, treba se routing zrihtat
 
 ## TODO
 
