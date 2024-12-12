@@ -1,0 +1,9 @@
+<h1>Neki</h1>
+<p>Tuki se registriras!</p>
+<div *ngFor="let clan of clani">
+  <h6>{{clan.ime}} {{clan.priimek}}</h6>
+  <p>{{clan.id}}</p>
+</div>
+<div>
+  <button (click)="dobiClana(1)"></button>
+</div>

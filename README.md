@@ -57,10 +57,9 @@ Password: admin
 Link do dokumentacije>
 * http://localhost:8080/api-specs/ui/
 
-
-## Warning
-
-Rabimo hibernate core dependency in ne kumuluz-hibernate, ker ce kumuluz rabm je s persistence.xml nekaj narobe
+## Angular
+instalacija:
+* npm install -g @angular/cli@18.2
 
 ## TODO
 
