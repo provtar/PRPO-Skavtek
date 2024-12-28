@@ -22,7 +22,7 @@ public class SrecanjeZrno {
 
     @PostConstruct
     private void init(){
-            }
+    }
 
     @PreDestroy
     private void destroy(){

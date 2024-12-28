@@ -16,16 +16,16 @@ public enum TipPrisotnosti {
     private String value;
 
 
-public String getValue() {
-        return value;
+    public String getValue() {
+            return value;
+        }
+
+
+    public static class Values {
+        public static final String PRST = "Prisoten";
+        public static final String ODST = "Odsoten";
+        public static final String ONLN = "Online";
+        public static final String POZN = "Pozen";
     }
-
-
-public static class Values {
-    public static final String PRST = "Prisoten";
-    public static final String ODST = "Odsoten";
-    public static final String ONLN = "Online";
-    public static final String POZN = "Pozen";
-}   
 
 }

@@ -52,7 +52,7 @@ public class Clan{
 
     @Basic(optional = false)
     @Enumerated(EnumType.STRING)
-    public UserRole role;
+    private UserRole role;
 
     private String password;
     @Column(updatable = false)
