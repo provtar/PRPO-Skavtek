@@ -3,30 +3,139 @@
 Repository for a project at the PRPO subject
 
 ## Gradnja in zagon projekta
-
-BUILD:
-
+Kot prvo build projekta
 ```
 mvn clean package
 ```
+Projekt po novem uporablja enviromental variables v persistence.xml datoteki, zato je treba poganjati s parametri.
+### Opcije za build docker slik lokalno
 
-ZAGON:
-
+#### Primer zagona z javo direktno (powershell, bash, ipd):
 ```
-java -jar api/target/api-1.0.0-SNAPSHOT.jar
+java -DDB_URL="jdbc:postgresql://localhost:5435/db" -DDB_USER=admin -DDB_PSW=admin -DDB_DRIVER="org.postgresql.Driver" -jar .\api\target\api-1.0.0-SNAPSHOT.jar
 ```
 
-DOSTOP do aplikacije:
-
-<http://localhost:8080/>
-
-#### Preden to delas spomni se zagnat docker
-
-Zagon docker compose fila
-
+#### Zagon v dockerju brez compose filu (ne vem zakaj bi si tega zelel)
 ```
-docker compose  -f .\entitete\src\main\resources\docker-compose.yaml up
+docker build -t skavtko:plain .
+docker run -e DB_URL="jdbc:postgresql://host.docker.internal:5435/db" -e DB_USER=admin -e DB_PSW=admin -e DB_DRIVER="org.postgresql.Driver" -p 8085:8080 skavtko:plain
 ```
+#### Zagon z rabo docker compose
+Lokalni docker deployment:
+```
+docker build -t skavtko:alpine-1 . 
+docker compose -f .\docker-compose-db.yaml up -d
+docker compose -f .\docker-compose-skavtko-local.yaml -d
+```
+Dostopa do databasa preko spremenljivk v .env datoteki (ki ni javna, ker jo docker ignora)
+```
+docker compose -f .\docker-compose-skavtko-supabase.yaml up -d
+```
+Primer .env fila:
+```
+DB_URL=jdbc:postgresql://db.com:5432/ime_db
+DB_USER=user
+DB_PSW=moje_geslo
+DB_DRIVER=org.postgresql.Driver
+```
+#### Zagon v kubernetesu
+##### Pogoji: usposobljen kubernetes na dockerju, kubectl
+Preveri, da ciljas na pravi cluster (docker-desktop):
+```
+kubectl config current-context
+kubectl config get-contexts
+```
+Za spremeniti context
+```
+kubectl config use-context <ime-context>
+```
+Nastavi podatke DB v secret dovolj narediti enkrat (nastavi podatke databasa, ki bos uporabil, to je za notranji container, ki si ga mores sam nastaviti v docker, ne deluje, ker nima dostopa do localhost):
+```
+kubectl create secret generic skavtko-db-secret --from-literal=DB_URL="jdbc:postgresql://host.docker.internal:5435/db" --from-literal=DB_USER=admin --from-literal=DB_PSW=admin --from-literal=DB_DRIVER="org.postgresql.Driver"
+```
+Nastavitev registry-ja za docker slike za kubernetes (docker tag se uporabi za taggat ze obstojeco sliko):
+```
+Kubernetes lokalno:
+docker run -d -p 5000:5000 --restart=always --name registry registry:2
+
+docker build -t localhost:5000/skavtko:k8s-2 .
+
+docker tag skavtko:alpine-1 localhost:5000/skavtko:k8s-2
+
+docker push localhost:5000/skavtko:k8s-2
+```
+Ustvari service za pod:
+```
+kubectl apply skavtko-service.yaml
+```
+Ustvari deployment na kubernetes:
+```
+kubectl create -f skavtko-deployment.yaml
+```
+Unici deployment po potrebi:
+```
+kubectl delete deployment skavtko-api
+```
+Uporabni ukazi za upravljanje s podi:
+```
+kubectl get secrets
+kubectl delete secret <ime-secret>
+kubectl get deployments
+kubectl get nodes
+```
+
+### Build za Oracle virtualko
+Login do repositorija:
+```
+docker login fra.ocir.io
+```
+#### Ustvarjanje docker slike
+Rabimo arm instance zato treba specificirati platformo
+``` 
+docker pull --platform linux/arm64/v8 openjdk:17-slim
+```
+Build slike (trenutno ni potrebno, ker je slika ze v registru):
+```
+docker build -t fra.ocir.io/frcrlvuwzvij/skavtko:api-1 --platform=linux/arm64/v8 -f oracle.Dockerfile .
+```
+V slucaju, da je se kje zbuildana slika:
+```
+docker tag <slika> fra.ocir.io/frcrlvuwzvij/skavtko:api-1
+```
+Push na Oracle registry:
+```
+docker push fra.ocir.io/frcrlvuwzvij/skavtko:api-1
+```
+#### Kubernetes deployment na oracle
+Login v cluster: dobis pri detajlih clusterja na oracle cloud spletni strani, podobno temu.
+```
+ oci ce cluster create-kubeconfig --cluster-id ocid1.cluster.oc1.eu-frankfurt-1.<veliko crk OCID> --file $HOME/.kube/config --region eu-frankfurt-1 --token-version 2.0.0  --kube-endpoint PUBLIC_ENDPOINT
+```
+Ustavri secret za dostop do registra:
+```
+kubectl create secret docker-registry ocr-login-secret --docker-server=<region-key>.ocir.io --docker-username=<tenancy-name>/<username>    --docker-password=<oci-api-key> --docker-email=<email>
+```
+Secret za dostop do db:
+```
+kubectl create secret generic supabase-db-login-secret --from-literal=DB_URL="jdbc:postgresql://host.docker.internal:5435/db" --from-literal=DB_USER=admin --from-literal=DB_PSW=admin --from-literal=DB_DRIVER="org.
+```
+Zazeni se service in pode:
+```
+kubectl apply -f skavtko-service-oracle.yaml
+kubectl apply -f skavtko-deployment-oracle.yaml
+```
+Za dostop poglej:
+```
+kubectl get svc
+```
+IP naslov load balancerja
+
+#### Razno
+Nek tutorial za aplikacijo na compute instance (mi tega ne bomo delali):
+https://docs.oracle.com/en/learn/java_app_ampere_oci/index.html
+
+
+### Stari podatki
 
 Startaj container:
 

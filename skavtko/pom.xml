@@ -40,23 +40,34 @@
                 <scope>import</scope>
             </dependency>
 
-<dependency>
-    <groupId>com.kumuluz.ee.openapi</groupId>
-    <artifactId>kumuluzee-openapi</artifactId>
-    <version>${kumuluzee-openapi.version}</version>
-</dependency><dependency>
-    <groupId>com.kumuluz.ee.openapi</groupId>
-    <artifactId>kumuluzee-openapi-ui</artifactId>
-    <version>${kumuluzee-openapi.version}</version>
-</dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency><dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi-ui</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
 
 
             <dependency>
- <groupId>org.postgresql</groupId>
- <artifactId>postgresql</artifactId>
- <version>${postgresql.version}</version>
- </dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>3.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-hikaricp</artifactId>
+                <version>5.4.1.Final</version>
+            </dependency>
             
+
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
