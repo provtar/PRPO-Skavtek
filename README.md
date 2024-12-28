@@ -26,7 +26,17 @@ Lokalni docker deployment:
 docker build -t skavtko:alpine-1 . 
 docker compose -f .\docker-compose-db.yaml up -d
 docker compose -f .\docker-compose-skavtko-local.yaml -d
+```
+Dostopa do databasa preko spremenljivk v .env datoteki (ki ni javna, ker jo docker ignora)
+```
 docker compose -f .\docker-compose-skavtko-supabase.yaml up -d
+```
+Primer .env fila:
+```
+DB_URL=jdbc:postgresql://db.com:5432/ime_db
+DB_USER=user
+DB_PSW=moje_geslo
+DB_DRIVER=org.postgresql.Driver
 ```
 #### Zagon v kubernetesu
 ##### Pogoji: usposobljen kubernetes na dockerju, kubectl
