@@ -1,0 +1,17 @@
+
+# Use postgres/example user/password credentials
+version: '3.9'
+
+services:
+  skavtko-supabase:
+    image: skavtko:alpine-1
+    restart: always
+    ports:
+      - 8083:8080
+    dns:
+      - 8.8.8.8
+    environment:
+      - DB_URL=${DB_URL}
+      - DB_USER=${DB_USER}
+      - DB_PSW=${DB_PSW}
+      - DB_DRIVER=${DB_DRIVER}
