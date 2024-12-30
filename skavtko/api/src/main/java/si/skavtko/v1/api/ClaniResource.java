@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import si.skavtko.dto.ClanAktivenDTO;
 import si.skavtko.dto.ClanDTO;
 import si.skavtko.zrna.ClanZrno;
 
@@ -109,17 +110,19 @@ public class ClaniResource {
         schema = @Schema(implementation = ClanDTO.class))),
         @ApiResponse(responseCode = "400", description = "Email ze v rabi, ali geslo ali email ni bilo podano")
     })
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/register")
     public Response addAktivenClan(
-        @Parameter(description = "Pove, kdo upravlja s clanom")@FormParam("ime")String ime,
-        @Parameter(description = "Priimek")@FormParam("priimek")String priimek,
-        @Parameter(description = "Email, mora biti enolicna za aktivnega clana", required = true)@FormParam("email")String email,
-        @Parameter(description = "Geslo, po moznosti varno", required = true)@FormParam("password")String password
+        // @Parameter(description = "Pove, kdo upravlja s clanom")@FormParam("ime")String ime,
+        // @Parameter(description = "Priimek")@FormParam("priimek")String priimek,
+        // @Parameter(description = "Email, mora biti enolicna za aktivnega clana", required = true)@FormParam("email")String email,
+        // @Parameter(description = "Geslo, po moznosti varno", required = true)@FormParam("password")String password
+        @Parameter(description = "Podatki potrebni za vpis, ni se validacije")
+            ClanAktivenDTO data
         ){
         ClanDTO ustvarjen = null;
         try{
-            ustvarjen = clanZrno.registrirajClana(ime, priimek, password, email);
+            ustvarjen = clanZrno.registrirajClana(data.getIme(), data.getPriimek(), data.getPassword(), data.getEmail());
         }catch(Exception e){
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }        

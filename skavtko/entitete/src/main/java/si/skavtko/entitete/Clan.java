@@ -62,6 +62,7 @@ public class Clan{
     @JoinColumn(name = "master")
     private Clan master;
 
+    // TODO delete, pusti samo na drugi strani (master manyTo ONe del)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "master", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Clan> varovanci;
