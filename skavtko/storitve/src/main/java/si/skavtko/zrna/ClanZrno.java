@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
@@ -105,6 +106,26 @@ public class ClanZrno {
         }catch(NonUniqueResultException nure){
             entityManager.getTransaction().rollback();
             throw nure;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
+            return null;
+        }
+        return data;
+    }
+
+    @Transactional
+    public ClanDTO login(String password, String email)
+    throws NoResultException{
+        entityManager.getTransaction().begin();
+        ClanDTO data = null;
+        try{
+            if(password == null || email == null) throw new ConstraintViolationException("Email ali priimek je null", null);
+            Clan user = entityManager.createNamedQuery("Clan.fromEmailInPassword", Clan.class).setParameter("email", email).setParameter("password", password).getSingleResult();
+            data = new ClanDTO(user);
+        }catch(NoResultException nre){
+            entityManager.getTransaction().rollback();
+            throw nre;
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();

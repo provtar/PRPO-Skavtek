@@ -27,7 +27,8 @@ import si.skavtko.entitete.enums.UserRole;
 
 @Entity
 @NamedQueries(value = {
-    @NamedQuery(name = "Clan.fromEmail", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email")
+    @NamedQuery(name = "Clan.fromEmail", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email"),
+    @NamedQuery(name = "Clan.fromEmailInPassword", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email and c.password = :password")
 })
 @Table(name = "clan")
 public class Clan{

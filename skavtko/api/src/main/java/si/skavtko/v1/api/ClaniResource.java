@@ -8,7 +8,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -127,6 +126,29 @@ public class ClaniResource {
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }        
         return Response.status(Status.CREATED).entity(ustvarjen).build();
+    }
+
+    @POST
+    @Operation(summary = "Ustvarjanje clana",
+        description = "Ce si to res ti, lahko vstopis")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "201", description = "Uspel si se loggat nutr", content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = ClanDTO.class))),
+        @ApiResponse(responseCode = "400", description = "Napacen username ali geslo")
+    })
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/login")
+    public Response login(
+        @Parameter(description = "Podatki potrebni za vpis, ni se validacije")
+            ClanAktivenDTO data
+        ){
+        ClanDTO user = null;
+        try{
+            user = clanZrno.login(data.getPassword(), data.getEmail());
+        }catch(Exception e){
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }        
+        return Response.status(Status.CREATED).entity(user).build();
     }
 
     @PUT
