@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClanDataService } from '../clan-data.service';
+import { ClanDataService } from '../services/clan-data.service';
 
 @Component({
   selector: 'app-register',

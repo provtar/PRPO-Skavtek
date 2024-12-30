@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { Clan } from './register/register.component';
+import { Clan } from '../register/register.component';
+import { GlobalVarService } from './global-var.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ClanDataService {
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private readonly gloabalVars: GlobalVarService) {}
 
-  private readonly apiUrl = "http://localhost:8080/v1";
+  public register(){
+
+  }
 
   public getClan(id: number): Observable<Clan>{
-    const url: string = `${this.apiUrl}/clani/${id}`;
+    const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani/${id}`;
     return this.http.get<Clan>(url).pipe(retry(1), catchError(this.handleError));
   }
 
@@ -21,3 +24,5 @@ export class ClanDataService {
     return throwError(() => err.error || err.statusText);
   }
 }
+
+
