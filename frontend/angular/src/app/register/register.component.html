@@ -1,9 +1,41 @@
-<h1>Neki</h1>
-<p>Tuki se registriras!</p>
-<div *ngFor="let clan of clani">
-  <h6>{{clan.ime}} {{clan.priimek}}</h6>
-  <p>{{clan.id}}</p>
-</div>
 <div>
-  <button (click)="dobiClana(1)"></button>
+  <form [formGroup]="registerForm" (ngSubmit)="registerSubmit()">
+    <div>
+      <label for="ime">Ime</label>
+      <input id="ime" formControlName="ime" />
+      <div *ngIf="registerForm.get('ime')?.invalid && registerForm.get('ime')?.touched">
+        <small class="error" *ngIf="registerForm.get('ime')?.hasError('required')">Ime is required.</small>
+        <small class="error" *ngIf="registerForm.get('ime')?.hasError('minlength')">Ime must be at least 2 characters long.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="priimek">Priimek</label>
+      <input id="priimek" formControlName="priimek" />
+      <div *ngIf="registerForm.get('priimek')?.invalid && registerForm.get('priimek')?.touched">
+        <small class="error" *ngIf="registerForm.get('priimek')?.hasError('required')">Priimek is required.</small>
+        <small class="error" *ngIf="registerForm.get('priimek')?.hasError('minlength')">Priimek must be at least 2 characters long.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="email">Email</label>
+      <input id="email" formControlName="email" />
+      <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+        <small class="error" *ngIf="registerForm.get('email')?.hasError('required')">Email is required.</small>
+        <small class="error" *ngIf="registerForm.get('email')?.hasError('email')">Please enter a valid email address.</small>
+      </div>
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+        <small class="error" *ngIf="registerForm.get('password')?.hasError('required')">Password is required.</small>
+        <small class="error" *ngIf="registerForm.get('password')?.hasError('minlength')">Password must be at least 6 characters long.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Submit</button>
+  </form>
 </div>

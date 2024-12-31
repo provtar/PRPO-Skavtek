@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { Clan } from '../register/register.component';
 import { GlobalVarService } from './global-var.service';
 
 @Injectable({
@@ -15,22 +14,14 @@ export class ClanDataService {
 
   }
 
-  public getClan(id: number): Observable<Clan>{
+  public getClan(id: number): Observable<ClanData>{
     const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani/${id}`;
-    return this.http.get<Clan>(url).pipe(retry(1), catchError(this.handleError));
+    return this.http.get<ClanData>(url).pipe(retry(1), catchError(this.handleError));
   }
 
   private handleError(err : HttpErrorResponse){
     return throwError(() => err.error || err.statusText);
   }
-}
-
-
-export class RegisterData {
-  ime!: string;
-  priimek!: string;
-  email!: string;
-  password!: string;
 }
 
 export class ClanData {
