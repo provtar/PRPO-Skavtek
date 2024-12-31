@@ -131,6 +131,7 @@ public class ClanZrno {
             entityManager.getTransaction().rollback();
             return null;
         }
+        entityManager.getTransaction().commit();
         return data;
     }
 

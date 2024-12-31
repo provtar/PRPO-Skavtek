@@ -26,3 +26,17 @@ export class ClanDataService {
 }
 
 
+export class RegisterData {
+  ime!: string;
+  priimek!: string;
+  email!: string;
+  password!: string;
+}
+
+export class ClanData {
+  id!: number;
+  ime!: string;
+  priimek!: string;
+  steg!: string;
+  skavtskoIme!: string;
+}

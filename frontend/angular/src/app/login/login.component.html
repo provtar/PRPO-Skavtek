@@ -1,1 +1,32 @@
-<p>login works!</p>
+<div>
+  <h3>Login</h3>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div>
+      <label for="email">Email</label>
+      <input
+        type="text"
+        id="email"
+        formControlName="email"
+      />
+      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+        <div *ngIf="loginForm.get('email')?.hasError('required')">Vstavite prosim elektronski naslov.</div>
+        <!-- <div *ngIf="loginForm.get('username')?.hasError('minlength')">Username must be at least 4 characters long.</div> -->
+      </div>
+    </div>
+
+    <div>
+      <label for="password">Geslo</label>
+      <input
+        type="password"
+        id="password"
+        formControlName="password"
+      />
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+        <div *ngIf="loginForm.get('password')?.hasError('required')">Vstavi geslo</div>
+        <!-- <div *ngIf="myForm.get('email')?.hasError('email')">Please enter a valid email address.</div> -->
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="loginForm.invalid">Vstopi</button>
+  </form>
+</div>
