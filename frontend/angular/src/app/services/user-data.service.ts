@@ -1,9 +1,19 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserDataService {
+  private varovanciSubject = new BehaviorSubject<Clan[]>([]);
+  // TODO inicializacija varovancev
+  varovanci$ = this.varovanciSubject.asObservable();
+
+  dodajVarovanca(varovanec: Clan){
+    const curr = this.varovanciSubject.value;
+    const updt = [...curr, varovanec];
+    this.varovanciSubject.next(updt);
+  }
 
   constructor() { }
 }

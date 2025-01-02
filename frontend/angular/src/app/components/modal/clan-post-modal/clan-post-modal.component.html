@@ -1,0 +1,63 @@
+<div *ngIf="isVisible" style="background-color: aquamarine;">
+  <div>
+    <form [formGroup]="clanPostForm" (ngSubmit)="clanPostSubmit()">
+      <div>
+        <label for="ime">Ime</label>
+        <input
+          type="text"
+          id="ime"
+          formControlName="ime"
+        />
+        <div *ngIf="clanPostForm.get('ime')?.invalid && clanPostForm.get('ime')?.touched" class="error">
+          <div *ngIf="clanPostForm.get('ime')?.hasError('required')">
+            Sam ce si zelva U imas eno crko dolgo ime.
+          </div>
+          <div *ngIf="clanPostForm.get('ime')?.hasError('minlength')">
+            Ziher ima ime.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="priimek">Priimek</label>
+        <input
+          type="text"
+          id="priimek"
+          formControlName="priimek"
+        />
+        <div *ngIf="clanPostForm.get('priimek')?.invalid && clanPostForm.get('priimek')?.touched" class="error">
+          <div *ngIf="clanPostForm.get('priimek')?.hasError('required')">
+            Vsakdo ima priimek.
+          </div>
+          <div *ngIf="clanPostForm.get('priimek')?.hasError('minlength')">
+            Prekratek priimek
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label for="steg">Steg</label>
+        <input
+          type="text"
+          id="steg"
+          formControlName="steg"
+        />
+      </div>
+
+      <div>
+        <label for="skavtskoIme">Skavtsko ime</label>
+        <input
+          type="text"
+          id="skavtskoIme"
+          formControlName="skavtskoIme"
+        />
+      </div>
+
+      <button type="submit" [disabled]="clanPostForm.invalid">Submit</button>
+    </form>
+    <div *ngIf="novClan">
+      <p>Dodal si novega clana: {{novClan.ime}}, {{novClan.priimek}}</p>
+    </div>
+    <button (click)="close()">Zapri</button>
+  </div>
+</div>
