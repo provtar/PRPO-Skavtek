@@ -1,15 +1,15 @@
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
-import { SkupinaComponent } from './components/skupina/skupina.component';
-import { SrecanjaComponent } from './components/srecanja/srecanja.component';
+import { HomeComponent } from './components/pages/home/home.component';
+import { NotFoundComponent } from './components/pages/not-found/not-found.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { RegisterComponent } from './components/pages/register/register.component';
+import { SkupinaComponent } from './components/pages/skupina/skupina.component';
+import { SrecanjaComponent } from './components/pages/srecanja/srecanja.component';
 import { NgModule } from '@angular/core';
 import { loggedGuard } from './logged.guard';
-import { AboutComponent } from './components/about/about.component';
+import { AboutComponent } from './components/pages/about/about.component';
 import { VarovanciComponent } from './components/varovanci/varovanci.component';
-import { ClanComponent } from './components/clan/clan.component';
+import { ClanComponent } from './components/pages/clan/clan.component';
 import { PrisotnostiComponent } from './components/prisotnosti/prisotnosti.component';
 
 export const routes: Routes = [

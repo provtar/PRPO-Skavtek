@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../../services/login.service';
-import { GlobalVarService } from '../../services/global-var.service';
+import { LoginService } from '../../../services/login.service';
+import { GlobalVarService } from '../../../services/global-var.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';

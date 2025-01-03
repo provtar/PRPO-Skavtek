@@ -1,9 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
-import { ClanPostModalComponent } from '../modal/clan-post-modal/clan-post-modal.component';
-import { Clan, UserDataService } from '../../services/user-data.service';
+import { ClanPostModalComponent } from '../../modal/clan-post-modal/clan-post-modal.component';
+import { Clan, UserDataService } from '../../../services/user-data.service';
 import { CommonModule } from '@angular/common';
-import { ClanPutModalComponent } from '../modal/clan-put-modal/clan-put-modal.component';
-import { ClanDataService } from '../../services/clan-data.service';
+import { ClanPutModalComponent } from '../../modal/clan-put-modal/clan-put-modal.component';
+import { ClanDataService } from '../../../services/clan-data.service';
 
 @Component({
   selector: 'app-home',

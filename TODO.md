@@ -18,9 +18,16 @@ Dodaj tagge varovancem, da jih je lazje izbirati (locis na npr. OU SV1, UM VV, I
 ### SKupina MS
 #### Dodajanje clanov
 Ne klicati poizvedbe za vsakega clana posebej
+#### Dodati lastnika skupinam
+Vsaka skupina ima svoje lastnike, isti za skupino in clane
 ### Srecanja MS
 #### SetBelezenje
 Endpoint za set belezenja na true
+#### Dodati lastnike srecanju
+Vsako srecanje ima svojega master, niso nujno isti kot za srecanje
+### Prisotnosti MS
+#### Lastniki
+Lastniki so isti kot za srecanje
 ## Frontend
 ### UserDataService
 Inicializacija varovancev, (dobiti podatke o ze obstojecih)
