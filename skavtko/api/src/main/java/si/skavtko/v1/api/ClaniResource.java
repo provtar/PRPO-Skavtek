@@ -3,6 +3,7 @@ package si.skavtko.v1.api;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -79,6 +80,25 @@ public class ClaniResource {
         @Parameter(description = "Id clana, ki ga isces", example = "2")
         @PathParam("id") Long id){
         ClanDTO result = clanZrno.getClan(id);
+        if(result == null)return Response.status(Status.NOT_FOUND).build();
+        
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("/{id}/varovanci")
+    @Operation(summary = "Iskanje varovancev clana",
+        description = "Lepo je vedeti kdo je pod tvojo odgovornostjo")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Tu so varovanci", content = @Content(mediaType = "application/json",
+            array = @ArraySchema(schema = @Schema(implementation = ClanDTO.class)))),
+            @ApiResponse(responseCode = "404", description = "Noben clan nima tega id-ja")
+    
+        })
+    public Response getVarovance(
+        @Parameter(description = "Id clana, katerega varovance isces", example = "2")
+        @PathParam("id") Long masterId){
+        List<ClanDTO> result = clanZrno.getVarovanci(masterId);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
         
         return Response.ok(result).build();

@@ -50,6 +50,12 @@ public class ClanZrno {
         return res;
     }
 
+    public List<ClanDTO> getVarovanci(Long masterId){
+        List<ClanDTO> res = entityManager.createNamedQuery("Varovanci.fromMaster", ClanDTO.class)
+            .setParameter("masterId", masterId).getResultList();
+        return res;
+    }
+
     @Transactional
     public ClanDTO dodajClana(ClanDTO data, Long id){
         entityManager.getTransaction().begin();

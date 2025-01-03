@@ -26,6 +26,14 @@ export class ClanDataService{
     );
   }
 
+  public getVarovanci(voditeljId: number): Observable<Clan[]>{
+    const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani/${voditeljId}/varovanci`;
+    return this.http.get<Clan[]>(url).pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+
   public postClan(data: ClanPostData, master: number) : Observable<Clan> {
     const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani`;
 
