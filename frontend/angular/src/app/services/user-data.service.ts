@@ -6,8 +6,19 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UserDataService {
   private varovanciSubject = new BehaviorSubject<Clan[]>([]);
-  // TODO inicializacija varovancev
+  private varovanciInitialized : boolean = false;
   varovanci$ = this.varovanciSubject.asObservable();
+
+  varovanciNotInit() {
+    return !this.varovanciInitialized;
+  }
+
+  initVarovanci(varovanci: Clan[]){
+    if(!this.varovanciInitialized){
+      this.varovanciSubject.next(varovanci);
+      this.varovanciInitialized = true;
+    }
+  }
 
   public dodajVarovanca(varovanec: Clan){
     const curr = this.varovanciSubject.value;

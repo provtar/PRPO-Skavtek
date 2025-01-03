@@ -20,6 +20,12 @@ export class HomeComponent {
   mojiVarovanci: Clan[] = [];
 
   ngOnInit(): void {
+    if(localStorage.getItem('user') && this.userData.varovanciNotInit()){
+      const user: Clan = JSON.parse(localStorage.getItem('user') as string);
+      this.clanData.getVarovanci(user.id).subscribe((response) => {
+        this.userData.initVarovanci(response);
+      })
+    }
     this.userData.varovanci$.subscribe((varovanci) => {
       this.mojiVarovanci = varovanci;
     });
