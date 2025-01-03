@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import si.skavtko.dto.PrisotnostDTO;
+import si.skavtko.dto.PrisotnostPutDTO;
 import si.skavtko.zrna.PrisotnostZrno;
 
 @Path("/prisotnosti")
@@ -88,7 +89,7 @@ public class PrisotnostResource {
     })
     public Response posodobi(
         @Parameter(description = "Seznam prisotnosti, ki jih zelis posodobiti")
-        List<PrisotnostDTO> prisotnosti){
+        List<PrisotnostPutDTO> prisotnosti){
         List<PrisotnostDTO> res = prisotnostZrno.posodobiPrisotnosti(prisotnosti);
         return Response.ok(res).build();
     }

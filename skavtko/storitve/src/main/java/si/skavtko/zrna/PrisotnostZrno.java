@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import si.skavtko.dto.ClanSkupineDTO;
 import si.skavtko.dto.PrisotnostDTO;
+import si.skavtko.dto.PrisotnostPutDTO;
 import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Prisotnost;
 import si.skavtko.entitete.Srecanje;
@@ -81,11 +82,11 @@ public class PrisotnostZrno {
     }
 
     @Transactional
-    public List<PrisotnostDTO> posodobiPrisotnosti(List<PrisotnostDTO> prisotnosti){
+    public List<PrisotnostDTO> posodobiPrisotnosti(List<PrisotnostPutDTO> prisotnosti){
         ArrayList<PrisotnostDTO> res = new ArrayList<>(prisotnosti.size());
         entityManager.getTransaction().begin();
         try{
-            for(PrisotnostDTO p : prisotnosti){
+            for(PrisotnostPutDTO p : prisotnosti){
                 Prisotnost prisotnost = entityManager.find(Prisotnost.class, p.getId());
                 if(prisotnost != null){ //TODO isto tukaj, sam poslt napako, ce je null?
                     prisotnost.setOpomba(p.getOpomba());
