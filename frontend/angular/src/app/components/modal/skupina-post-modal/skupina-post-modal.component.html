@@ -1,0 +1,9 @@
+<div *ngIf="isVisible" style="background-color: brown;">
+  <div *ngIf="!skupinaPosted">
+    <app-skupina-post-form #skupinaPostForm (skupinaPostSuccess)="onSkupinaPostSuccess()"></app-skupina-post-form>
+  </div>
+  <div *ngIf="skupinaPosted">
+    <p *ngIf="novaSkupina">Ustvaril si skupino: {{novaSkupina.ime}}</p>
+    <button (click)="close()">Zapri</button>
+  </div>
+</div>

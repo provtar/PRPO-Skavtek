@@ -34,6 +34,36 @@ export class UserDataService {
     this.varovanciSubject.next(novaTabla);
   }
 
+
+
+  private mojeSkupineSubject = new BehaviorSubject<Skupina[]>([]);
+  // TODO inicializacija varovancev
+  mojeSkupine$ = this.mojeSkupineSubject.asObservable();
+
+  public dodajSkupino(skupina: Skupina){
+    const curr = this.mojeSkupineSubject.value;
+    const updt = [...curr, skupina];
+    this.mojeSkupineSubject.next(updt);
+  }
+
+  public posodobiSkupino(skupina: Skupina){
+    const skupine = this.mojeSkupineSubject.value;
+    const target = skupine.find(s => s.id === skupina.id);
+
+    if(target){
+      target.ime = skupina.ime;
+      target.opis = skupina.opis;
+      target.povezave = skupina.povezave;
+    }
+    this.mojeSkupineSubject.next(skupine);
+  }
+
+  public odstraniSkupino(id: number) {
+    const tabla = this.mojeSkupineSubject.value;
+    var novaTabla = tabla.filter(skupina => skupina.id != id);
+    this.mojeSkupineSubject.next(novaTabla);
+  }
+
   constructor() { }
 }
 

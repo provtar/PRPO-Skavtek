@@ -8,9 +8,9 @@ import { SrecanjaComponent } from './components/pages/srecanja/srecanja.componen
 import { NgModule } from '@angular/core';
 import { loggedGuard } from './logged.guard';
 import { AboutComponent } from './components/pages/about/about.component';
-import { VarovanciComponent } from './components/varovanci/varovanci.component';
+import { VarovanciComponent } from './components/add-in/varovanci/varovanci.component';
 import { ClanComponent } from './components/pages/clan/clan.component';
-import { PrisotnostiComponent } from './components/prisotnosti/prisotnosti.component';
+import { PrisotnostiComponent } from './components/add-in/prisotnosti/prisotnosti.component';
 
 export const routes: Routes = [
   { path: '', component: AboutComponent},

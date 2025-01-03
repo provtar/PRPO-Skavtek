@@ -4,11 +4,12 @@ import { Clan, UserDataService } from '../../../services/user-data.service';
 import { CommonModule } from '@angular/common';
 import { ClanPutModalComponent } from '../../modal/clan-put-modal/clan-put-modal.component';
 import { ClanDataService } from '../../../services/clan-data.service';
+import { SkupinaPostModalButtonComponent } from "../../modal-button/skupina-post-modal-button/skupina-post-modal-button.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [ClanPostModalComponent, CommonModule, ClanPutModalComponent],
+  imports: [ClanPostModalComponent, CommonModule, ClanPutModalComponent, SkupinaPostModalButtonComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

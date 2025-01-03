@@ -20,6 +20,8 @@ Dodaj tagge varovancem, da jih je lazje izbirati (locis na npr. OU SV1, UM VV, I
 Ne klicati poizvedbe za vsakega clana posebej
 #### Dodati lastnika skupinam
 Vsaka skupina ima svoje lastnike, isti za skupino in clane
+#### Prazne skupine
+Ko ustvaris skupinio nima nobenega clana, lahko ostane sama, kako to resit? Delno se resi s tem, da imas admine skupin, ti so ze ob inicializacij dodani
 ### Srecanja MS
 #### SetBelezenje
 Endpoint za set belezenja na true
