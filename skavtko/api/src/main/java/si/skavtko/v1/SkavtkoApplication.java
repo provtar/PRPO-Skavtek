@@ -18,7 +18,9 @@ import io.swagger.v3.oas.annotations.servers.Server;
     license = @License()), 
     servers = @Server(url = "http://localhost:8080/v1"))
 @ApplicationPath("/v1")
-@CrossOrigin(name = "vsi", allowOrigin = "*")
+@CrossOrigin(name = "vsi", allowOrigin = "*",
+    supportedMethods = "GET,POST,HEAD,OPTIONS,PUT,DELETE"
+)
 public class SkavtkoApplication extends Application {
 
 }
