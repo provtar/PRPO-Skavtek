@@ -1,11 +1,15 @@
 <h3>Skavtko home page</h3>
 <button (click)="openClanPostModal()">Open Modal</button>
 
-<app-clan-post-modal #clanPostModal>
-</app-clan-post-modal>
+<app-clan-post-modal #clanPostModal></app-clan-post-modal>
 <h4>Moji varovanci</h4>
 <ul>
-  <li *ngFor="let varovanec of mojiVarovanci"><p>{{varovanec.ime}} {{varovanec.priimek}}</p></li>
+  <li *ngFor="let varovanec of mojiVarovanci">
+    <p>{{varovanec.ime}} {{varovanec.priimek}}</p>
+    <button (click)="openClanPutModal(varovanec)">Uredi</button>
+    <button (click)="odstraniVarovanca(varovanec.id)">Zbriši</button>
+  </li>
 </ul>
+<app-clan-put-modal #clanPutModal></app-clan-put-modal>
 <p>Skavtko je aplikacija...</p>
 <p>Zadnji post na skavtski sobi?</p>

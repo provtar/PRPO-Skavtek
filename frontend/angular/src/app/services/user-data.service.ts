@@ -15,6 +15,26 @@ export class UserDataService {
     this.varovanciSubject.next(updt);
   }
 
+  posodobiVarovanca(varovanec: Clan){
+    var vsiVar = this.varovanciSubject.value;
+    var target = vsiVar.find(varo => varo.id === varovanec.id);
+
+    if(target){
+      console.log("dobil")
+      target.ime = varovanec.ime;
+      target.priimek = varovanec.priimek;
+      target.steg = varovanec.steg;
+      target.skavtskoIme = varovanec.skavtskoIme;
+    }
+    this.varovanciSubject.next(vsiVar);
+  }
+
+  odstraniVarovanca(id: number) {
+    const tabla = this.varovanciSubject.value;
+    var novaTabla = tabla.filter(clan => clan.id != id);
+    this.varovanciSubject.next(novaTabla);
+  }
+
   constructor() { }
 }
 

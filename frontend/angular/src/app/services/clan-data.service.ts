@@ -42,7 +42,7 @@ export class ClanDataService{
   public putClan(data: ClanPutData) {
     const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani`;
 
-    return this.http.put(url, data).pipe(
+    return this.http.put<Clan>(url, data).pipe(
         retry(1),
         catchError(this.handleError)
       );
