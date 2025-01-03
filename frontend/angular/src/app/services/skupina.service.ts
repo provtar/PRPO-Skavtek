@@ -13,13 +13,13 @@ export class SkupinaService {
 
 constructor(private http: HttpClient, private globalVar: GlobalVarService) { }
 
-getSkupina(id: number){
+public getSkupina(id: number){
   const url = `${this.globalVar.skavtkoApiUrl}/skupine/${id}`;
 
   return this.http.get<Skupina>(url).pipe(retry(1), catchError(this.handleError));
 }
 
-getSkupinePoClanu(clanId: number){
+public getSkupinePoClanu(clanId: number){
   const url = `${this.globalVar.skavtkoApiUrl}/skupine`
   let params = new HttpParams().set('clanId', clanId.toString());
 
@@ -56,7 +56,7 @@ public deleteSkupina(id: number){
   );
 }
 
-getClaniSkupine(id: number){
+public getClaniSkupine(id: number){
   const url = `${this.globalVar.skavtkoApiUrl}/skupine/${id}/clani`
 
   return this.http.get<ClanSkupine[]>(url).pipe(retry(1), catchError(this.handleError));

@@ -11,13 +11,13 @@ export class SrecanjaService {
 
 constructor(private http: HttpClient, private globalVar: GlobalVarService) { }
 
-getSrecanje(id: number){
+public getSrecanje(id: number){
   const url = `${this.globalVar.skavtkoApiUrl}/srecanja/${id}`;
 
   return this.http.get<Srecanje>(url).pipe(retry(1), catchError(this.handleError));
 }
 
-getSrecanjaPoParametrih(clanId: number | null = null, skupinaId: number | null = null,
+public getSrecanjaPoParametrih(clanId: number | null = null, skupinaId: number | null = null,
   datumOd: Date | null = null, datumDo: Date | null = null){
   const url = `${this.globalVar.skavtkoApiUrl}/srecanja`;
   let params = new HttpParams();

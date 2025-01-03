@@ -9,13 +9,13 @@ export class UserDataService {
   // TODO inicializacija varovancev
   varovanci$ = this.varovanciSubject.asObservable();
 
-  dodajVarovanca(varovanec: Clan){
+  public dodajVarovanca(varovanec: Clan){
     const curr = this.varovanciSubject.value;
     const updt = [...curr, varovanec];
     this.varovanciSubject.next(updt);
   }
 
-  posodobiVarovanca(varovanec: Clan){
+  public posodobiVarovanca(varovanec: Clan){
     var vsiVar = this.varovanciSubject.value;
     var target = vsiVar.find(varo => varo.id === varovanec.id);
 
@@ -28,7 +28,7 @@ export class UserDataService {
     this.varovanciSubject.next(vsiVar);
   }
 
-  odstraniVarovanca(id: number) {
+  public odstraniVarovanca(id: number) {
     const tabla = this.varovanciSubject.value;
     var novaTabla = tabla.filter(clan => clan.id != id);
     this.varovanciSubject.next(novaTabla);

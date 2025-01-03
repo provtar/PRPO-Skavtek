@@ -18,11 +18,10 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'jaz', component: HomeComponent, canActivate: [loggedGuard]},
-  { path: 'skupina', component: SkupinaComponent, canActivate: [loggedGuard]},
+  { path: 'skupina', component: SkupinaComponent, canActivate: [loggedGuard]}, // TODO query param za skupino
   { path: 'srecanje', component: SrecanjaComponent, canActivate: [loggedGuard]}, // TODO dodat parametre na klic spa, EASY
-  { path: 'clan', component: ClanComponent, canActivate: [loggedGuard]},
-  { path: 'varovanci', component:VarovanciComponent, canActivate: [loggedGuard]},
-  { path: 'prisotnosti', component: PrisotnostiComponent, canActivate: [loggedGuard]},
+  { path: 'clan', component: ClanComponent, canActivate: [loggedGuard]}, //TODO id clana v parametre
+  // TODO sem pridejo se termini
   { path: '**', component: NotFoundComponent}
 ]
 
