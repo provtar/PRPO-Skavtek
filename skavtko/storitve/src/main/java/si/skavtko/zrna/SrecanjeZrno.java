@@ -61,7 +61,7 @@ public class SrecanjeZrno {
             Skupina skupina = entityManager.getReference(Skupina.class, idSkupine);
             if(skupina == null)throw new NoResultException("Skupine z id-jem "+ idSkupine + " ni!");
             novoSrecanje = new Srecanje();
-            novoSrecanje.setBelezenje(srecanje.getBelezenje());
+            novoSrecanje.setBelezenje(false);
             novoSrecanje.setDatumOd(srecanje.getDatumOd());
             novoSrecanje.setDatumDo(srecanje.getDatumDo());
             novoSrecanje.setIme(srecanje.getIme());

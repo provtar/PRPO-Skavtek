@@ -6,7 +6,7 @@ package si.skavtko.dto;
 // TODO se mu bo dodalo vlogo v skupini
 public class ClanSkupineDTO {
 
-    private Long id;
+    private Long clanId;
 
     private  String ime;
 
@@ -18,18 +18,18 @@ public class ClanSkupineDTO {
     }
 
     public ClanSkupineDTO(Long id, String ime, String priimek, String steg) {
-        this.id = id;
+        this.clanId = id;
         this.ime = ime;
         this.priimek = priimek;
         this.steg = steg;
     }
 
     public Long getId() {
-        return id;
+        return clanId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.clanId = id;
     }
 
     public String getIme() {
