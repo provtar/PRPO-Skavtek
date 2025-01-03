@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Clan, UserDataService } from '../../../services/user-data.service';
-import { ClanDataService, ClanPutData } from '../../../services/clan-data.service';
+import { ClanDataService, ClanPutData } from '../../../services/clan.service';
 import { GlobalVarService } from '../../../services/global-var.service';
 
 @Component({
