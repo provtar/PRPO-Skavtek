@@ -20,7 +20,6 @@ export class UserDataService {
     var target = vsiVar.find(varo => varo.id === varovanec.id);
 
     if(target){
-      console.log("dobil")
       target.ime = varovanec.ime;
       target.priimek = varovanec.priimek;
       target.steg = varovanec.steg;
@@ -41,40 +40,40 @@ export class UserDataService {
 //tukaj so tudi vsi razredi
 
 export class Clan {
-  id!: number;
+  readonly id!: number;
   ime!: string;
   priimek!: string;
-  steg!: string;
-  skavtskoIme!: string;
+  steg?: string | null;
+  skavtskoIme?: string | null;
 }
 
 export class Skupina{
-  id!: number;
+  readonly id!: number;
   ime!: string;
-  opis!: string;
+  opis?: string | null;
   povezave!: Povezava[];
 }
 
 // OPOMBA - bodi pozoren, da ko inicializiras convertas v Date
 export class Srecanje {
-  id!: number;
+  readonly id!: number;
   ime!: string;
-  datumOd!: Date;
-  datumDo!: Date;
-  kraj!: string;
-  opis!: string;
+  datumOd?: Date | null;
+  datumDo?: Date | null;
+  kraj?: string | null;
+  opis?: string | null;
   belezenje!: boolean;
-  idSkupine!: number;
+  readonly idSkupine!: number;
 }
 
 export class Prisotnost {
-  id!: number;
+  readonly id!: number;
   prisotnost!: string;
-  opomba!: string;
-  idClana!: number;
+  opomba?: string | null;
+  readonly idClana!: number;
   imeClana!: string;
-  priiemkClana!: string;
-  idSrecanja!: number;
+  priimekClana!: string;
+  readonly idSrecanja!: number;
   imeSrecanja!: string;
 }
 
@@ -84,8 +83,8 @@ export class Povezava {
 }
 
 export class ClanSkupine {
-  id!: number;
+  readonly clanId!: number;
   ime!: string;
   priimek!: string;
-  steg!: string;
+  steg?: string | null;
 }

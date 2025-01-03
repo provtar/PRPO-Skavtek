@@ -29,6 +29,9 @@ export class ClanDataService{
   public postClan(data: ClanPostData, master: number) : Observable<Clan> {
     const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani`;
 
+    if(!data.skavtskoIme) data.skavtskoIme = null;
+    if(!data.steg) data.steg = null;
+
     const headers = new HttpHeaders({
       'master': `${master}`,
     })
@@ -42,13 +45,16 @@ export class ClanDataService{
   public putClan(data: ClanPutData) {
     const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani`;
 
+    if(!data.skavtskoIme) data.skavtskoIme = null;
+    if(!data.steg) data.steg = null;
+
     return this.http.put<Clan>(url, data).pipe(
         retry(1),
         catchError(this.handleError)
       );
   }
 
-  public deleteClan(id: number): Observable<Clan>{
+  public deleteClan(id: number){
     const url: string = `${this.gloabalVars.skavtkoApiUrl}/clani/${id}`;
     return this.http.delete<Clan>(url).pipe(
       retry(1),
@@ -66,8 +72,8 @@ export class ClanDataService{
 export class ClanPostData {
   ime!: string;
   priimek!: string;
-  steg!: string;
-  skavtskoIme!: string;
+  steg?: string | null;
+  skavtskoIme?: string | null;
 }
 
 export class ClanPutData extends Clan {}

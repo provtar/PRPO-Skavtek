@@ -1,5 +1,7 @@
 # TODO
 ## Backend
+### Dodat put in post DTO-je
+Samo s podatki, ki so potrebni
 ### Clani MS
 #### Error responsi api:
 Gravity: lahko kasneje, sam da api vraca neke jasne napake
@@ -9,6 +11,16 @@ Gravity: lahko kasneje, sam da api vraca neke jasne napake
 Zbrisi vec clanov na enkrat
 #### Nov endpoint
 Dobi svoje Varovance
-
+#### Dodatna tabela oziroma povezava
+Vec voditeljev (masterjev) za vsakega varovanca
+#### Varovanci LATER
+Dodaj tagge varovancem, da jih je lazje izbirati (locis na npr. OU SV1, UM VV, Izvidniki Lj4...)
+### SKupina MS
+#### Dodajanje clanov
+Ne klicati poizvedbe za vsakega clana posebej
+### Srecanja MS
+#### SetBelezenje
+Endpoint za set belezenja na true
 ## Frontend
-Inicializacija varovancev
+### UserDataService
+Inicializacija varovancev, (dobiti podatke o ze obstojecih)
