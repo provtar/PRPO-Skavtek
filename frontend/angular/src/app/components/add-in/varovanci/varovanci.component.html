@@ -1,1 +1,14 @@
-<p>varovanci works!</p>
+  <div>
+  <h4>Moji varovanci</h4>
+  <button (click)="openClanPostModal()">Dodaj varovanca</button>
+  <ul>
+    <li *ngFor="let varovanec of mojiVarovanci">
+      <p>{{varovanec.ime}} {{varovanec.priimek}}</p>
+      <button (click)="openClanPutModal(varovanec)">Uredi</button>
+      <button (click)="odstraniVarovanca(varovanec.id)">Zbriši</button>
+    </li>
+  </ul>
+  <!-- Modalna okna za upravljanje varovancev -->
+  <app-clan-put-modal #clanPutModal></app-clan-put-modal>
+  <app-clan-post-modal #clanPostModal></app-clan-post-modal>
+</div>
