@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GlobalVarService } from './global-var.service';
-import { Srecanje } from './user-data.service';
+import { GlobalVarService } from './data/global-var.service';
+import { Srecanje } from './data/user-data.service';
 import { catchError, retry, throwError } from 'rxjs';
 
 @Injectable({

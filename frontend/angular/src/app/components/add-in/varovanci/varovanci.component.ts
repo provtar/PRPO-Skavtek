@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { ClanPostModalComponent } from "../../modal/clan-post-modal/clan-post-modal.component";
 import { ClanPutModalComponent } from "../../modal/clan-put-modal/clan-put-modal.component";
-import { Clan, UserDataService } from '../../../services/user-data.service';
+import { Clan, UserDataService } from '../../../services/data/user-data.service';
 import { ClanDataService } from '../../../services/clan.service';
 import { CommonModule } from '@angular/common';
 

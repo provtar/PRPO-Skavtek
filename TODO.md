@@ -2,6 +2,8 @@
 ## Backend
 ### Dodat put in post DTO-je
 Samo s podatki, ki so potrebni
+### Sinhronizacija podatkov vec uporabnikov (je na ravni komponente ali servisa?)
+Spremeniti podatke in popsodobiti preden se klice funkcijo na frontendu (mozna resitev), pogledaj online kako se psroti posodablja podatke, kako preverjat ìi spremembe, klicati get pri vsaki metodi in posodabljati stalno? (ne samo prvic on Init, timeout => {update se klice po nekaj sekundah, oz ponovno klice funkcijo, sama pa returna})
 ### Clani MS
 #### Error responsi api:
 Gravity: lahko kasneje, sam da api vraca neke jasne napake
@@ -18,6 +20,8 @@ Dodaj tagge varovancem, da jih je lazje izbirati (locis na npr. OU SV1, UM VV, I
 ### SKupina MS
 #### Dodajanje clanov
 Ne klicati poizvedbe za vsakega clana posebej
+#### Popolna prenova clanov LATER
+Zbrisi clane za to skupino in daj seznam novih
 #### Dodati lastnika skupinam
 Vsaka skupina ima svoje lastnike, isti za skupino in clane
 #### Prazne skupine

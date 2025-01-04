@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClanDataService } from '../../../services/clan.service';
-import { Clan, UserDataService } from '../../../services/user-data.service';
+import { Clan, UserDataService } from '../../../services/data/user-data.service';
 
 @Component({
   selector: 'app-clan-post-modal',

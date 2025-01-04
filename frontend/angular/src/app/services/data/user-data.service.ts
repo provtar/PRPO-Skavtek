@@ -5,6 +5,11 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UserDataService {
+
+  user!: Clan;
+  public initUser() {
+    this.user = JSON.parse(localStorage.getItem('user')!);
+  }
   private varovanciSubject = new BehaviorSubject<Clan[]>([]);
   private varovanciInitialized : boolean = false;
   varovanci$ = this.varovanciSubject.asObservable();
@@ -48,8 +53,19 @@ export class UserDataService {
 
 
   private mojeSkupineSubject = new BehaviorSubject<Skupina[]>([]);
-  // TODO inicializacija varovancev
+  private mojeSkupineInitialized = false;
   mojeSkupine$ = this.mojeSkupineSubject.asObservable();
+
+  mojeSkupineNotInit() {
+    return !this.mojeSkupineInitialized;
+  }
+
+  initMojeSkupine(skupine: Skupina[]){
+    if(!this.mojeSkupineInitialized){
+      this.mojeSkupineSubject.next(skupine);
+      this.mojeSkupineInitialized = true;
+    }
+  }
 
   public dodajSkupino(skupina: Skupina){
     const curr = this.mojeSkupineSubject.value;

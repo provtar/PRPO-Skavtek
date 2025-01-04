@@ -1,10 +1,10 @@
 import { query } from '@angular/animations';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ClanSkupine, Povezava, Skupina } from './user-data.service';
+import { ClanSkupine, Povezava, Skupina } from './data/user-data.service';
 import { UrlCodec } from '@angular/common/upgrade';
-import { GlobalVarService } from './global-var.service';
-import { catchError, retry, throwError } from 'rxjs';
+import { GlobalVarService } from './data/global-var.service';
+import { catchError, Observable, retry, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

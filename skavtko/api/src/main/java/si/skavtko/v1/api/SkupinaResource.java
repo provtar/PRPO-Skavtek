@@ -77,9 +77,9 @@ public class SkupinaResource {
         
 
         
-        if(clani.size() == 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        // if(clani.size() == 0){
+        //     return Response.status(Status.NOT_FOUND).build();
+        // }
 
         return Response.ok(clani).build();
     }
@@ -97,9 +97,9 @@ public class SkupinaResource {
         @QueryParam("clanId") Long clanId){
         List<SkupinaClanaDTO> skupine = skupinaZrno.getSkupinePoClanu(clanId);
         
-        if(skupine.size() == 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        // if(skupine.size() == 0){
+        //     return Response.status(Status.NOT_FOUND).build();
+        // }
 
         return Response.ok(skupine).build();
     }

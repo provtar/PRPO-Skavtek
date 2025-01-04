@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Clan, UserDataService } from '../../../services/user-data.service';
+import { Clan, UserDataService } from '../../../services/data/user-data.service';
 import { ClanDataService, ClanPutData } from '../../../services/clan.service';
-import { GlobalVarService } from '../../../services/global-var.service';
+import { GlobalVarService } from '../../../services/data/global-var.service';
 
 @Component({
   selector: 'app-clan-put-modal',

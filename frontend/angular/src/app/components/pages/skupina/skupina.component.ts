@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserDataService } from '../../../services/data/user-data.service';
 
 @Component({
   selector: 'app-skupina',
@@ -8,6 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './skupina.component.css'
 })
 export class SkupinaComponent {
+
+  constructor(private userData: UserDataService) {}
+
+  ngOnInit(){
+    this.userData.initUser();
+  }
 
   // ngOnInit(){
   //   if(localStorage.getItem('user') && this.userData.varovanciNotInit()){

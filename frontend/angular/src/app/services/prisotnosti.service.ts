@@ -1,8 +1,8 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GlobalVarService } from './global-var.service';
+import { GlobalVarService } from './data/global-var.service';
 import { catchError, retry, throwError } from 'rxjs';
-import { Prisotnost } from './user-data.service';
+import { Prisotnost } from './data/user-data.service';
 
 @Injectable({
   providedIn: 'root'

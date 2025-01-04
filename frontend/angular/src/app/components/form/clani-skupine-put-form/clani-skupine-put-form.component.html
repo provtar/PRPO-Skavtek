@@ -1,0 +1,20 @@
+<div>
+  <form [formGroup]="claniPutForm" (ngSubmit)="onSubmit()" *ngIf="!submitted">
+    <p>Dodaj clane:</p>
+    <div formArrayName="izbraniClani">
+      <div *ngFor="let ckbx of selectedOptions.controls; let i = index" [formGroupName]="i">
+        <label>
+          <input
+            type="checkbox"
+            (change)="onCheckboxChange($event, clani.at(i)!.id)" formControlName="checked">
+        </label>
+        {{ clani.at(i)!.ime }}
+      </div>
+    </div>
+
+    <button type="submit">Dodaj</button>
+  </form>
+  <div *ngIf="submitted">
+    <p>Uspesno si dodal clane</p>
+  </div>
+</div>

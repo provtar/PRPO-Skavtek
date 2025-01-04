@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserDataService } from '../../../services/data/user-data.service';
 
 @Component({
   selector: 'app-srecanja',
@@ -8,5 +9,11 @@ import { Component } from '@angular/core';
   styleUrl: './srecanja.component.css'
 })
 export class SrecanjaComponent {
+
+  constructor(private userData: UserDataService) {}
+
+  ngOnInit(){
+    this.userData.initUser();
+  }
 
 }

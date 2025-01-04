@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Povezava, Skupina} from '../../../services/user-data.service';
+import { Povezava, Skupina} from '../../../services/data/user-data.service';
 import { SkupinaPostData, SkupinaService } from '../../../services/skupina.service';
 import { CommonModule } from '@angular/common';
 
