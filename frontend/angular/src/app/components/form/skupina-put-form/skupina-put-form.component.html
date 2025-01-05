@@ -1,64 +1,64 @@
 <div>
-<form [formGroup]="skupinaPutForm" (ngSubmit)="skupinaPutSubmit()" *ngIf="!submitSuccessfull">
-  <div>
-    <label for="ime">Ime</label>
-    <input
-      type="text"
-      formControlName="ime"
-    />
-    <div *ngIf="skupinaPutForm.get('ime')?.invalid && skupinaPutForm.get('ime')?.touched">
-      <div *ngIf="skupinaPutForm.get('ime')?.hasError('required')">
-        Ziher skupina ima ime.
-      </div>
-      <div *ngIf="skupinaPutForm.get('ime')?.hasError('minlength')">
-        Uporabi malo vec fantazije
+  <form [formGroup]="skupinaPutForm" (ngSubmit)="skupinaPutSubmit()" *ngIf="!submitSuccessfull">
+    <div>
+      <label for="ime">Ime</label>
+      <input
+        type="text"
+        formControlName="ime"
+      />
+      <div *ngIf="skupinaPutForm.get('ime')?.invalid && skupinaPutForm.get('ime')?.touched">
+        <div *ngIf="skupinaPutForm.get('ime')?.hasError('required')">
+          Ziher skupina ima ime.
+        </div>
+        <div *ngIf="skupinaPutForm.get('ime')?.hasError('minlength')">
+          Uporabi malo vec fantazije
+        </div>
       </div>
     </div>
-  </div>
 
-  <div>
-    <label for="opis">Opis</label>
-    <input
-      type="text"
-      formControlName="opis"
-    />
-  </div>
-
-  <div formArrayName="povezave">
-    <div *ngFor="let povezavaForm of povezave().controls; let i = index" [formGroupName]="i">
-      <div>
-        <label for="name">Alias: </label>
-        <input formControlName="name" type="text" placeholder="Alias linka: ">
-      </div>
-      <div *ngIf="povezavaForm.get('name') && povezavaForm.get('name')?.touched">
-        <div *ngIf="povezavaForm.get('name')?.hasError('required')">
-          Napisi prepoznavno ime
-        </div>
-        <div *ngIf="povezavaForm.get('name')?.hasError('minlength')">
-          Povezava more imet nek alias
-        </div>
-      </div>
-
-      <div>
-        <label for="link">Povezava: </label>
-        <input formControlName="link" type="text" placeholder="Povezava">
-      </div>
-      <div *ngIf="povezavaForm.get('link')?.invalid && povezavaForm.get('link')?.touched">
-        <div *ngIf="povezavaForm.get('link')?.hasError('required')">
-          Ziher ni tko kratka
-        </div>
-        <div *ngIf="povezavaForm.get('link')?.hasError('minlength')">
-          Vstavi nek https:// pa nekaj...
-        </div>
-      </div>
-
-      <button type="button" (click)="removePovezava(i)">Zbrisi</button>
+    <div>
+      <label for="opis">Opis</label>
+      <input
+        type="text"
+        formControlName="opis"
+      />
     </div>
-  </div>
 
-  <button type="button" (click)="addPovezava()">Dodaj povezavo</button>
-  <button type="submit" [disabled]="skupinaPutForm.invalid">Submit</button>
-</form>
+    <div formArrayName="povezave">
+      <div *ngFor="let povezavaForm of povezave().controls; let i = index" [formGroupName]="i">
+        <div>
+          <label for="name">Alias: </label>
+          <input formControlName="name" type="text" placeholder="Alias linka: ">
+        </div>
+        <div *ngIf="povezavaForm.get('name') && povezavaForm.get('name')?.touched">
+          <div *ngIf="povezavaForm.get('name')?.hasError('required')">
+            Napisi prepoznavno ime
+          </div>
+          <div *ngIf="povezavaForm.get('name')?.hasError('minlength')">
+            Povezava more imet nek alias
+          </div>
+        </div>
+
+        <div>
+          <label for="link">Povezava: </label>
+          <input formControlName="link" type="text" placeholder="Povezava">
+        </div>
+        <div *ngIf="povezavaForm.get('link')?.invalid && povezavaForm.get('link')?.touched">
+          <div *ngIf="povezavaForm.get('link')?.hasError('required')">
+            Ziher ni tko kratka
+          </div>
+          <div *ngIf="povezavaForm.get('link')?.hasError('minlength')">
+            Vstavi nek https:// pa nekaj...
+          </div>
+        </div>
+
+        <button type="button" (click)="removePovezava(i)">Zbrisi</button>
+      </div>
+    </div>
+
+    <button type="button" (click)="addPovezava()">Dodaj povezavo</button>
+    <button type="submit" [disabled]="skupinaPutForm.invalid">Submit</button>
+  </form>
 <div *ngIf="submitSuccessfull">
   <p>Uspesno si posodobil skupino</p>
 </div>

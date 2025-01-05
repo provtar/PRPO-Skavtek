@@ -9,7 +9,7 @@ import { GlobalVarService } from '../../../services/data/global-var.service';
 @Component({
   selector: 'app-skupina-put-modal',
   standalone: true,
-  imports: [ClaniSkupinePutFormComponent, SkupinaPutFormComponent, CommonModule],
+  imports: [SkupinaPutFormComponent, CommonModule],
   templateUrl: './skupina-put-modal.component.html',
   styleUrl: './skupina-put-modal.component.css'
 })

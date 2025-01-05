@@ -1,0 +1,54 @@
+<div>
+  <form [formGroup]="srecanjePostForm" (ngSubmit)="submitForm()">
+    <div>
+      <label for="ime">Ime:</label>
+      <input id="ime" formControlName="ime" type="text" />
+      <div *ngIf="srecanjePostForm.controls['ime'].invalid && srecanjePostForm.controls['ime'].touched">
+        <p *ngIf="srecanjePostForm.controls['ime'].hasError('required')">Ime is required.</p>
+      </div>
+    </div>
+
+    <div>
+      <label for="datumOd">Datum Od:</label>
+      <input id="datumOd" formControlName="datumOd" type="date" />
+      <input formControlName="uraOd" type="time" />
+      <div *ngIf="srecanjePostForm.controls['uraOd'].invalid && srecanjePostForm.controls['uraOd'].touched">
+        <p *ngIf="srecanjePostForm.controls['uraOd'].hasError('required')">Izberite prosim uro.</p>
+        <!-- settaj default date in tima-->
+        <!-- TODO custom opomba za datum, ki je minil, da te opozori, ni èa validator, tako ti vsaj dovoli submittat -->
+      </div>
+      <p style="background-color: red;">Opomba za programera, dodaj default vrednosti za uro in datum</p>
+    </div>
+
+    <div>
+      <label for="datumDo">Datum Do:</label>
+      <input id="datumDo" formControlName="datumDo" type="date" />
+      <div *ngIf="srecanjePostForm.controls['datumDo'].invalid && srecanjePostForm.controls['datumDo'].touched">
+        <p *ngIf="srecanjePostForm.controls['datumDo'].hasError('required')">Izberite prosim datum.</p>
+        <!-- TODO custom opomba za datum, ki je minil, da te opozori, ni èa validator, tako ti vsaj dovoli submittat -->
+      </div>
+      <input formControlName="uraDo" type="time" />
+      <div *ngIf="srecanjePostForm.controls['uraDo'].invalid && srecanjePostForm.controls['uraDo'].touched">
+        <p *ngIf="srecanjePostForm.controls['uraDo'].hasError('required')">Izberite prosim uro.</p>
+        <!-- settaj default date in tima-->
+        <!-- TODO custom opomba za datum, ki je minil, da te opozori, ni èa validator, tako ti vsaj dovoli submittat -->
+      </div>
+      <p style="background-color: red;">Opomba za programera, dodaj default vrednosti za uro in datum</p>
+    </div>
+
+    <div>
+      <label for="kraj">Kraj:</label>
+      <input id="kraj" formControlName="kraj" type="text" />
+    </div>
+
+    <div>
+      <label for="opis">Opis:</label>
+      <textarea id="opis" formControlName="opis"></textarea>
+    </div>
+
+    <button type="submit" [disabled]="srecanjePostForm.invalid">Ustvari</button>
+  </form>
+  <div *ngIf="submitSuccessfull">
+    <p>Uspesno si dodal srecanje</p>
+  </div>
+</div>

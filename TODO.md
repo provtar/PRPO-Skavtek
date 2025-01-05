@@ -31,6 +31,10 @@ Ko ustvaris skupinio nima nobenega clana, lahko ostane sama, kako to resit? Deln
 Endpoint za set belezenja na true
 #### Dodati lastnike srecanju
 Vsako srecanje ima svojega master, niso nujno isti kot za srecanje
+#### Dodati linke na srecanje QUICK
+- Dodaj v entiteto, v dtoje
+- V frontend, dodaj v Srecanja/PutData/postData in vizualizacijo
+- V frontend - dodaj v form CV iz kupin
 ### Prisotnosti MS
 #### Lastniki
 Lastniki so isti kot za srecanje

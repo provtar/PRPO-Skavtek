@@ -115,8 +115,8 @@ export class Skupina{
 export class Srecanje {
   readonly id!: number;
   ime!: string;
-  datumOd?: Date | null;
-  datumDo?: Date | null;
+  datumOd!: Date;
+  datumDo!: Date;
   kraj?: string | null;
   opis?: string | null;
   belezenje!: boolean;

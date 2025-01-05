@@ -32,8 +32,8 @@ public getSrecanjaPoParametrih(clanId: number | null = null, skupinaId: number |
 public postSrecanje(data: SrecanjePostData) {
     const url: string = `${this.globalVar.skavtkoApiUrl}/srecanja`;
 
-    if(!data.datumOd)data.datumOd = null;
-    if(!data.datumDo)data.datumDo = null;
+    // if(!data.datumOd)data.datumOd = null;
+    // if(!data.datumDo)data.datumDo = null;
     if(!data.kraj)data.kraj = null;
     if(!data.opis)data.opis = null;
 
@@ -46,8 +46,8 @@ public postSrecanje(data: SrecanjePostData) {
 public putSrecanje(data: SrecanjePutData) {
   const url: string = `${this.globalVar.skavtkoApiUrl}/srecanja`;
 
-  if(!data.datumOd)data.datumOd = null;
-  if(!data.datumDo)data.datumDo = null;
+  // if(!data.datumOd)data.datumOd = null;
+  // if(!data.datumDo)data.datumDo = null;
   if(!data.kraj)data.kraj = null;
   if(!data.opis)data.opis = null;
 
@@ -71,19 +71,28 @@ private handleError(err : HttpErrorResponse){
 }
 
 export class SrecanjePostData {
+  constructor(skupinaId: number){
+    this.idSkupine = skupinaId;
+  }
+
   ime!: string;
-  datumOd?: Date | null;
-  datumDo?: Date | null;
+  datumOd!: Date;
+  datumDo!: Date;
   kraj?: string | null;
   opis?: string | null;
-  idSkupine!: number;
+  readonly idSkupine!: number;
 }
 
 export class SrecanjePutData {
+  constructor(id: number, skupinaId: number){
+    this.id = id;
+    this.idSkupine = skupinaId;
+  }
+
   readonly id!: number;
   ime!: string;
-  datumOd?: Date | null;
-  datumDo?: Date | null;
+  datumOd!: Date;
+  datumDo!: Date;
   kraj?: string | null;
   opis?: string | null;
   readonly idSkupine!: number;
