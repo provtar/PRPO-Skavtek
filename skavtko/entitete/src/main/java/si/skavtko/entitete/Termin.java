@@ -24,14 +24,28 @@ import si.skavtko.entitete.enums.TipTermina;
     @NamedQuery(name = "Termini.fromOdDoClan",
     query = "select new si.skavtko.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip, t.clan.ime, t.clan.priimek) "+
     "from Termin t JOIN t.clan c ON (c.id = :clanId) "+
-    "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd;"),
+    "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd"),
     @NamedQuery(name = "Termini.fromOdDoClanKratko",
     query = "select new si.skavtko.dto.TerminKratkoDTO(t.id, t.datumOd, t.datumDo, t.tip) "+
     "from Termin t JOIN t.clan c ON (c.id = :clanId) "+
-    "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd;")
+    "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd")
 })
 
 public class Termin {
+
+    public Termin(LocalDateTime datumOd, LocalDateTime datumDo, Clan clan, TipTermina tip) {
+        if (datumOd == null || datumDo == null || clan == null || tip == null) {
+            throw new IllegalArgumentException("Podani morajo biti vsi parametri");
+        }
+        if (datumOd.isAfter(datumDo)) {
+            throw new IllegalArgumentException("'datumOd' mora biti pred 'datumDo'.");
+        }
+
+        this.datumOd = datumOd;
+        this.datumDo = datumDo;
+        this.clan = clan;
+        this.tip = tip;
+    }
 
     @Id
     @GeneratedValue(strategy =  GenerationType.SEQUENCE)

@@ -17,7 +17,7 @@ public enum TipTermina {
 
     public String getValue() {
             return value;
-        }
+    }
 
 
     public static class Values {
