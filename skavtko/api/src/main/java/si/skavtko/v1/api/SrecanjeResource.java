@@ -108,14 +108,11 @@ public class SrecanjeResource {
             @ApiResponse(responseCode = "201", description = "Ustvaril si novo srecanje", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = SrecanjeDTO.class)))
         })
-    @Path("/skupina/{skupinaId}")
     public Response addResource(
         @Parameter(description = "Podatki srecanja, ki ga ustvarjas")
-        SrecanjeDTO data, 
-        @Parameter(description = "Id skupine za katero srecanje ustvarjas", example = "5")
-        @PathParam("skupinaId") Long skupinaId){
+        SrecanjeDTO data){
 
-        SrecanjeDTO novoSrecanje = srecanjeZrno.novoSrecanje(data, skupinaId);
+        SrecanjeDTO novoSrecanje = srecanjeZrno.novoSrecanje(data, data.getIdSkupine());
         
         return Response.status(Status.CREATED).entity(novoSrecanje).build();
     }

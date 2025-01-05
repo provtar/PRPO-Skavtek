@@ -29,8 +29,8 @@ public getSrecanjaPoParametrih(clanId: number | null = null, skupinaId: number |
   return this.http.get<Srecanje[]>(url, { params }).pipe(retry(1), catchError(this.handleError));
 }
 
-public postSrecanje(data: SrecanjePostData, skupinaId: number) {
-    const url: string = `${this.globalVar.skavtkoApiUrl}/srecanja/skupina/${skupinaId}`;
+public postSrecanje(data: SrecanjePostData) {
+    const url: string = `${this.globalVar.skavtkoApiUrl}/srecanja`;
 
     if(!data.datumOd)data.datumOd = null;
     if(!data.datumDo)data.datumDo = null;
