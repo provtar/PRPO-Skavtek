@@ -1,6 +1,15 @@
-<div>
+<div *ngIf="isVisible">
   <div>
-    <h5>Dodaj: clane</h5>
-    <app-clani-skupine-put-form ></app-clani-skupine-put-form>
+      <!-- urediSkupino -->
+      <!-- preglej clane in jih odstrani -->
+      <!-- dodaj clane  -->
+      <app-skupina-put-form #skupinaPutForm [skupina]="this.skupina" (submitSuccess)="this.onSkupinaSubmitSuccess()"></app-skupina-put-form>
+      <div *ngIf="!putClani">
+        <button (click)="dodajClane()">Dodaj clane</button>
+      </div>
+      <div *ngIf="putClani">
+        <app-clani-skupine-put-form #claniSkupinePutForm [skupinaId]="this.skupina.id" (submitSuccess)="onClaniSubmitSuccess()"></app-clani-skupine-put-form>
+      </div>
+      <button (click)="close()">Zapri</button>
   </div>
 </div>

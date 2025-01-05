@@ -112,7 +112,7 @@ export class SkupinaPostData {
 }
 
 export class SkupinaPutData {
-  readonly id!: number;
+  id!: number;
   ime!: string;
   opis: string | null = null;
   povezave!: Povezava[];

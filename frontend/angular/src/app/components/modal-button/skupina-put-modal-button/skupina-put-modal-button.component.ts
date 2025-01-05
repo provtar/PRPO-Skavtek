@@ -6,20 +6,26 @@ import { SkupinaPutModalComponent } from '../../modal/skupina-put-modal/skupina-
 @Component({
   selector: 'app-skupina-put-modal-button',
   standalone: true,
-  imports: [],
+  imports: [SkupinaPutModalComponent],
   templateUrl: './skupina-put-modal-button.component.html',
   styleUrl: './skupina-put-modal-button.component.css'
 })
 export class SkupinaPutModalButtonComponent {
   constructor() {}
-  @ViewChild('putModal', {read: ViewContainerRef}) putModal!: ViewContainerRef;
+  @ViewChild('skupinaPutModal') skupinaPutModal!: SkupinaPutModalComponent;
 
   @Input() skupina!: Skupina;
 
   urediSkupino(){
-    this.putModal.clear();
-    const modalRef = this.putModal.createComponent(SkupinaPutModalComponent);
-    modalRef.instance.skupina = this.skupina;
+    // console.log(this.skupina)
+    this.skupinaPutModal.open();
+    // Za dinamicno resevanje komponent, za nas je dovolj *ngIf
+    // this.putModal.clear();
+    // const modalRef = this.putModal.createComponent(SkupinaPutModalComponent);
+    // modalRef.instance.skupina = this.skupina;
+  }
+  atClose(){
+    console.log(this.skupinaPutModal.posodobljenaSkupina);
   }
 
 }

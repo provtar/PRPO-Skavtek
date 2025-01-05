@@ -34,26 +34,26 @@ export class ClaniSkupinePutFormComponent {
   }
 
   initForm(){
-    console.log("this.initForm")
     this.submitted = false;
     this.claniPutForm = this.fb.group({
       izbraniClani: this.fb.array([]),
     });
     if(this.skupinaId) {//grdo, ampak forkjoin se slabo obnasa z subscribe ma BehaviorSubject
-      console.log(`Tukaj sem`)
       this.skupinaService.getClaniSkupine(this.skupinaId).subscribe( (response) => {
         this.userData.varovanci$.subscribe(
           (varovanci) => {
             if(localStorage.getItem('user')){
-              console.log("Pa tukaj sem")
               const user: Clan = JSON.parse(localStorage.getItem('user') as string);
               this.clani = varovanci.filter(
-              varovanec => !response.some(clan => clan.clanId === varovanec.id));
+              varovanec => {
+                return !response.some(clan => clan.clanId === varovanec.id);
+              });
               this.initializeCheckboxes();
             }
           }
         )
-    });}
+    });
+    }
   }
 
   onSubmit() {

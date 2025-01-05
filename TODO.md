@@ -34,6 +34,14 @@ Vsako srecanje ima svojega master, niso nujno isti kot za srecanje
 ### Prisotnosti MS
 #### Lastniki
 Lastniki so isti kot za srecanje
+### Termin MS
+#### Validacija inputa, da s ene prekrivajo
 ## Frontend
 ### UserDataService
-Inicializacija varovancev, (dobiti podatke o ze obstojecih)
+#### Form user-post ga poscistit po vnosu podatkov (onsubmit())
+### Skupina post put form LATER:
+custom validator za povezave, da vidis, da je link (da ljudje manj trpijo)
+### Form data po submit:
+Daj jih poslat iz class z event emitter in ne z output
+# Ideje za katere nimamo casa in nimjo smisla
+### Ideja: shrani spremembe namesto submit (deluje mal razlicno, ampak ne menja dosti)

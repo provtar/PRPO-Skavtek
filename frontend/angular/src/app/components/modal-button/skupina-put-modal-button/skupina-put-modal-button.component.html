@@ -1,4 +1,4 @@
 <div>
   <button (click)="urediSkupino()">Uredi</button>
-  <ng-template #putModal></ng-template>
+  <app-skupina-put-modal #skupinaPutModal [skupina]="skupina" (closeModal)="atClose()"></app-skupina-put-modal>
 </div>

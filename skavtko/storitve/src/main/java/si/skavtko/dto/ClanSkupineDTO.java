@@ -23,13 +23,13 @@ public class ClanSkupineDTO {
         this.priimek = priimek;
         this.steg = steg;
     }
-
-    public Long getId() {
+    
+    public Long getClanId() {
         return clanId;
     }
 
-    public void setId(Long id) {
-        this.clanId = id;
+    public void setClanId(Long clanId) {
+        this.clanId = clanId;
     }
 
     public String getIme() {

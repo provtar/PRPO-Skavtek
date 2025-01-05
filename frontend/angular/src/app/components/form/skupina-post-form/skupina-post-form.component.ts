@@ -52,7 +52,8 @@ export class SkupinaPostFormComponent {
       });
       let postData : SkupinaPostData = new SkupinaPostData();
       postData.ime = this.skupinaPostForm.value.ime;
-      postData.opis = this.skupinaPostForm.value.opis;
+      if(this.skupinaPostForm.value.opis)postData.opis = this.skupinaPostForm.value.opis;
+      else postData.opis = null;
       postData.povezave = povezaveCiste;
 
       this.skupinaService.postSkupina(postData).subscribe((response) => {

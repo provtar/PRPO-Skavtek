@@ -57,7 +57,7 @@ public class PrisotnostZrno {
             List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
 
             for(ClanSkupineDTO c : clani){
-                Clan cc = entityManager.find(Clan.class, c.getId());
+                Clan cc = entityManager.find(Clan.class, c.getClanId());
                 if(cc == null) continue; //TODO, razmisli, ce je tko bolj pametno, ali ce rajsi posljes napako, ce je en clan napacen
                 //TODO, pazi, da se prisotnosti ne podvojijo
                 //Skoraj boljse sam zaznat napako in jo poslat tistemu, ki je neumne podatke posiljal

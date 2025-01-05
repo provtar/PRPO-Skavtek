@@ -35,10 +35,7 @@ export class SkupinaPostModalComponent {
       this.userData.dodajSkupino(this.skupinaPostForm.novaSkupina);
       this.novaSkupina = this.skupinaPostForm.novaSkupina;
       this.skupinaId = this.skupinaPostForm.novaSkupina?.id as number;
-      console.log(`SkupinaId: ${this.skupinaId}`)
-      console.log(this.skupinaPostForm)
       this.skupinaPosted = true;
-      console.log(this.claniSkupinePutForm);
     }
   }
 
