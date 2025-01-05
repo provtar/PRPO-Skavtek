@@ -5,12 +5,11 @@ import { SkupinaService } from '../../../services/skupina.service';
 import { CommonModule } from '@angular/common';
 import { SkupinaPutModalButtonComponent } from "../../modal-button/skupina-put-modal-button/skupina-put-modal-button.component";
 import { SkupinaDeleteButtonComponent } from "../../modal-button/skupina-delete-button/skupina-delete-button.component";
-import { SrecanjePostFormComponent } from "../../form/srecanje-post-form/srecanje-post-form.component";
 
 @Component({
   selector: 'app-moje-skupine',
   standalone: true,
-  imports: [SkupinaPostModalButtonComponent, CommonModule, SkupinaPutModalButtonComponent, SkupinaDeleteButtonComponent, SrecanjePostFormComponent],
+  imports: [SkupinaPostModalButtonComponent, CommonModule, SkupinaPutModalButtonComponent, SkupinaDeleteButtonComponent],
   templateUrl: './moje-skupine.component.html',
   styleUrl: './moje-skupine.component.css'
 })
