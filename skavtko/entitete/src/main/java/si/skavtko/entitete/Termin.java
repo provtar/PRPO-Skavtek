@@ -22,7 +22,7 @@ import si.skavtko.entitete.enums.TipTermina;
 
 @NamedQueries(value = {
     @NamedQuery(name = "Termini.fromOdDoClan",
-    query = "select new si.skavtko.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip) "+
+    query = "select new si.skavtko.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip, t.clan) "+
     "from Termin t JOIN t.clan c ON (c.id = :clanId) "+
     "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd"),
     @NamedQuery(name = "Termini.fromOdDoClanKratko",
