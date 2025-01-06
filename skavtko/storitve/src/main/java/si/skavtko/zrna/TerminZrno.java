@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 
 import si.skavtko.dto.TerminDTO;
+import si.skavtko.dto.TerminKratkoDTO;
 import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Termin;
 import si.skavtko.entitete.enums.TipTermina;
@@ -46,7 +47,7 @@ public class TerminZrno {
         return rez;
     }
 
-    public List<TerminDTO> posodobiTermine(LocalDateTime datumOd, LocalDateTime datumDo, Long idClan, List<TerminDTO> noviTermini) {
+    public List<TerminDTO> posodobiTermine(LocalDateTime datumOd, LocalDateTime datumDo, Long idClan, List<TerminKratkoDTO> noviTermini) {
         List<TerminDTO> stari = getVsebovaniTermini(datumOd, datumDo, idClan);
         stari.get(0).getId();
         for(TerminDTO terminD : stari) {
@@ -69,28 +70,29 @@ public class TerminZrno {
 
         Clan user = entityManager.getReference(Clan.class, idClan);
         ArrayList<TerminDTO> seznamNovi = new ArrayList<>();
-        for(TerminDTO termin : noviTermini) {
+        for(TerminKratkoDTO termin : noviTermini) {
             if(termin.getDatumDo() != null && termin.getDatumOd() != null) {
                 Termin nov = new Termin(termin.getDatumOd(), termin.getDatumDo(), user, TipTermina.Zaseden);
                 nov.setDatumDo(termin.getDatumDo());
                 nov.setClan(user);
                 entityManager.persist(nov);
-                seznamNovi.add(termin);
+                seznamNovi.add(new TerminDTO(nov));
             }
         }
-        return noviTermini;
+        return seznamNovi;
         
     }
 
     @Transactional
     public TerminDTO novTermin(TerminDTO data) {
+        TerminDTO novTermin = null;
         try {
             entityManager.getTransaction().begin();
-            Clan user = entityManager.getReference(Clan.class, data.getClan());
+            Clan user = entityManager.getReference(Clan.class, data.getClan().getId());
             Termin nov = new Termin(data.getDatumOd(), data.getDatumDo(), user, TipTermina.Zaseden);
             entityManager.persist(nov);
             entityManager.flush();
-            data = new TerminDTO(nov);
+            novTermin = new TerminDTO(nov);
             entityManager.getTransaction().commit();
         }catch(NotFoundException nfe){
             entityManager.getTransaction().rollback();
@@ -100,6 +102,6 @@ public class TerminZrno {
             entityManager.getTransaction().rollback();
             return null;
         }
-        return data;
+        return novTermin;
     }
 }

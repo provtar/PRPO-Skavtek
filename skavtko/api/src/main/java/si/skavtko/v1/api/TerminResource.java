@@ -1,14 +1,17 @@
 package si.skavtko.v1.api;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -21,6 +24,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import si.skavtko.dto.TerminDTO;
+import si.skavtko.dto.TerminKratkoDTO;
 import si.skavtko.zrna.TerminZrno;
 
 @Path("/termini")
@@ -36,13 +40,13 @@ public class TerminResource {
     TerminZrno terminZrno;
 
     @POST
+    @Path("/single")
     @Operation(summary = "Ustvari termin",
         description = "Mu poves zacetni in koncni cas")
         @ApiResponses( value = {
             @ApiResponse(responseCode = "201", description = "Ustvaril si nov termin", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = TerminDTO.class)))
         })
-    @Path("/termin")
     public Response addResource(
         @Parameter(description = "Podatki termina, ki ga ustvarjas")
         TerminDTO data) {
@@ -50,6 +54,7 @@ public class TerminResource {
         TerminDTO novTermin = terminZrno.novTermin(data);
         
         return Response.status(Status.CREATED).entity(novTermin).build();
+        // return Response.ok(data).build();
     }
 
     @POST
@@ -59,20 +64,25 @@ public class TerminResource {
             @ApiResponse(responseCode = "201", description = "Ustvaril si nov termin", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = TerminDTO.class)))
         })
-    @Path("/termin")
     public Response updateResources(
-        @Parameter(description = "Od katerega casa urejas")
-        LocalDateTime datumOd,
-        @Parameter(description = "Do katerega casa urejas")
-        LocalDateTime datumDo,
+        @Parameter(description = "Od katerega casa urejas", example = "2024-12-03T10:53:46")
+        @QueryParam("od")
+        String datumOdISO8601,
+        @Parameter(description = "Do katerega casa urejas", example = "2024-12-03T10:53:46")
+        @QueryParam("do")
+        String datumDoISO8601,
         @Parameter(description = "Id clana, kateremu pripadajo termini")
-        long idClan,
+        @QueryParam("clanId")
+        Long idClan,
         @Parameter(description = "Seznam novih terminov")
-        List<TerminDTO> noviTermini) {
+        List<TerminKratkoDTO> noviTermini) {
 
+            LocalDateTime datumOd =LocalDateTime.parse(datumOdISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            LocalDateTime datumDo =LocalDateTime.parse(datumDoISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         List<TerminDTO> ustvarjeniTermini = terminZrno.posodobiTermine(datumOd, datumDo, idClan, noviTermini);
         
         return Response.status(Status.CREATED).entity(ustvarjeniTermini).build();
+        // return Response.ok(noviTermini).build();
     }
 
 }
