@@ -1,33 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ClanDataService } from '../../../services/clan.service';
 import { Clan, UserDataService } from '../../../services/data/user-data.service';
+import { GlobalVarService } from '../../../services/data/global-var.service';
+import { ClanPostFormComponent } from "../../form/clan-post-form/clan-post-form.component";
 
 @Component({
   selector: 'app-clan-post-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ClanPostFormComponent],
   templateUrl: './clan-post-modal.component.html',
   styleUrl: './clan-post-modal.component.css'
 })
 export class ClanPostModalComponent {
-  isVisible = false;
-  clanPostForm!: FormGroup;
-  novClan: Clan | undefined = undefined;
-
-  constructor(private fb: FormBuilder, private clanDataService: ClanDataService, private userData: UserDataService) {}
-
-  ngOnInit(): void {
-    this.clanPostForm = this.fb.group({
-      ime: ['', [Validators.required, Validators.minLength(2)]],
-      priimek: ['', [Validators.required, Validators.minLength(2)]],
-      steg: [''],
-      skavtskoIme: ['']
-    });
-  }
-
+  @Input() masterId! :number;
   @Output() closeModal = new EventEmitter<void>();
+  @Output() postSuccess = new EventEmitter<Clan>();
+
+  constructor(private globalVar : GlobalVarService) {}
+  isVisible = false;
+
 
   open() {
     this.isVisible = true;
@@ -38,15 +31,10 @@ export class ClanPostModalComponent {
     this.closeModal.emit();
   }
 
-  clanPostSubmit() {
-    if(localStorage.getItem('user')){
-      const user : Clan = JSON.parse(localStorage.getItem('user') as string);
-      this.clanDataService.postClan(this.clanPostForm.value, user.id).subscribe(
-        (response) => {
-          this.userData.dodajVarovanca(response);
-          this.novClan = response;
-        }
-      );
-    }
+  onPostSuccess(novClan : Clan){
+    this.postSuccess.emit(novClan);
+    setTimeout(() => {
+      this.close();
+    }, this.globalVar.modalPutFadeTime);
   }
 }

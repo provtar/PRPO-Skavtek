@@ -4,65 +4,36 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Clan, UserDataService } from '../../../services/data/user-data.service';
 import { ClanDataService, ClanPutData } from '../../../services/clan.service';
 import { GlobalVarService } from '../../../services/data/global-var.service';
+import { ClanPutFormComponent } from "../../form/clan-put-form/clan-put-form.component";
 
 @Component({
   selector: 'app-clan-put-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ClanPutFormComponent],
   templateUrl: './clan-put-modal.component.html',
   styleUrl: './clan-put-modal.component.css'
 })
 export class ClanPutModalComponent {
-  isVisible = false;
-  clanToPut: Clan | undefined = undefined;
-  clanPutForm!: FormGroup;
-  uspelo = false;
-
-  constructor(private fb: FormBuilder, private clanDataService: ClanDataService,
-    private userData: UserDataService, private globalVar: GlobalVarService) {}
-
-  ngOnInit(): void {this.clanPutForm = this.fb.group({
-    id : [0],
-    ime: ['', [Validators.required, Validators.minLength(2)]],
-    priimek: ['', [Validators.required, Validators.minLength(2)]],
-    steg: [''],
-    skavtskoIme: ['']
-  });
-  }
-
+  @Input() clan! : Clan;
+  @Output() putSuccess = new EventEmitter<Clan>();
   @Output() closeModal = new EventEmitter<void>();
 
-  open(data: Clan) {
-    if(data && data.id && data.ime && data.priimek){
-      this.clanToPut = data;
-      this.clanPutForm = this.fb.group({
-        id : [this.clanToPut.id],
-        ime: [this.clanToPut.ime, [Validators.required, Validators.minLength(2)]],
-        priimek: [this.clanToPut.priimek, [Validators.required, Validators.minLength(2)]],
-        steg: [this.clanToPut.steg],
-        skavtskoIme: [this.clanToPut.skavtskoIme]
-      });
-      this.isVisible = true;
-    }
+  constructor(private globalVar : GlobalVarService) {}
+  isVisible = false;
+
+  onPutSuccess(posodobljenClan : Clan){
+    this.putSuccess.emit(posodobljenClan);
+    setTimeout(() => {
+      this.close();
+    }, this.globalVar.modalPutFadeTime);
+  }
+
+  open() {
+    this.isVisible = true;
   }
 
   close() {
     this.isVisible = false;
-    this.uspelo = false;
-    this.clanToPut = undefined;
     this.closeModal.emit();
-  }
-
-  clanPutSubmit() {
-    if(localStorage.getItem('user')){
-      this.clanDataService.putClan(this.clanPutForm.value).subscribe(
-        (response) => {
-          this.userData.posodobiVarovanca(response);
-          this.clanToPut = response;
-          this.uspelo = true;
-          setTimeout(() => this.close(), this.globalVar.modalPutFadeTime);
-        }
-      );
-    }
   }
 }

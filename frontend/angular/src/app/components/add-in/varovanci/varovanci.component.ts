@@ -4,11 +4,14 @@ import { ClanPutModalComponent } from "../../modal/clan-put-modal/clan-put-modal
 import { Clan, UserDataService } from '../../../services/data/user-data.service';
 import { ClanDataService } from '../../../services/clan.service';
 import { CommonModule } from '@angular/common';
+import { ClanPostButtonComponent } from "../../modal-button/clan-post-button/clan-post-button.component";
+import { ClanPutButtonComponent } from "../../modal-button/clan-put-button/clan-put-button.component";
+import { ClanDeleteButtonComponent } from "../../modal-button/clan-delete-button/clan-delete-button.component";
 
 @Component({
   selector: 'app-varovanci',
   standalone: true,
-  imports: [ClanPostModalComponent, ClanPutModalComponent, CommonModule],
+  imports: [ClanPostModalComponent, ClanPutModalComponent, CommonModule, ClanPostButtonComponent, ClanPutButtonComponent, ClanDeleteButtonComponent],
   templateUrl: './varovanci.component.html',
   styleUrl: './varovanci.component.css'
 })
@@ -16,6 +19,13 @@ export class VarovanciComponent {
   constructor(private userData: UserDataService, private clanData: ClanDataService) {}
 
   mojiVarovanci: Clan[] = [];
+  user! : Clan;
+
+  onVarovanecPostSuccess(){}
+
+  onVarovanecPutSuccess(){}
+
+  onVarovanecDeleteSuccess(){}
 
   ngOnInit(){
     if(localStorage.getItem('user') && this.userData.varovanciNotInit()){
@@ -27,6 +37,7 @@ export class VarovanciComponent {
     this.userData.varovanci$.subscribe((varovanci) => {
       this.mojiVarovanci = varovanci;
     });
+    this.user = this.userData.user;
   }
 
   @ViewChild('clanPostModal') clanPostModal: ClanPostModalComponent | undefined;
@@ -40,7 +51,7 @@ export class VarovanciComponent {
 
   openClanPutModal(clan : Clan): void {
     if(this.clanPutModal) {
-      this.clanPutModal.open(clan);
+      this.clanPutModal.open();
     }
   }
 
