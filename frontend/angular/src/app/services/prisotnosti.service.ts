@@ -32,7 +32,7 @@ public getPrisotnostiPoSkupini(skupinaId: number){
   return this.http.get<Prisotnost[]>(url, { params }).pipe(retry(1), catchError(this.handleError));
 }
 
-public postSrecanje(srecanjeId: number) {
+public postPrisotnosti(srecanjeId: number) {
     const url: string = `${this.globalVar.skavtkoApiUrl}/prisotnosti/srecanja/${srecanjeId}`;
 
     return this.http.post<Prisotnost[]>(url, {}).pipe(
@@ -76,4 +76,11 @@ export class PrisotnostPutData {
   readonly id!: number;
   prisotnost!: string;
   opomba?: string | null;
+}
+
+export enum TipPrisotnosti{
+  Prisoten = 'Prisoten',
+  Odsoten = 'Odsoten',
+  Online = 'Online',
+  Pozen  = 'Pozen'
 }

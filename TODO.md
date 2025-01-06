@@ -49,3 +49,5 @@ custom validator za povezave, da vidis, da je link (da ljudje manj trpijo)
 Daj jih poslat iz class z event emitter in ne z output
 # Ideje za katere nimamo casa in nimjo smisla
 ### Ideja: shrani spremembe namesto submit (deluje mal razlicno, ampak ne menja dosti)
+### Clani skupine:
+Dodajanje clanov preko buttonov, kjer pritisk naredije, ni notri, ob put se zbrise vse clane in ustvari vse na novo, je zamudno, ne doda nek enove funkcionalnosti

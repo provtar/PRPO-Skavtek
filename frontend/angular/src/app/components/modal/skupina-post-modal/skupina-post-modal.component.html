@@ -1,12 +1,14 @@
 <div *ngIf="isVisible" style="background-color: brown;">
-  <div *ngIf="!skupinaPosted">
-    <app-skupina-post-form #skupinaPostForm (skupinaPostSuccess)="onSkupinaPostSuccess()"></app-skupina-post-form>
-  </div>
-  <div *ngIf="skupinaPosted">
-    <p *ngIf="novaSkupina">Ustvaril si skupino: {{novaSkupina.ime}}</p>
-    <app-clani-skupine-put-form #claniSkupinePutForm [skupinaId]="this.skupinaId" (submitSuccess)="onClaniPutSuccess()"></app-clani-skupine-put-form>
-  </div>
-  <div *ngIf="claniSkupinePosted">
-    <button (click)="close()">Zapri</button>
+  <div>
+    <div *ngIf="!skupinaPosted">
+      <app-skupina-post-form #skupinaPostForm (skupinaPostSuccess)="onSkupinaPostSuccess()"></app-skupina-post-form>
+    </div>
+    <div *ngIf="skupinaPosted">
+      <p *ngIf="novaSkupina">Ustvaril si skupino: {{novaSkupina.ime}}</p>
+      <app-clani-skupine-put-form #claniSkupinePutForm [skupinaId]="this.skupinaId" (submitSuccess)="onClaniPutSuccess()"></app-clani-skupine-put-form>
+    </div>
+    <div *ngIf="claniSkupinePosted">
+      <button (click)="close()">Zapri</button>
+    </div>
   </div>
 </div>

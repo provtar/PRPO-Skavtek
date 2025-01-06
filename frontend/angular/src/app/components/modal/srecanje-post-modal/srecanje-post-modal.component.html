@@ -1,1 +1,6 @@
-<p>srecanje-post-modal works!</p>
+<div *ngIf="isVisible">
+  <div>
+    <app-srecanje-post-form [skupinaId]="skupinaId" (submitSuccess)="onFormSuccess($event)"></app-srecanje-post-form>
+    <button (click)="close()">Zapri</button>
+  </div>
+</div>

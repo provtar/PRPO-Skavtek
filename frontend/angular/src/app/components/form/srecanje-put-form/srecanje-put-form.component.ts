@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { Srecanje } from '../../../services/data/user-data.service';
-import { SrecanjaService, SrecanjePostData, SrecanjePutData } from '../../../services/srecanja.service';
+import { SrecanjaService, SrecanjePutData } from '../../../services/srecanja.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 

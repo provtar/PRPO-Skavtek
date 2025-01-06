@@ -1,1 +1,6 @@
-<p>srecanje-put-modal works!</p>
+<div *ngIf="isVisible">
+  <div>
+    <app-srecanje-put-form [srecanje]="srecanje" (submitSuccess)="onFormSuccess($event)"></app-srecanje-put-form>
+    <button (click)="close()">Zapri</button>
+  </div>
+</div>

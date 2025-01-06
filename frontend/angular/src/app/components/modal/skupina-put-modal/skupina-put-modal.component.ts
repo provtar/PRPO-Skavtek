@@ -23,10 +23,10 @@ export class SkupinaPutModalComponent {
 
     constructor(private userData: UserDataService, private globalVar: GlobalVarService) {}
     isVisible = false;
-    putClani = false;
+    // putClani = false;
 
-    ngOnInit(): void {
-    }
+    // ngOnInit(): void {
+    // }
 
     onSkupinaSubmitSuccess(){
       if(this.skupinaPutForm?.posodobljenaSkupina){
@@ -38,15 +38,15 @@ export class SkupinaPutModalComponent {
       }, this.globalVar.modalPutFadeTime);
     }
 
-    onClaniSubmitSuccess(){
-      setTimeout(() => {
-          close();
-        }, this.globalVar.modalPutFadeTime);
-    }
+    // onClaniSubmitSuccess(){
+    //   setTimeout(() => {
+    //       close();
+    //     }, this.globalVar.modalPutFadeTime);
+    // }
 
     open() {
       this.isVisible = true;
-      this.putClani = false;
+      // this.putClani = false;
     }
 
     close() {
@@ -54,7 +54,7 @@ export class SkupinaPutModalComponent {
       this.closeModal.emit();
     }
 
-    dodajClane() {
-      this.putClani = true;
-    }
+    // dodajClane() {
+    //   this.putClani = true;
+    // }
 }
