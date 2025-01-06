@@ -22,7 +22,7 @@ import org.hibernate.annotations.OnDeleteAction;
 //Ta query bo potem spadal med prisotnosti
 @NamedQueries({
     @NamedQuery(name = "Srecanje.fromIdinDatum",
-    query = "select new si.skavtko.dto.SrecanjeDTO(sr.id, sr.ime, sr.datumOd, sr.datumDo, sr.kraj, sr.opis, sr.belezenje, sr.skupina.id) "+
+    query = "select new si.skavtko.dto.SrecanjeDTO(sr.id, sr.ime, sr.datumOd, sr.datumDo, sr.kraj, sr.opis, sr.belezenje, sr.skupina.id, sr.skupina.ime) "+
     "from Srecanje sr LEFT JOIN sr.prisotnosti p ON  (:cid is null or p.clan.id = :cid) "+
     "JOIN sr.skupina s ON (s.id =:skid OR :skid is null) "+
     "WHERE (sr.datumOd >= :od OR cast(:od as date) is null)AND ((sr.datumDo is null and sr.datumOd <= :do) or sr.datumDo <= :do OR cast(:do as date) is null)")
