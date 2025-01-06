@@ -10,6 +10,8 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import javax.ws.rs.NotFoundException;
 
 import si.skavtko.dto.TerminDTO;
 import si.skavtko.entitete.Clan;
@@ -78,5 +80,26 @@ public class TerminZrno {
         }
         return noviTermini;
         
+    }
+
+    @Transactional
+    public TerminDTO novTermin(TerminDTO data) {
+        try {
+            entityManager.getTransaction().begin();
+            Clan user = entityManager.getReference(Clan.class, data.getClan());
+            Termin nov = new Termin(data.getDatumOd(), data.getDatumDo(), user, TipTermina.Zaseden);
+            entityManager.persist(nov);
+            entityManager.flush();
+            data = new TerminDTO(nov);
+            entityManager.getTransaction().commit();
+        }catch(NotFoundException nfe){
+            entityManager.getTransaction().rollback();
+            throw nfe;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
+            return null;
+        }
+        return data;
     }
 }
