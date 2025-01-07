@@ -72,12 +72,18 @@ public class PrisotnostZrno {
                 prisotni.add(new PrisotnostDTO(prisotnost));
             }
             entityManager.merge(srecanje);
+            entityManager.getTransaction().commit();
+            entityManager.refresh(srecanje);
+            // System.out.println("Post prisotnosti" + srecanje.getBelezenje());
+            entityManager.clear();
+            // if (srecanje != null) {
+            //     System.out.println("Post prisotnosti:" + srecanje.getBelezenje());
+            // }
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return null;
         }
-        entityManager.getTransaction().commit();
         return prisotni;
     }
 

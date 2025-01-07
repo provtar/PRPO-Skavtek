@@ -29,9 +29,12 @@ public class SrecanjeZrno {
     }
 
     public SrecanjeDTO getSrecanje(Long id) throws NoResultException{
+        
         Srecanje srecanje = entityManager.find(Srecanje.class, id);
+        entityManager.refresh(srecanje);
         if(srecanje == null) throw new NoResultException("Srecanja z id: " + id + "ni.\n");
         SrecanjeDTO res = new SrecanjeDTO(srecanje);
+        // System.out.println("Srecanje:" +srecanje.getBelezenje());
         return res;
     }
 
