@@ -67,7 +67,7 @@ public class SkupinaResource {
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Dobil si clane skupine", content = @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = ClanSkupineDTO.class)))),
-            @ApiResponse(responseCode = "404", description = "Nobena skupin ni imela tega id-ja")
+            // @ApiResponse(responseCode = "404", description = "Nobena skupin ni imela tega id-ja")
         })
     @Path("/{id}/clani")
     public Response getClaniSkupine (
@@ -78,7 +78,7 @@ public class SkupinaResource {
 
         
         // if(clani.size() == 0){
-        //     return Response.status(Status.NOT_FOUND).build();
+        //     return Response.status(Status.NO_CONTENT).entity(clani).build();
         // }
 
         return Response.ok(clani).build();
@@ -90,7 +90,7 @@ public class SkupinaResource {
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Dobil si skupine v katerih je clan", content = @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = SkupinaDTO.class)))),
-            @ApiResponse(responseCode = "404", description = "Noben clan ni imel tega id-ja")
+            // @ApiResponse(responseCode = "404", description = "Noben clan ni imel tega id-ja")
         })
     public Response getId(
         @Parameter(description = "Id clana, za katerga ces znat v katerih skupinah je", example = "Peter")
@@ -98,7 +98,7 @@ public class SkupinaResource {
         List<SkupinaClanaDTO> skupine = skupinaZrno.getSkupinePoClanu(clanId);
         
         // if(skupine.size() == 0){
-        //     return Response.status(Status.NOT_FOUND).build();
+        //     return Response.status(Status.NO_CONTENT).entity(skupine).build();
         // }
 
         return Response.ok(skupine).build();

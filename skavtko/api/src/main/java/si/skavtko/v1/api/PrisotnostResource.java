@@ -45,7 +45,7 @@ public class PrisotnostResource {
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dobil si nekaj prisotnosti", content = @Content(mediaType = "application/json",
         array = @ArraySchema(schema = @Schema(implementation =  PrisotnostDTO.class)))),
-        @ApiResponse(responseCode = "404", description = "Ni nobene prisotnosti, si kaj falil")
+        // @ApiResponse(responseCode = "204", description = "Ni nobene prisotnosti, si kaj falil")
     })
     public Response dobiPrisotnosti(
         @Parameter(description = "Id skupine rabi se v kombinaciji s clanom", example = "5")
@@ -61,6 +61,9 @@ public class PrisotnostResource {
         }else{
             res = prisotnostZrno.isciPoClanuInSkupini(clanId, skupinaId);
         }
+        // if(res.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(res).build();
+        // }
         return Response.ok(res).build();
     }
 

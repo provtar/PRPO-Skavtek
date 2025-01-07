@@ -50,7 +50,7 @@ public class ClaniResource {
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Bil je dobljen vsaj en clan", content = @Content(mediaType = "application/json",
         array = @ArraySchema(schema = @Schema(implementation = ClanDTO.class)))),
-        @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
+        // @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
 
     })
     public Response getId(
@@ -60,9 +60,9 @@ public class ClaniResource {
         @QueryParam("priimek") String priimek){
         ArrayList<ClanDTO> clani = (ArrayList<ClanDTO>) clanZrno.getClan(ime, priimek);
 
-        if(clani.size() == 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        // if(clani.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(clani).build();
+        // }
         return Response.ok(clani).build();
     }
 
@@ -92,14 +92,16 @@ public class ClaniResource {
         @ApiResponses( value = {
             @ApiResponse(responseCode = "200", description = "Tu so varovanci", content = @Content(mediaType = "application/json",
             array = @ArraySchema(schema = @Schema(implementation = ClanDTO.class)))),
-            @ApiResponse(responseCode = "404", description = "Noben clan nima tega id-ja")
+            // @ApiResponse(responseCode = "404", description = "Noben clan nima tega id-ja")
     
         })
     public Response getVarovance(
         @Parameter(description = "Id clana, katerega varovance isces", example = "2")
         @PathParam("id") Long masterId){
         List<ClanDTO> result = clanZrno.getVarovanci(masterId);
-        if(result == null)return Response.status(Status.NOT_FOUND).build();
+        // if(result.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(result).build();
+        // }
         
         return Response.ok(result).build();
     }

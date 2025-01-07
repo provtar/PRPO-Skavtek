@@ -48,7 +48,7 @@ public class SrecanjeResource {
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dobil si neakj srecanj", content = @Content(mediaType = "application/json",
         array = @ArraySchema(schema = @Schema(implementation = SrecanjeDTO.class)))),
-        @ApiResponse(responseCode = "404", description = "Ni bilo dobljenih srecanj")
+        // @ApiResponse(responseCode = "404", description = "Ni bilo dobljenih srecanj")
     })
     public Response get(
         @Parameter(description = "Id skupine, za katero isces srecanja", example = "6")
@@ -65,9 +65,9 @@ public class SrecanjeResource {
             if(datumDo != null) ddo =LocalDateTime.parse(datumDo, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         List<SrecanjeDTO> srecanja = srecanjeZrno.getSrecanjaPoClanuInSkupini(clanId, skupinaId, dod, ddo);
 
-        if(srecanja.size() == 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        // if(srecanja.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(srecanja).build();
+        // }
 
         return Response.ok(srecanja).build();
     }
