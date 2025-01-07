@@ -1,1 +1,17 @@
-<p>srecanja works!</p>
+<div>
+  <div *ngIf="initialized">
+    <h2>{{srecanje.ime}}</h2>
+    <h4>{{srecanje.imeSkupine}}</h4>
+    <h4>{{srecanje.datumOd}} - {{srecanje.datumDo}}</h4>
+    <h4>{{srecanje.kraj}}</h4>
+    <p>{{srecanje.opis}}</p>
+    <app-srecanje-put-button [srecanje]="srecanje" (putSuccess)="onSrecanjePutSuccess($event)"></app-srecanje-put-button>
+    <app-srecanje-delete-button [srecanjeId]="srecanje.id" (deleteSuccess)="onSrecanjeDeleteSuccess()"></app-srecanje-delete-button>
+    <div *ngIf="srecanje.belezenje">
+      <app-prisotnosti [srecanjeId]="srecanje.id"></app-prisotnosti>
+    </div>
+    <div *ngIf="!srecanje.belezenje">
+      <app-prisotnosti-post-button [srecanjeId]="srecanje.id" (postSuccess)="onPrisotnostiPostSuccess($event)"></app-prisotnosti-post-button>
+    </div>
+  </div>
+</div>

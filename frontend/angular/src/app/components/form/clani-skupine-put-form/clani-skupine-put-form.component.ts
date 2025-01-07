@@ -19,7 +19,7 @@ export class ClaniSkupinePutFormComponent {
     private fb: FormBuilder, private clanService : ClanDataService ) {}
 
   @Input() skupinaId!: number;
-  @Output() submitSuccess = new EventEmitter<void>();
+  @Output() submitSuccess = new EventEmitter<ClanSkupine[]>();
   clani: Clan[] = [];
   claniPutForm!: FormGroup;
   initialized: boolean = false;
@@ -64,7 +64,7 @@ export class ClaniSkupinePutFormComponent {
     this.skupinaService.putClaneSkupine(this.skupinaId, selectedIds).subscribe(
       (response) =>{
         this.submitted = true;
-        this.submitSuccess.emit();
+        this.submitSuccess.emit(response);
       }
     );
   }

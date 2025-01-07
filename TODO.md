@@ -1,5 +1,7 @@
 # TODO
 ## Backend
+### Srecanje prisotnosti jih dodaja multiple, preveri, da se ne obstaja v POST metodi
+
 ### Splosno
 Dodat order by, limit, offsest za paginacijo in vizualizacijo
 ### Dodat put in post DTO-je
@@ -55,6 +57,7 @@ Daj jih poslat iz class z event emitter in ne z output
 Backend se klice istocasno v zaporedju skupina pa clani, ali skupina ob submitu pa clani ob submitu?
 ### Clani skupine, user default v skupini
 Za zdaj tako, treba pomislit, ce dobro narejeno
+### Napake pri odgovoru z iskanjem po id-ju, ker clan az id-jem ni, handlat v componenti
 # Ideje za katere nimamo casa in nimjo smisla
 ### Ideja: shrani spremembe namesto submit (deluje mal razlicno, ampak ne menja dosti)
 ### Clani skupine:

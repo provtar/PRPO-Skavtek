@@ -1,4 +1,4 @@
 <div>
-  <button (click)="openModal()">Belezi prisotnosti</button>
-  <app-srecanje-put-modal [srecanje]="srecanje" (putSuccess)="onPutSuccess($event)"></app-srecanje-put-modal>
+  <button (click)="openModal()">Posodobi srecanje</button>
+  <app-srecanje-put-modal #srecanjePutModal [srecanje]="srecanje" (putSuccess)="onPutSuccess($event)"></app-srecanje-put-modal>
 </div>

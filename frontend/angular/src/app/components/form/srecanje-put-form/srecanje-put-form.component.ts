@@ -20,21 +20,26 @@ export class SrecanjePutFormComponent {
     submitSuccessfull: boolean = false;
 
     ngOnChanges(changes: SimpleChanges){
-      if(changes['skupinaId']){
+      if(changes['srecanje']){
+        console.log('initForm')
         this.initForm();
       }
     }
 
     initForm(){
       this.srecanjePutForm = this.fb.group({
-        ime: [this.srecanje.ime, Validators.required, Validators.minLength(2)],
-        datumOd: [this.srecanje.datumOd.toDateString(), Validators.required],
-        uraOd: [this.srecanje.datumOd.toTimeString(), Validators.required],
-        datumDo: [this.srecanje.datumDo.toDateString, Validators.required],
-        uraDo: [this.srecanje.datumDo.toTimeString(), Validators.required],
+        ime: [this.srecanje.ime, [Validators.required, Validators.minLength(2)]],
+        datumOd: [this.toFormDefaultString(this.srecanje.datumOd), [Validators.required]],
+        // uraOd: [this.srecanje.datumOd.toTimeString(), Validators.required],
+        datumDo: [this.toFormDefaultString(this.srecanje.datumDo), [Validators.required]],
+        // uraDo: [this.srecanje.datumDo.toTimeString(), Validators.required],
         kraj: [this.srecanje.kraj],
         opis: [this.srecanje.opis],
-      })
+      });
+    }
+
+    toFormDefaultString(datum  :Date){
+      return datum.toISOString().slice(0, 16);
     }
 
 
