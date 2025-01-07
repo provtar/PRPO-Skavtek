@@ -1,1 +1,12 @@
-<p>clani-skupine works!</p>
+<div>
+  <div *ngIf="initialized">
+  <div *ngFor="let clan of claniSkupine; let i = index">
+    <h4>{{clan.ime}} {{clan.priimek}}</h4>
+    <h5>{{clan.steg}}</h5>
+    <button (click)="toClan(clan.clanId)">Prikazi</button>
+  </div>
+</div>
+<div *ngIf="!initialized">
+  <p>Clani se nalagajo</p>
+</div>
+</div>

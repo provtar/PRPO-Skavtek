@@ -6,20 +6,24 @@ import { ClanPutModalComponent } from '../../modal/clan-put-modal/clan-put-modal
 import { ClanDataService } from '../../../services/clan.service';
 import { SkupinaPostModalButtonComponent } from "../../modal-button/skupina-post-modal-button/skupina-post-modal-button.component";
 import { VarovanciComponent } from "../../add-in/varovanci/varovanci.component";
-import { MojeSkupineComponent } from "../../add-in/moje-skupine/moje-skupine.component";
+import { SkupineComponent } from "../../add-in/skupine/skupine.component";
+import { SrecanjaComponent } from "../srecanja/srecanja.component";
+import { SrecanjaClanaComponent } from "../../add-in/srecanja-clana/srecanja-clana.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, VarovanciComponent, MojeSkupineComponent],
+  imports: [CommonModule, VarovanciComponent, SkupineComponent, SrecanjaClanaComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
 
   constructor(private userData: UserDataService) {}
+  jaz! : Clan;
 
   ngOnInit(): void {
     this.userData.initUser();
+    this.jaz = this.userData.user;
   }
 }

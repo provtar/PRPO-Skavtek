@@ -121,6 +121,7 @@ export class Srecanje {
   opis?: string | null;
   belezenje!: boolean;
   readonly idSkupine!: number;
+  imeSkupine!: string;
 }
 
 export class Prisotnost {

@@ -1,5 +1,6 @@
-<h3>Skavtko home page</h3>
+<h3>Bodi pripravljen/a {{jaz.ime}}</h3>
 <app-varovanci></app-varovanci>
-<app-moje-skupine></app-moje-skupine>
+<app-skupine [clanId]="jaz.id"></app-skupine>
+<app-srecanja-clana [clanId]="jaz.id"></app-srecanja-clana>
 <p>Skavtko je aplikacija...</p>
 <p>Zadnji post na skavtski sobi?</p>

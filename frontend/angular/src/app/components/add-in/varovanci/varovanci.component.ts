@@ -11,33 +11,45 @@ import { ClanDeleteButtonComponent } from "../../modal-button/clan-delete-button
 @Component({
   selector: 'app-varovanci',
   standalone: true,
-  imports: [ClanPostModalComponent, ClanPutModalComponent, CommonModule, ClanPostButtonComponent, ClanPutButtonComponent, ClanDeleteButtonComponent],
+  imports: [CommonModule, ClanPostButtonComponent, ClanPutButtonComponent, ClanDeleteButtonComponent],
   templateUrl: './varovanci.component.html',
   styleUrl: './varovanci.component.css'
 })
 export class VarovanciComponent {
   constructor(private userData: UserDataService, private clanData: ClanDataService) {}
 
-  mojiVarovanci: Clan[] = [];
+  mojiVarovanci!: Clan[];
+  initialized: boolean = false;
   user! : Clan;
 
-  onVarovanecPostSuccess(){}
+  onVarovanecPostSuccess(){
+    this.refresh();
+  }
 
-  onVarovanecPutSuccess(){}
+  onVarovanecPutSuccess(){
+    this.refresh();
+  }
 
-  onVarovanecDeleteSuccess(){}
+  onVarovanecDeleteSuccess(){
+    this.refresh();
+  }
 
   ngOnInit(){
-    if(localStorage.getItem('user') && this.userData.varovanciNotInit()){
-      const user: Clan = JSON.parse(localStorage.getItem('user') as string);
-      this.clanData.getVarovanci(user.id).subscribe((response) => {
-        this.userData.initVarovanci(response);
-      })
-    }
-    this.userData.varovanci$.subscribe((varovanci) => {
-      this.mojiVarovanci = varovanci;
-    });
     this.user = this.userData.user;
+    this.clanData.getVarovanci(this.user.id).subscribe(
+      (response) => {
+        this.mojiVarovanci = response;
+        this.initialized = true;
+      }
+    )
+  }
+
+  refresh(){
+    this.clanData.getVarovanci(this.user.id).subscribe(
+      (response) => {
+        this.mojiVarovanci = response;
+      }
+    );
   }
 
   @ViewChild('clanPostModal') clanPostModal: ClanPostModalComponent | undefined;

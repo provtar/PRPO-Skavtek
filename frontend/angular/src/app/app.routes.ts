@@ -1,16 +1,14 @@
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/pages/home/home.component';
-import { NotFoundComponent } from './components/pages/not-found/not-found.component';
-import { LoginComponent } from './components/pages/login/login.component';
-import { RegisterComponent } from './components/pages/register/register.component';
+import { NotFoundComponent } from './components/pages/public/not-found/not-found.component';
+import { LoginComponent } from './components/pages/public/login/login.component';
+import { RegisterComponent } from './components/pages/public/register/register.component';
 import { SkupinaComponent } from './components/pages/skupina/skupina.component';
 import { SrecanjaComponent } from './components/pages/srecanja/srecanja.component';
 import { NgModule } from '@angular/core';
 import { loggedGuard } from './logged.guard';
-import { AboutComponent } from './components/pages/about/about.component';
-import { VarovanciComponent } from './components/add-in/varovanci/varovanci.component';
+import { AboutComponent } from './components/pages/public/about/about.component';
 import { ClanComponent } from './components/pages/clan/clan.component';
-import { PrisotnostiComponent } from './components/add-in/prisotnosti/prisotnosti.component';
 
 export const routes: Routes = [
   { path: '', component: AboutComponent},

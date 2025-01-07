@@ -1,5 +1,7 @@
 # TODO
 ## Backend
+### Splosno
+Dodat order by, limit, offsest za paginacijo in vizualizacijo
 ### Dodat put in post DTO-je
 Samo s podatki, ki so potrebni
 ### Sinhronizacija podatkov vec uporabnikov (je na ravni komponente ali servisa?)
@@ -41,6 +43,8 @@ Lastniki so isti kot za srecanje
 ### Termin MS
 #### Validacija inputa, da s ene prekrivajo
 ## Frontend
+### Urejanje vizualizacij:
+Uredi po imenu, priimku al id-ju
 ### UserDataService
 #### Form user-post ga poscistit po vnosu podatkov (onsubmit())
 ### Skupina post put form LATER:

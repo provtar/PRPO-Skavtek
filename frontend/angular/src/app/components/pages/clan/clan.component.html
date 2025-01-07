@@ -1,1 +1,13 @@
-<p>clan works!</p>
+<div>
+  <div *ngIf="initialized">
+    <h2>{{clan.ime}} {{clan.priimek}}</h2>
+    <h3>{{clan.skavtskoIme}}</h3>
+    <h3>{{clan.steg}}</h3>
+    <div>
+      <app-skupine [clanId]="clan.id"></app-skupine>
+    </div>
+  </div>
+  <div *ngIf="!initialized">
+    <p>stran se nalaga</p>
+  </div>
+</div>

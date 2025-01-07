@@ -1,0 +1,14 @@
+<div>
+  <div *ngIf="!initialized">
+    <p>Srecanja se nalagajo</p>
+  </div>
+  <div *ngIf="initialized">
+    <div *ngFor="let srecanje of srecanja; let i = index">
+      <h4>{{srecanje.ime}}</h4>
+      <h5>{{srecanje.kraj}}</h5>
+      <p>{{srecanje.datumOd}} - {{srecanje.datumDo}}</p>
+      <p>{{srecanje.opis}}</p>
+      <button (click)="toSrecanje(srecanje.id)">Prikazi</button>
+    </div>
+  </div>
+</div>
