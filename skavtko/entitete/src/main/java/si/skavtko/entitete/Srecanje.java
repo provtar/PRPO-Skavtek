@@ -60,7 +60,7 @@ public class Srecanje {
     private Skupina skupina;
 
     //TODO, se ga znebit, za zdaj rabi za iskanje srecanj po clanu
-    @OneToMany(mappedBy = "srecanje" , fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "srecanje" , fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Prisotnost> prisotnosti;
 
     public Set<Prisotnost> getPrisotnosti() {
