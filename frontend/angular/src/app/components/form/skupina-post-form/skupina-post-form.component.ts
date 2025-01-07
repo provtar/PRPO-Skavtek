@@ -13,8 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class SkupinaPostFormComponent {
   skupinaPostForm!: FormGroup;
-  @Output() novaSkupina: Skupina | undefined = undefined;
-  @Output() skupinaPostSuccess = new EventEmitter<void>();
+  @Output() skupinaPostSuccess = new EventEmitter<Skupina>();
 
   constructor(private fb: FormBuilder, private skupinaService: SkupinaService) {}
 
@@ -57,8 +56,7 @@ export class SkupinaPostFormComponent {
       postData.povezave = povezaveCiste;
 
       this.skupinaService.postSkupina(postData).subscribe((response) => {
-        this.novaSkupina = response;
-        this.skupinaPostSuccess.emit();
+        this.skupinaPostSuccess.emit(response);
       });
     }
   }

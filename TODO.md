@@ -51,6 +51,10 @@ Uredi po imenu, priimku al id-ju
 custom validator za povezave, da vidis, da je link (da ljudje manj trpijo)
 ### Form data po submit:
 Daj jih poslat iz class z event emitter in ne z output
+### Skupina POST kdaj se klice backend:
+Backend se klice istocasno v zaporedju skupina pa clani, ali skupina ob submitu pa clani ob submitu?
+### Clani skupine, user default v skupini
+Za zdaj tako, treba pomislit, ce dobro narejeno
 # Ideje za katere nimamo casa in nimjo smisla
 ### Ideja: shrani spremembe namesto submit (deluje mal razlicno, ampak ne menja dosti)
 ### Clani skupine:

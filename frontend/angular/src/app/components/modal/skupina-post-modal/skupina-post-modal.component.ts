@@ -5,6 +5,7 @@ import { SkupinaPostData, SkupinaPutData, SkupinaService } from '../../../servic
 import { CommonModule } from '@angular/common';
 import { SkupinaPostFormComponent } from "../../form/skupina-post-form/skupina-post-form.component";
 import { ClaniSkupinePutFormComponent } from "../../form/clani-skupine-put-form/clani-skupine-put-form.component";
+import { GlobalVarService } from '../../../services/data/global-var.service';
 
 @Component({
   selector: 'app-skupina-post-modal',
@@ -17,30 +18,30 @@ export class SkupinaPostModalComponent {
   isVisible = false;
   skupinaPosted = false;
   claniSkupinePosted = false;
-  skupinaId!: number;
+  novaSkupina: Skupina | undefined;
 
-  @Output() novaSkupina: Skupina | undefined = undefined;
+  @Output() postSuccess = new EventEmitter<Skupina>();
   @Output() closeModal = new EventEmitter<void>();
 
   @ViewChild("skupinaPostForm") skupinaPostForm : SkupinaPostFormComponent | undefined;
   @ViewChild("claniSkupinePutForm") claniSkupinePutForm : ClaniSkupinePutFormComponent | undefined;
 
-  constructor(private fb: FormBuilder, private skupinaService: SkupinaService, private userData: UserDataService) {}
+  constructor(private fb: FormBuilder, private skupinaService: SkupinaService, private userData: UserDataService, private globalVar : GlobalVarService) {}
 
   ngOnInit(): void {
   }
 
-  onSkupinaPostSuccess(){
-    if(this.skupinaPostForm?.novaSkupina){
-      this.userData.dodajSkupino(this.skupinaPostForm.novaSkupina);
-      this.novaSkupina = this.skupinaPostForm.novaSkupina;
-      this.skupinaId = this.skupinaPostForm.novaSkupina?.id as number;
-      this.skupinaPosted = true;
-    }
+  onSkupinaPostSuccess(novaSkupina : Skupina){
+    this.skupinaPosted = true;
+    this.novaSkupina = novaSkupina;
   }
 
   onClaniPutSuccess(){
     this.claniSkupinePosted = true;
+    this.postSuccess.emit(this.novaSkupina);
+    setTimeout(() => {
+      this.close();
+    }, this.globalVar.modalPutFadeTime);
   }
 
   open() {

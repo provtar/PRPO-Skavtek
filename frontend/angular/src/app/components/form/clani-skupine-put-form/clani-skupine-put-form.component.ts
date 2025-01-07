@@ -4,6 +4,7 @@ import { SkupinaService } from '../../../services/skupina.service';
 import { Clan, ClanSkupine, UserDataService } from '../../../services/data/user-data.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ClanDataService } from '../../../services/clan.service';
 
 @Component({
   selector: 'app-clani-skupine-put-form',
@@ -15,12 +16,13 @@ import { CommonModule } from '@angular/common';
 export class ClaniSkupinePutFormComponent {
 
   constructor(private skupinaData: SkupineDataService, private skupinaService: SkupinaService, private userData: UserDataService,
-    private fb: FormBuilder ) {}
+    private fb: FormBuilder, private clanService : ClanDataService ) {}
 
   @Input() skupinaId!: number;
   @Output() submitSuccess = new EventEmitter<void>();
   clani: Clan[] = [];
   claniPutForm!: FormGroup;
+  initialized: boolean = false;
   submitted: boolean = false;
 
 
@@ -39,26 +41,25 @@ export class ClaniSkupinePutFormComponent {
       izbraniClani: this.fb.array([]),
     });
     if(this.skupinaId) {//grdo, ampak forkjoin se slabo obnasa z subscribe ma BehaviorSubject
-      this.skupinaService.getClaniSkupine(this.skupinaId).subscribe( (response) => {
-        this.userData.varovanci$.subscribe(
-          (varovanci) => {
-            if(localStorage.getItem('user')){
-              const user: Clan = JSON.parse(localStorage.getItem('user') as string);
-              this.clani = varovanci.filter(
-              varovanec => {
-                return !response.some(clan => clan.clanId === varovanec.id);
+      this.skupinaService.getClaniSkupine(this.skupinaId).subscribe(
+        (claniSkupine) => {
+          this.clanService.getVarovanci(this.userData.user.id).subscribe(
+            (varovanci) => {
+                this.clani = varovanci.filter(
+                varovanec => {
+                  return !claniSkupine.some(clan => clan.clanId === varovanec.id);
+                });
+                this.initializeCheckboxes();
               });
-              this.initializeCheckboxes();
-            }
           }
         )
-    });
     }
   }
 
   onSubmit() {
     const selectedValues = this.selectedOptions.controls.filter((control: any) => {return control.get('checked').value});
     const selectedIds: number[] = selectedValues.map((control: any) => control.get('id').value as number);
+
     selectedIds.push(this.userData.user.id);
     this.skupinaService.putClaneSkupine(this.skupinaId, selectedIds).subscribe(
       (response) =>{

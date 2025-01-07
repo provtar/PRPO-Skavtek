@@ -1,5 +1,6 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { SkupinaPostModalComponent } from '../../modal/skupina-post-modal/skupina-post-modal.component';
+import { Skupina } from '../../../services/data/user-data.service';
 
 @Component({
   selector: 'app-skupina-post-modal-button',
@@ -10,8 +11,18 @@ import { SkupinaPostModalComponent } from '../../modal/skupina-post-modal/skupin
 })
 export class SkupinaPostModalButtonComponent {
   @ViewChild('skupinaPostModal') skupinaPostModal : SkupinaPostModalComponent | undefined;
+  @Output() postSuccess = new EventEmitter<Skupina>();
+  @Output() modalClosed = new EventEmitter<void>()
 
   openModal(){
     this.skupinaPostModal?.open();
+  }
+
+  onPostSuccess(novaSkupina : Skupina){
+    this.postSuccess.emit(novaSkupina);
+  }
+
+  onModalClose(){
+    this.modalClosed.emit();
   }
 }
