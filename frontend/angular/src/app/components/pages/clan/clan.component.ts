@@ -30,4 +30,14 @@ export class ClanComponent {
       );
     }
 
+    refresh(){
+      const clanId = parseInt(this.route.snapshot.paramMap.get('clanId')!, 10);
+      this.claniService.getClan(clanId).subscribe(
+        (response) =>{
+          this.clan = response;
+          this.initialized = true;
+        }
+      );
+    }
+
 }

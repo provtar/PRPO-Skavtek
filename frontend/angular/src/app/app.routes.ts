@@ -20,6 +20,7 @@ export const routes: Routes = [
   { path: 'srecanje', component: SrecanjaComponent, canActivate: [loggedGuard]}, // TODO dodat parametre na klic spa, EASY
   { path: 'clan', component: ClanComponent, canActivate: [loggedGuard]}, //TODO id clana v parametre
   // TODO sem pridejo se termini
+  { path: 'not-found', component: NotFoundComponent},
   { path: '**', component: NotFoundComponent}
 ]
 

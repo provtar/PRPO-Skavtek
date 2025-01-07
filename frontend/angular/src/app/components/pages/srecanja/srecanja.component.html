@@ -14,4 +14,7 @@
       <app-prisotnosti-post-button [srecanjeId]="srecanje.id" (postSuccess)="onPrisotnostiPostSuccess($event)"></app-prisotnosti-post-button>
     </div>
   </div>
+  <div *ngIf="!initialized">
+    <p>Srecanja se nalagajo</p>
+  </div>
 </div>

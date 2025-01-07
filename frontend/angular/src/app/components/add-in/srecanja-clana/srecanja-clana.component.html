@@ -1,8 +1,8 @@
 <div>
+  <h4>Srecanja:</h4>
   <div *ngIf="!initialized">
     <p>Srecanja se nalagajo</p>
   </div>
-  <h4>Srecanja:</h4>
   <div *ngIf="initialized">
     <div *ngFor="let srecanje of srecanja; let i = index">
       <h4>{{srecanje.ime}}</h4>

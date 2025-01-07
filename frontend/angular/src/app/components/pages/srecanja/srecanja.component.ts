@@ -26,14 +26,17 @@ export class SrecanjaComponent {
   ngOnInit(){
     this.userData.initUser();
     const srecanjeId = parseInt(this.route.snapshot.queryParamMap.get('srecanjeId')!);
-    this.srecanjaService.getSrecanje(srecanjeId).subscribe(
-      (srecanje) => {
+    this.srecanjaService.getSrecanje(srecanjeId).subscribe({
+      next: (srecanje) => {
         srecanje.datumOd = new Date(srecanje.datumOd);
         srecanje.datumDo = new Date(srecanje.datumDo);
         this.srecanje = srecanje;
         this.initialized = true;
+      },
+      error: (error) => {
+        this.router.navigate(['/not-found']);
       }
-    )
+  })
   }
 
   refresh(){
