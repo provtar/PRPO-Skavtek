@@ -53,6 +53,7 @@ public class PrisotnostZrno {
         try{
             Srecanje srecanje = entityManager.find(Srecanje.class, idSrecanja);
             if(srecanje == null) throw new NoResultException();
+            if(srecanje.getBelezenje() == true) return isciPoSrecanju(idSrecanja);
             srecanje.setBelezenje(true);
             List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
 
