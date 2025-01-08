@@ -5,6 +5,7 @@
     <h4>{{clan.ime}} {{clan.priimek}}</h4>
     <h5>{{clan.steg}}</h5>
     <button (click)="toClan(clan.clanId)">Prikazi</button>
+    <app-clan-skupine-delete-one-button [clanId]="clan.clanId" [skupinaId]="skupinaId" (deleteClanSuccess)="onDeletClanSkupineSuccess()"></app-clan-skupine-delete-one-button>
   </div>
 </div>
 <div *ngIf="!initialized">

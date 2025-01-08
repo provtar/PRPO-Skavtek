@@ -1,5 +1,5 @@
 <div>
-  <form [formGroup]="srecanjePutForm" (ngSubmit)="submitForm()">
+  <form [formGroup]="srecanjePutForm" (ngSubmit)="submitForm()" *ngIf="!submitSuccessfull">
     <div>
       <label for="ime">Ime:</label>
       <input id="ime" formControlName="ime" type="text" />
@@ -48,7 +48,7 @@
       <textarea id="opis" formControlName="opis"></textarea>
     </div>
 
-    <button type="submit" [disabled]="srecanjePutForm.invalid">Ustvari</button>
+    <button type="submit" [disabled]="srecanjePutForm.invalid">Shrani</button>
   </form>
   <div *ngIf="submitSuccessfull">
     <p>Uspesno si dodal srecanje</p>

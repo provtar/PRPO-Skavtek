@@ -62,3 +62,6 @@ Za zdaj tako, treba pomislit, ce dobro narejeno
 ### Ideja: shrani spremembe namesto submit (deluje mal razlicno, ampak ne menja dosti)
 ### Clani skupine:
 Dodajanje clanov preko buttonov, kjer pritisk naredije, ni notri, ob put se zbrise vse clane in ustvari vse na novo, je zamudno, ne doda nek enove funkcionalnosti
+### Prisotnosti se ne dodajajo na stara srecanja
+Ne mores dodajati se prisotnosti, ki si jih dodal v skupino po ustvarjenju belezena, treba urediti
+### Onemogociti, da samega sebe odstranis iz skupine

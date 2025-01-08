@@ -3,11 +3,12 @@ import { SkupinaService } from '../../../services/skupina.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { Clan, ClanSkupine } from '../../../services/data/user-data.service';
+import { ClanSkupineDeleteOneButtonComponent } from "../../modal-button/clan-skupine-delete-one-button/clan-skupine-delete-one-button.component";
 
 @Component({
   selector: 'app-clani-skupine',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ClanSkupineDeleteOneButtonComponent],
   templateUrl: './clani-skupine.component.html',
   styleUrl: './clani-skupine.component.css'
 })
@@ -39,5 +40,9 @@ export class ClaniSkupineComponent {
       this.router.navigate(['/clan'], {
         queryParams: {clanId: clanId}
       })
+  }
+
+  onDeletClanSkupineSuccess(){
+    this.refresh();
   }
 }
