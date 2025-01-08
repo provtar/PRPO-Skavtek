@@ -7,6 +7,8 @@ import si.skavtko.entitete.enums.TipTermina;
 
 public class TerminDTO {
 
+    public TerminDTO() {}
+
     public TerminDTO(Termin termin){
         this.id = termin.getId();
         this.datumOd = termin.getDatumOd();
