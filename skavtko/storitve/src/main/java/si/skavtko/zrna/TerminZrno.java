@@ -46,7 +46,7 @@ public class TerminZrno {
         return rez;
     }
 
-    public List<TerminDTO> posodobiTermine(LocalDateTime datumOd, LocalDateTime datumDo, Long idClan, List<TerminKratkoDTO> noviTermini) {
+    public List<TerminDTO> posodobiTermine(LocalDateTime datumOd, LocalDateTime datumDo, Long idClan, List<TerminDTO> noviTermini) {
         List<TerminDTO> stari = getVsebovaniTermini(datumOd, datumDo, idClan);
         stari.get(0).getId();
         for(TerminDTO terminD : stari) {
@@ -69,7 +69,7 @@ public class TerminZrno {
 
         // Clan user = entityManager.getReference(Clan.class, idClan);
         ArrayList<TerminDTO> seznamNovi = new ArrayList<>();
-        for(TerminKratkoDTO termin : noviTermini) {
+        for(TerminDTO termin : noviTermini) {
             if(termin.getDatumDo() != null && termin.getDatumOd() != null) {
                 Termin nov = new Termin(termin.getDatumOd(), termin.getDatumDo(), idClan, TipTermina.Zaseden);
                 nov.setDatumDo(termin.getDatumDo());

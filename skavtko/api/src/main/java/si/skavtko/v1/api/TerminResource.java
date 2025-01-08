@@ -74,7 +74,7 @@ public class TerminResource {
         @QueryParam("clanId")
         Long idClan,
         @Parameter(description = "Seznam novih terminov")
-        List<TerminKratkoDTO> noviTermini) {
+        List<TerminDTO> noviTermini) {
 
             LocalDateTime datumOd =LocalDateTime.parse(datumOdISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             LocalDateTime datumDo =LocalDateTime.parse(datumDoISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
