@@ -30,12 +30,12 @@ public class ClanSkupina {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "clan", referencedColumnName = "id")
+    @JoinColumn(name = "clan", referencedColumnName = "id", updatable = false)
     private Clan clan;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "skupina", referencedColumnName = "id")
+    @JoinColumn(name = "skupina", referencedColumnName = "id", updatable = false)
     private Skupina skupina;
 
     //TODO dodat en enum z vlogo v skupini SVOD, Tehnika, SV, VV, SVV, Izvidnik, Vodnik, POdvodnik, Noviciatovc, Klan, Udelezenec, vlogo vkljucit v DTO

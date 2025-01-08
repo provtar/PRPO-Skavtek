@@ -59,6 +59,7 @@ public class Clan{
     public UserRole role;
 
     private String password;
+    // POZOR, ce zelis pasivnega v aktivnega spremenit mora biti to true
     @Column(updatable = false)
     private String email;
 

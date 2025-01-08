@@ -65,3 +65,4 @@ Dodajanje clanov preko buttonov, kjer pritisk naredije, ni notri, ob put se zbri
 ### Prisotnosti se ne dodajajo na stara srecanja
 Ne mores dodajati se prisotnosti, ki si jih dodal v skupino po ustvarjenju belezena, treba urediti
 ### Onemogociti, da samega sebe odstranis iz skupine
+### Dodat podatke o tistemu, ki je opombo za OS napisal, da se ve, kdo je kaj napisal
