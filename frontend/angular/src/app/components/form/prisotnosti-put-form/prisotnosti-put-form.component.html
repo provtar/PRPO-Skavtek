@@ -1,0 +1,31 @@
+<div>
+  <form [formGroup]="prisotnostiPutForm" (ngSubmit)="onSubmit()" *ngIf="!submitSuccessfull">
+    <div formArrayName="prisotnosti">
+      <div *ngFor="let prisotnostForm of prisotnostiForm.value; let i = index" [formGroupName]="i">
+        <div>
+          <label for="name">Alias: </label>
+          <input formControlName="opomba" type="text" placeholder="Alias linka: ">
+        </div>
+
+        <div>
+          <label for="selectedOption">Select Option:</label>
+          <select formControlName="prisotnost">
+            <option value="" disabled>Select an option</option> <!--Default disabled option-->
+            <option *ngFor="let tip of tipiPrisotnosti" [value]="tip">
+              {{ tip }}
+            </option>
+          </select>
+          <div *ngIf="prisotnostForm.get('prisotnost').invalid && prisotnostiForm.get('prisotnost')!.touched">
+            <p *ngIf="prisotnostForm.get('prisotnost').hasError('required')">Izberi neki.</p>
+          </div>
+        </div>
+        <!-- dodaj delete button -->
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="prisotnostiPutForm.invalid">Submit</button>
+  </form>
+  <div *ngIf="submitSuccessfull">
+    <p>Uspesno si posodobu prisotnosti</p>
+  </div>
+</div>

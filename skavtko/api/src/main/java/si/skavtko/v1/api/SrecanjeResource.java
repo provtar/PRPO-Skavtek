@@ -48,7 +48,7 @@ public class SrecanjeResource {
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dobil si neakj srecanj", content = @Content(mediaType = "application/json",
         array = @ArraySchema(schema = @Schema(implementation = SrecanjeDTO.class)))),
-        @ApiResponse(responseCode = "404", description = "Ni bilo dobljenih srecanj")
+        // @ApiResponse(responseCode = "404", description = "Ni bilo dobljenih srecanj")
     })
     public Response get(
         @Parameter(description = "Id skupine, za katero isces srecanja", example = "6")
@@ -65,9 +65,9 @@ public class SrecanjeResource {
             if(datumDo != null) ddo =LocalDateTime.parse(datumDo, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         List<SrecanjeDTO> srecanja = srecanjeZrno.getSrecanjaPoClanuInSkupini(clanId, skupinaId, dod, ddo);
 
-        if(srecanja.size() == 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        // if(srecanja.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(srecanja).build();
+        // }
 
         return Response.ok(srecanja).build();
     }
@@ -108,14 +108,11 @@ public class SrecanjeResource {
             @ApiResponse(responseCode = "201", description = "Ustvaril si novo srecanje", content = @Content(mediaType = "application/json",
             schema = @Schema(implementation = SrecanjeDTO.class)))
         })
-    @Path("/skupina/{skupinaId}")
     public Response addResource(
         @Parameter(description = "Podatki srecanja, ki ga ustvarjas")
-        SrecanjeDTO data, 
-        @Parameter(description = "Id skupine za katero srecanje ustvarjas", example = "5")
-        @PathParam("skupinaId") Long skupinaId){
+        SrecanjeDTO data){
 
-        SrecanjeDTO novoSrecanje = srecanjeZrno.novoSrecanje(data, skupinaId);
+        SrecanjeDTO novoSrecanje = srecanjeZrno.novoSrecanje(data, data.getIdSkupine());
         
         return Response.status(Status.CREATED).entity(novoSrecanje).build();
     }

@@ -1,0 +1,8 @@
+<div>
+    <div *ngFor="let clan of clani; let i = index">
+      <h4>{{clan.ime}} {{clan.priimek}}</h4>
+      <h5>{{clan.skavtskoIme}}</h5>
+      <h5>{{clan.steg}}</h5>
+      <button (click)="toClan(clan.id)">Prikazi</button>
+    </div>
+</div>

@@ -29,9 +29,12 @@ public class SrecanjeZrno {
     }
 
     public SrecanjeDTO getSrecanje(Long id) throws NoResultException{
+        
         Srecanje srecanje = entityManager.find(Srecanje.class, id);
+        entityManager.refresh(srecanje);
         if(srecanje == null) throw new NoResultException("Srecanja z id: " + id + "ni.\n");
         SrecanjeDTO res = new SrecanjeDTO(srecanje);
+        // System.out.println("Srecanje:" +srecanje.getBelezenje());
         return res;
     }
 
@@ -61,7 +64,7 @@ public class SrecanjeZrno {
             Skupina skupina = entityManager.getReference(Skupina.class, idSkupine);
             if(skupina == null)throw new NoResultException("Skupine z id-jem "+ idSkupine + " ni!");
             novoSrecanje = new Srecanje();
-            novoSrecanje.setBelezenje(srecanje.getBelezenje());
+            novoSrecanje.setBelezenje(false);
             novoSrecanje.setDatumOd(srecanje.getDatumOd());
             novoSrecanje.setDatumDo(srecanje.getDatumDo());
             novoSrecanje.setIme(srecanje.getIme());

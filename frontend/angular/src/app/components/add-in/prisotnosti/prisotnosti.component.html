@@ -1,0 +1,13 @@
+<div>
+  <h4>Prisotnosti:</h4>
+  <div *ngIf="initialized">
+  <div *ngFor="let prisotnost of prisotnosti; let i = index">
+    <h4>{{prisotnost.imeClana}} {{prisotnost.priimekClana}}</h4>
+    <h5>{{prisotnost.prisotnost}}</h5>
+    <p>{{prisotnost.opomba}}</p>
+  </div>
+</div>
+<div *ngIf="!initialized">
+  <p>Prisotnosti se nalagajo</p>
+</div>
+</div>

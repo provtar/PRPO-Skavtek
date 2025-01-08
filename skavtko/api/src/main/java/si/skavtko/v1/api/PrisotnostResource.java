@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import si.skavtko.dto.PrisotnostDTO;
+import si.skavtko.dto.PrisotnostPutDTO;
 import si.skavtko.zrna.PrisotnostZrno;
 
 @Path("/prisotnosti")
@@ -44,7 +45,7 @@ public class PrisotnostResource {
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Dobil si nekaj prisotnosti", content = @Content(mediaType = "application/json",
         array = @ArraySchema(schema = @Schema(implementation =  PrisotnostDTO.class)))),
-        @ApiResponse(responseCode = "404", description = "Ni nobene prisotnosti, si kaj falil")
+        // @ApiResponse(responseCode = "204", description = "Ni nobene prisotnosti, si kaj falil")
     })
     public Response dobiPrisotnosti(
         @Parameter(description = "Id skupine rabi se v kombinaciji s clanom", example = "5")
@@ -60,6 +61,9 @@ public class PrisotnostResource {
         }else{
             res = prisotnostZrno.isciPoClanuInSkupini(clanId, skupinaId);
         }
+        // if(res.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(res).build();
+        // }
         return Response.ok(res).build();
     }
 
@@ -88,7 +92,7 @@ public class PrisotnostResource {
     })
     public Response posodobi(
         @Parameter(description = "Seznam prisotnosti, ki jih zelis posodobiti")
-        List<PrisotnostDTO> prisotnosti){
+        List<PrisotnostPutDTO> prisotnosti){
         List<PrisotnostDTO> res = prisotnostZrno.posodobiPrisotnosti(prisotnosti);
         return Response.ok(res).build();
     }

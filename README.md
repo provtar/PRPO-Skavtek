@@ -173,10 +173,12 @@ Za mikrostoritve:
 Link do dokumentacije>
 * http://localhost:8080/api-specs/ui/
 
-
-## Warning
-
-Rabimo hibernate core dependency in ne kumuluz-hibernate, ker ce kumuluz rabm je s persistence.xml nekaj narobe
+## Angular
+instalacija:
+* npm install -g @angular/cli@18.2
+* npm run ng serve (zazene server, stran dostopna na http://localhost:4200 )
+* npm run ng generate component|service (ustvari nove komponente za spletno stran)
+* stvar je se v delu, treba se routing zrihtat
 
 ## TODO
 
@@ -328,3 +330,10 @@ Upravljanje s clani skupine
 * Dodaj aktivnega uporabnika
 * Posodabljaj uporabnika
 * Dostopaj do javnih podatkov uporabnikov
+
+## Frontend
+### Form
+Tukaj so komponente vseh formov, ki se jih posilja apiju:
+- Samo form za posiljanje podatkov
+- Podatki, ki formu rabjo, das preko inputov, dodas init, da se ga lahko na novo poslje, ce je potrebno
+- Inicializacija v ngOnChanges, da se sproti ponovnoustvarja form, ko se inputi spreminjao

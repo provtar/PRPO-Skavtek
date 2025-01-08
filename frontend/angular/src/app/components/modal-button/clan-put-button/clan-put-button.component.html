@@ -1,0 +1,4 @@
+<div>
+  <button (click)="openModal()">Uredi clana</button>
+  <app-clan-put-modal #clanPutModal [clan]="clan" (putSuccess)="onPutSuccess($event)"></app-clan-put-modal>
+</div>

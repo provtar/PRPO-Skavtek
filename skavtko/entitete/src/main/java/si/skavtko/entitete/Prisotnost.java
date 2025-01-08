@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import si.skavtko.entitete.enums.TipPrisotnosti;
 
 @Entity
@@ -35,9 +38,11 @@ public class Prisotnost {
     private String opomba;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     Srecanje srecanje;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     Clan clan;
 
     public Long getId() {
