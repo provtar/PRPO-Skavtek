@@ -20,21 +20,25 @@ import si.skavtko.entitete.enums.TipTermina;
 
 @Entity
 
-@NamedQueries(value = {
-    @NamedQuery(name = "Termini.fromOdDoClan",
-    query = "select new si.skavtko.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip, t.clan) "+
-    "from Termin t JOIN t.clan c ON (c.id = :clanId) "+
-    "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd"),
-    @NamedQuery(name = "Termini.fromOdDoClanKratko",
-    query = "select new si.skavtko.dto.TerminKratkoDTO(t.id, t.datumOd, t.datumDo, t.tip) "+
-    "from Termin t JOIN t.clan c ON (c.id = :clanId) "+
-    "WHERE t.datumOd <= :datumDo AND t.datumDo >= :datumOd")
+@NamedQueries({
+    @NamedQuery(
+        name = "Termini.fromOdDoClan",
+        query = "select new si.skavtko.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip, t.clanId) " +
+                "from Termin t " +
+                "WHERE t.clanId = :clanId AND t.datumOd <= :datumDo AND t.datumDo >= :datumOd"
+    ),
+    @NamedQuery(
+        name = "Termini.fromOdDoClanKratko",
+        query = "select new si.skavtko.dto.TerminKratkoDTO(t.id, t.datumOd, t.datumDo, t.tip) " +
+                "from Termin t " +
+                "WHERE t.clanId = :clanId AND t.datumOd <= :datumDo AND t.datumDo >= :datumOd"
+    )
 })
 
 public class Termin {
 
-    public Termin(LocalDateTime datumOd, LocalDateTime datumDo, Clan clan, TipTermina tip) {
-        if (datumOd == null || datumDo == null || clan == null || tip == null) {
+    public Termin(LocalDateTime datumOd, LocalDateTime datumDo, Long clanId, TipTermina tip) {
+        if (datumOd == null || datumDo == null || clanId == null || tip == null) {
             throw new IllegalArgumentException("Podani morajo biti vsi parametri");
         }
         if (datumOd.isAfter(datumDo)) {
@@ -43,7 +47,7 @@ public class Termin {
 
         this.datumOd = datumOd;
         this.datumDo = datumDo;
-        this.clan = clan;
+        this.clanId = clanId;
         this.tip = tip;
     }
 
@@ -52,9 +56,7 @@ public class Termin {
     private Long id;
 
     @Basic(optional = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clanId", referencedColumnName = "id")
-    private Clan clan;
+    private Long clanId;
     
     @Basic(optional = false)
     private LocalDateTime datumDo;
@@ -98,11 +100,11 @@ public class Termin {
         this.id = id;
     }
 
-    public Clan getClan() {
-        return clan;
+    public Long getClanId() {
+        return clanId;
     }
 
-    public void setClan(Clan clan) {
-        this.clan = clan;
+    public void setClanId(Long clanId) {
+        this.clanId = clanId;
     }
 }

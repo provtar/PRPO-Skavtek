@@ -2,7 +2,6 @@ package si.skavtko.dto;
 
 import java.time.LocalDateTime;
 
-import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Termin;
 import si.skavtko.entitete.enums.TipTermina;
 
@@ -13,15 +12,15 @@ public class TerminDTO {
         this.datumOd = termin.getDatumOd();
         this.datumDo = termin.getDatumDo();
         this.tip = termin.getTip();
-        this.clan = termin.getClan();
+        this.clanId = termin.getClanId();
     }
 
-    public TerminDTO(Long id, LocalDateTime datumOd, LocalDateTime datumDo, TipTermina tip, Clan clan) {
+    public TerminDTO(Long id, LocalDateTime datumOd, LocalDateTime datumDo, TipTermina tip, Long clanId) {
         this.id = id;
         this.datumOd = datumOd;
         this.datumDo = datumDo;
         this.tip = tip;
-        this.clan = clan;
+        this.clanId = clanId;
     }
 
     private Long id;
@@ -64,14 +63,14 @@ public class TerminDTO {
         this.tip = tip;
     }
 
-    private Clan clan;
+    private Long clanId;
 
-    public Clan getClan() {
-        return clan;
+    public Long getClanId() {
+        return clanId;
     }
 
-    public void setClan(Clan clan) {
-        this.clan = clan;
+    public void setClanId(Long clanId) {
+        this.clanId = clanId;
     }
 
 }

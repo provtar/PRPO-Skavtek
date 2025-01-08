@@ -15,7 +15,6 @@ import javax.ws.rs.NotFoundException;
 
 import si.skavtko.dto.TerminDTO;
 import si.skavtko.dto.TerminKratkoDTO;
-import si.skavtko.entitete.Clan;
 import si.skavtko.entitete.Termin;
 import si.skavtko.entitete.enums.TipTermina;
 
@@ -68,13 +67,13 @@ public class TerminZrno {
             }
         }
 
-        Clan user = entityManager.getReference(Clan.class, idClan);
+        // Clan user = entityManager.getReference(Clan.class, idClan);
         ArrayList<TerminDTO> seznamNovi = new ArrayList<>();
         for(TerminKratkoDTO termin : noviTermini) {
             if(termin.getDatumDo() != null && termin.getDatumOd() != null) {
-                Termin nov = new Termin(termin.getDatumOd(), termin.getDatumDo(), user, TipTermina.Zaseden);
+                Termin nov = new Termin(termin.getDatumOd(), termin.getDatumDo(), idClan, TipTermina.Zaseden);
                 nov.setDatumDo(termin.getDatumDo());
-                nov.setClan(user);
+                nov.setClanId(idClan);
                 entityManager.persist(nov);
                 seznamNovi.add(new TerminDTO(nov));
             }
@@ -88,8 +87,8 @@ public class TerminZrno {
         TerminDTO novTermin = null;
         try {
             entityManager.getTransaction().begin();
-            Clan user = entityManager.getReference(Clan.class, data.getClan().getId());
-            Termin nov = new Termin(data.getDatumOd(), data.getDatumDo(), user, TipTermina.Zaseden);
+            // Clan user = entityManager.getReference(Clan.class, data.getClan().getId());
+            Termin nov = new Termin(data.getDatumOd(), data.getDatumDo(), data.getClanId(), TipTermina.Zaseden);
             entityManager.persist(nov);
             entityManager.flush();
             novTermin = new TerminDTO(nov);
