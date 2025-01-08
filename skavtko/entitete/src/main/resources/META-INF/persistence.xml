@@ -1,35 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+                                 http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd"
              version="2.0">
 
-    <persistence-unit name="db-provider">
-
-        <class>si.skavtko.entitete.Clan</class>
-
+    <!-- Define the Persistence Unit -->
+    <persistence-unit name="defaultPU" transaction-type="RESOURCE_LOCAL">
+        
+        <!-- JDBC DataSource Configuration -->
         <properties>
-            <!-- PostgreSQL -->
-            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" /> 
-            <property name="javax.persistence.jdbc.url"
-                      value="jdbc:postgresql://localhost:5435/db"/>
+            <!-- JDBC connection properties -->
+            <property name="javax.persistence.jdbc.url" value="${DB_URL}"/>
+            <!-- jdbc:postgresql://localhost:5435/db -->
+            <property name="javax.persistence.jdbc.user" value="${DB_USER}"/>
+            <property name="javax.persistence.jdbc.password" value="${DB_PSW}"/>
+            <property name="javax.persistence.jdbc.driver" value="${DB_DRIVER}"/>
+            <!-- org.postgresql.Driver -->
+            
 
-            <!-- Credentials -->
-            <property name="javax.persistence.jdbc.user"
-                      value="admin"/>
-            <property name="javax.persistence.jdbc.password"
-                      value="admin"/>
+            <!-- HikariCP connection pool configuration -->
+            <property name="hibernate.hikari.minimumIdle" value="1"/>
+            <property name="hibernate.hikari.maximumPoolSize" value="1"/>
+            <property name="hibernate.hikari.idleTimeout" value="30000"/>
+            <property name="hibernate.hikari.maxLifetime" value="600000"/>
+            <property name="hibernate.hikari.connectionTimeout" value="30000"/>
 
-            <!-- Automatic schema export -->
-            <property name="javax.persistence.schema-generation.database.action"
-                      value="update"/>
 
-            <!-- SQL statement logging -->
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- TODO Set to update, create, or create-drop as needed -->
+
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.highlight_sql" value="true"/>
+            <property name="hibernate.generate_statistics" value="true"/>
 
+            <!-- Specify entity classes -->
+            <property name="hibernate.ejb.persistenceUnitName" value="defaultPU"/>
         </properties>
 
     </persistence-unit>
-
 </persistence>
