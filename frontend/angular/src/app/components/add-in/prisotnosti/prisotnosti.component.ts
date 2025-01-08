@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PrisotnostiService } from '../../../services/prisotnosti.service';
 import { Prisotnost } from '../../../services/data/user-data.service';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PrisotnostiComponent {
   @Input() srecanjeId! : number;
+  @Output() prisotnostiLoad = new EventEmitter<Prisotnost[]>();
 
   constructor(private prisotnostiService: PrisotnostiService){}
   prisotnosti!: Prisotnost[];
@@ -21,6 +22,7 @@ export class PrisotnostiComponent {
     this.prisotnostiService.getPrisotnostiSrecanja(this.srecanjeId).subscribe(
       (response) => {
         this.prisotnosti = response;
+        this.prisotnostiLoad.emit(response);
         this.initialized = true;
       }
     );
@@ -30,6 +32,7 @@ export class PrisotnostiComponent {
     this.prisotnostiService.getPrisotnostiSrecanja(this.srecanjeId).subscribe(
       (response) => {
         this.prisotnosti = response;
+        this.prisotnostiLoad.emit(response);
       }
     );
   }

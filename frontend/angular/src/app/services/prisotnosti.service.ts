@@ -60,7 +60,7 @@ public deleteNekajPrisotnosti(body: number[]){
 }
 
 public deleteVsePrisotnosti(srecanjeId: number){
-  const url: string = `${this.globalVar.skavtkoApiUrl}/srecanja/${srecanjeId}`;
+  const url: string = `${this.globalVar.skavtkoApiUrl}/prisotnosti/srecanje/${srecanjeId}`;
   return this.http.delete(url).pipe(
     retry(1),
     catchError(this.handleError)
