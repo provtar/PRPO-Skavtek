@@ -21,7 +21,6 @@ export class SrecanjePutFormComponent {
 
     ngOnChanges(changes: SimpleChanges){
       if(changes['srecanje']){
-        console.log('initForm')
         this.initForm();
       }
     }
@@ -49,8 +48,8 @@ export class SrecanjePutFormComponent {
         let putData = new SrecanjePutData(this.srecanje.id, this.srecanje.idSkupine);
 
         putData.ime = formData.ime;
-        putData.datumOd = new Date(`${formData.datumOd}T${formData.uraOd}`);
-        putData.datumDo = new Date(`${formData.datumDo}T${formData.uraDo}`);
+        putData.datumOd = new Date(formData.datumOd);
+        putData.datumDo = new Date(formData.datumDo);
         if(formData.opis)putData.opis = formData.opis;
         else putData.opis = null;
         if(formData.kraj)putData.kraj = formData.kraj;

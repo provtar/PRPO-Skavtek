@@ -1,25 +1,23 @@
 <div>
   <form [formGroup]="prisotnostiPutForm" (ngSubmit)="onSubmit()" *ngIf="!submitSuccessfull">
     <div formArrayName="prisotnosti">
-      <div *ngFor="let prisotnostForm of prisotnostiForm.value; let i = index" [formGroupName]="i">
+      <div *ngFor="let prisotnostForm of prisotnostiForm.controls; let i = index" [formGroupName]="i">
+        <h5>{{prisotnosti.at(i)!.imeClana}} {{prisotnosti.at(i)!.priimekClana}}:</h5>
         <div>
-          <label for="name">Alias: </label>
-          <input formControlName="opomba" type="text" placeholder="Alias linka: ">
-        </div>
-
-        <div>
-          <label for="selectedOption">Select Option:</label>
           <select formControlName="prisotnost">
-            <option value="" disabled>Select an option</option> <!--Default disabled option-->
+            <!-- <option value="" disabled>Izberi</option> Default disabled option -->
             <option *ngFor="let tip of tipiPrisotnosti" [value]="tip">
-              {{ tip }}
+              {{ tip.valueOf() }}
             </option>
           </select>
-          <div *ngIf="prisotnostForm.get('prisotnost').invalid && prisotnostiForm.get('prisotnost')!.touched">
-            <p *ngIf="prisotnostForm.get('prisotnost').hasError('required')">Izberi neki.</p>
+          <div *ngIf="prisotnostForm.get('prisotnost')!.invalid && prisotnostiForm.get('prisotnost')!.touched">
+            <p *ngIf="prisotnostForm.get('prisotnost')!.hasError('required')">Izberi neki.</p>
           </div>
         </div>
-        <!-- dodaj delete button -->
+        <div>
+          <label>Opomba: </label>
+          <input formControlName="opomba" type="text" placeholder="Opomba ">
+        </div>
       </div>
     </div>
 

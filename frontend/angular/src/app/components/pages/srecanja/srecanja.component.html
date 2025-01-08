@@ -8,7 +8,14 @@
     <app-srecanje-put-button [srecanje]="srecanje" (putSuccess)="onSrecanjePutSuccess($event)"></app-srecanje-put-button>
     <app-srecanje-delete-button [srecanjeId]="srecanje.id" (deleteSuccess)="onSrecanjeDeleteSuccess()"></app-srecanje-delete-button>
     <div *ngIf="srecanje.belezenje">
-      <app-prisotnosti [srecanjeId]="srecanje.id"></app-prisotnosti>
+      <div *ngIf="!urejanjePrisotnosti">
+        <button (click)="uredi()">Uredi</button>
+        <app-prisotnosti-delete-vse-button [srecanjeId]="srecanje.id" (deleteSuccess)="onPrisotnostiDeleteSuccess()"></app-prisotnosti-delete-vse-button>
+        <app-prisotnosti [srecanjeId]="srecanje.id" (prisotnostiLoad)="naloziPrisotnosti($event)"></app-prisotnosti>
+      </div>
+      <div *ngIf="urejanjePrisotnosti">
+        <app-prisotnosti-put-form [prisotnosti]="prisotnosti!" (submitSuccess)="onPrisotnostiPutSuccess($event)"></app-prisotnosti-put-form>
+      </div>
     </div>
     <div *ngIf="!srecanje.belezenje">
       <app-prisotnosti-post-button [srecanjeId]="srecanje.id" (postSuccess)="onPrisotnostiPostSuccess($event)"></app-prisotnosti-post-button>

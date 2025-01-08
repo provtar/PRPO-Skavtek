@@ -23,15 +23,18 @@ export class PrisotnostiPutFormComponent {
   ngOnChanges(changes : SimpleChanges) {
     if(changes['prisotnosti']){
       this.formInit();
+      // console.log(Object.values(TipPrisotnosti));
+      // console.log(this.tipiPrisotnosti)
+      // console.log(this.tipiPrisotnosti.at(0)?.valueOf())
     }
   }
 
   onSubmit(){
     let putData = this.prisotnostiPutForm.get('prisotnosti')?.value;
-    console.log(putData);
+    // console.log(putData);
     this.prisotnostiService.putPrisotnosti(putData).subscribe(
       (response) => {
-        console.log("sub success", response);
+        // console.log("sub success", response);
         this.submitSuccess.emit(response);
       })
   }
@@ -42,7 +45,7 @@ export class PrisotnostiPutFormComponent {
     })
     this.prisotnosti.forEach((prisotnost, index) => {
       this.prisotnostiForm.push(this.createOnePrisotnostForm(prisotnost));
-      console.log("index stima", this.prisotnosti.at(index)!.id === this.prisotnostiForm.at(index).value.id);
+      // console.log("index stima", this.prisotnosti.at(index)!.id === this.prisotnostiForm.at(index).value.id);
     });
   }
 
