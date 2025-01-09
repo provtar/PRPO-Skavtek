@@ -25,7 +25,7 @@ Lokalni docker deployment:
 ```
 docker build -t skavtko:alpine-1 . 
 docker compose -f .\docker-compose-db.yaml up -d
-docker compose -f .\docker-compose-skavtko-local.yaml -d
+docker compose -f .\docker-compose-skavtko-local.yaml up -d
 ```
 Dostopa do databasa preko spremenljivk v .env datoteki (ki ni javna, ker jo docker ignora)
 ```
