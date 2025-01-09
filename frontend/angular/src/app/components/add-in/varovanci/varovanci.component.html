@@ -7,6 +7,7 @@
       <p>{{varovanec.ime}} {{varovanec.priimek}}</p>
       <p>{{varovanec.steg}}</p>
       <p>{{varovanec.skavtskoIme}}</p>
+      <button (click)="toClan(varovanec.id)">Prikazi</button>
       <app-clan-put-button [clan]="varovanec" (putSuccess)="onVarovanecPutSuccess()"></app-clan-put-button>
       <app-clan-delete-button [clanId]="varovanec.id" (deleteSuccess)="onVarovanecDeleteSuccess()"></app-clan-delete-button>
     </li>

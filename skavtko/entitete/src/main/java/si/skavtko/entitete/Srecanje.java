@@ -56,7 +56,7 @@ public class Srecanje {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "skupina", referencedColumnName = "id")
+    @JoinColumn(name = "skupina", referencedColumnName = "id", updatable = false)
     private Skupina skupina;
 
     //TODO, se ga znebit, za zdaj rabi za iskanje srecanj po clanu

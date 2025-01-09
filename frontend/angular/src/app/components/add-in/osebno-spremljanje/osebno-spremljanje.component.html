@@ -1,0 +1,18 @@
+<div>
+  <h4>Osebno spremljanje:</h4>
+  <div *ngIf="initialized">
+  <app-osebno-spremljanje-post-button [clanId]="clanId" (postSuccess)="onOSPostSuccess($event)"></app-osebno-spremljanje-post-button>
+  <ul>
+    <li *ngFor="let zapis of osZapisi">
+      <h4>{{zapis.naslov}}</h4>
+      <p>{{zapis.datum}}</p>
+      <p>{{zapis.vsebina}}</p>
+      <app-osebno-spremljanje-put-button [osebnoSpremljanje]="zapis" (putSuccess)="onOSPutSuccess($event)"></app-osebno-spremljanje-put-button>
+      <app-osebno-spremljanje-delete-button [osebnoSpremljanjeId]="zapis.id" (deleteSuccess)="onOSDeleteSuccess()"></app-osebno-spremljanje-delete-button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="!initialized">
+  <p>Zapisi se nalagajo</p>
+</div>
+</div>

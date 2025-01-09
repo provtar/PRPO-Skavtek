@@ -146,3 +146,11 @@ export class ClanSkupine {
   priimek!: string;
   steg?: string | null;
 }
+
+export class OsebnoSpremljanje {
+  id!: number;
+  datum!: Date;
+  naslov!: string;
+  vsebina?: string;
+  clanId!: number;
+}

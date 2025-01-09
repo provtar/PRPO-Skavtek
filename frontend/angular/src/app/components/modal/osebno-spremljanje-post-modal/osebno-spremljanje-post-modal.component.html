@@ -1,0 +1,6 @@
+<div *ngIf="isVisible">
+  <div>
+    <app-osebno-spremljanje-post-form [clanId]="clanId" (submitSuccess)="onFormSuccess($event)"></app-osebno-spremljanje-post-form>
+    <button (click)="close()">Zapri</button>
+  </div>
+</div>
