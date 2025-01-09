@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.List;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -20,16 +21,16 @@ import si.skavtko.dto.OsebnoSpremljanjeDTO;
 
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
-public class OsebnoSpremljanjeWriter implements MessageBodyWriter<OsebnoSpremljanjeDTO> {
+public class OsebnoSpremljanjeListWriter implements MessageBodyWriter<List<OsebnoSpremljanjeDTO>> {
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         
-        return type == OsebnoSpremljanjeDTO.class;
+        return List.class.isAssignableFrom(type);
     }
 
     @Override
-    public void writeTo(OsebnoSpremljanjeDTO t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
+    public void writeTo(List<OsebnoSpremljanjeDTO> t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
             MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream)
             throws IOException, WebApplicationException {
 
