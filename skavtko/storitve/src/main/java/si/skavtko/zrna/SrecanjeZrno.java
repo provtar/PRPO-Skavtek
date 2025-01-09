@@ -52,6 +52,23 @@ public class SrecanjeZrno {
         return res;
     }
 
+    @Transactional
+    public Boolean belezi(Long srecanjeId){
+        entityManager.getTransaction().begin();
+        try{
+            Srecanje srecanje = entityManager.find(Srecanje.class, srecanjeId);
+            if(srecanje == null) throw new NoResultException("Ni srecanja");
+            srecanje.setBelezenje(true);
+            entityManager.merge(srecanje);
+        }catch (Exception e){
+            System.out.println("Exception v belezi v srecanja" + e.getMessage());
+            entityManager.getTransaction().rollback();
+            return false;
+        }
+        entityManager.getTransaction().commit();
+        return true;
+    }
+
     //POST za ustvarjanje srecanj
     // TODO ustvarjanje notification in pre-srecanje funkcij (cekat raypoloyljivost), vse se shrani v prisotnosti
 
