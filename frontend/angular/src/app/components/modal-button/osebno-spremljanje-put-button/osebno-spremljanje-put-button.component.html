@@ -1,1 +1,4 @@
-<p>osebno-spremljanje-put-button works!</p>
+<div>
+  <button (click)="openModal()">Uredi</button>
+  <app-osebno-spremljanje-put-modal #OSputModal [osebnoSpremljanje]="osebnoSpremljanje" (postSuccess)="onPostSuccess($event)"></app-osebno-spremljanje-put-modal>
+</div>

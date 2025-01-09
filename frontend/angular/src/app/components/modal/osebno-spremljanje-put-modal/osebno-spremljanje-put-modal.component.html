@@ -1,1 +1,6 @@
-<p>osebno-spremljanje-put-modal works!</p>
+<div *ngIf="isVisible">
+  <div>
+    <app-osebno-spremljanje-put-form [osebnoSpremljanje]="osebnoSpremljanje" (submitSuccess)="onFormSuccess($event)"></app-osebno-spremljanje-put-form>
+    <button (click)="close()">Zapri</button>
+  </div>
+</div>

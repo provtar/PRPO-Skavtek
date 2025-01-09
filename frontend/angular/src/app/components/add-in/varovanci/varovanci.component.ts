@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ClanPostButtonComponent } from "../../modal-button/clan-post-button/clan-post-button.component";
 import { ClanPutButtonComponent } from "../../modal-button/clan-put-button/clan-put-button.component";
 import { ClanDeleteButtonComponent } from "../../modal-button/clan-delete-button/clan-delete-button.component";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-varovanci',
@@ -16,7 +17,7 @@ import { ClanDeleteButtonComponent } from "../../modal-button/clan-delete-button
   styleUrl: './varovanci.component.css'
 })
 export class VarovanciComponent {
-  constructor(private userData: UserDataService, private clanData: ClanDataService) {}
+  constructor(private userData: UserDataService, private clanData: ClanDataService, private router : Router) {}
 
   mojiVarovanci!: Clan[];
   initialized: boolean = false;
@@ -32,6 +33,14 @@ export class VarovanciComponent {
 
   onVarovanecDeleteSuccess(){
     this.refresh();
+  }
+
+  toClan(clanId : number){
+    this.router.navigate(['/clan'], {
+      queryParams: {
+        clanId: clanId
+      }
+    })
   }
 
   ngOnInit(){

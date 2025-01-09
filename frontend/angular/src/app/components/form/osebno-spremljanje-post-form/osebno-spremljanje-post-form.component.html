@@ -1,19 +1,19 @@
-<p>osebno-spremljanje-post-form works!</p>
 <div>
   <form [formGroup]="osebnoSpremljanjePostForm" (ngSubmit)="postOsebnoSpremljanje()">
+
+    <div>
+      <label for="naslov">Naslov:</label>
+      <input type="text" id="naslov" formControlName="naslov">
+      <div *ngIf="osebnoSpremljanjePostForm.get('naslov')?.invalid && osebnoSpremljanjePostForm.get('naslov')?.touched">
+        <small class="error">Dodaj naslov zapisu</small>
+      </div>
+    </div>
+
       <div>
         <label for="datum">Datum:</label>
         <input type="datetime-local" id="datum" formControlName="datum">
         <div *ngIf="osebnoSpremljanjePostForm.get('datum')?.invalid && osebnoSpremljanjePostForm.get('datum')?.touched">
           <small class="error">Datum is required.</small>
-        </div>
-      </div>
-
-      <div>
-        <label for="naslov">Naslov:</label>
-        <input type="text" id="naslov" formControlName="naslov">
-        <div *ngIf="osebnoSpremljanjePostForm.get('naslov')?.invalid && osebnoSpremljanjePostForm.get('naslov')?.touched">
-          <small class="error">Dodaj naslov zapisu</small>
         </div>
       </div>
 

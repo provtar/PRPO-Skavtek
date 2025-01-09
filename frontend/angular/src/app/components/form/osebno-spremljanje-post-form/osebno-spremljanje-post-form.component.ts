@@ -31,7 +31,7 @@ export class OsebnoSpremljanjePostFormComponent {
     this.osebnoSpremljanjePostForm = this.fb.group({
       datum: [this.getDefaultDateTime(), [Validators.required]],
       naslov: ['', [Validators.required, Validators.maxLength(100)]],
-      vsebina: ['', [Validators.required]]
+      vsebina: ['']
     });
   }
 

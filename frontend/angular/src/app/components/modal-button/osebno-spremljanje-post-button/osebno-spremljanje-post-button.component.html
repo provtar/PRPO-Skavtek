@@ -1,1 +1,4 @@
-<p>osebno-spremljanje-post-button works!</p>
+<div>
+  <button (click)="openModal()">Ustvari zapis</button>
+  <app-osebno-spremljanje-post-modal #OSpostModal [clanId]="clanId" (postSuccess)="onPostSuccess($event)"></app-osebno-spremljanje-post-modal>
+</div>

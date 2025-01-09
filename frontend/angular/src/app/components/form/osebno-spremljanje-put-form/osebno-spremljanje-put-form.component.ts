@@ -20,7 +20,7 @@ export class OsebnoSpremljanjePostFormComponent {
   submitSuccessfull: boolean= false;
 
   ngOnChanges(changes : SimpleChanges){
-    if(changes['clanId']){
+    if(changes['osebnoSpremljanje']){
       this.formInit();
       this.submitSuccessfull= false;
     }
@@ -30,8 +30,8 @@ export class OsebnoSpremljanjePostFormComponent {
   formInit(){
     this.osebnoSpremljanjePutForm = this.fb.group({
       datum: [this.getShortDateTime(this.osebnoSpremljanje.datum), [Validators.required]],
-      naslov: [this.osebnoSpremljanje.naslov, [Validators.required, Validators.maxLength(100)]],
-      vsebina: [this.osebnoSpremljanje.vsebina, [Validators.required]]
+      naslov: [this.osebnoSpremljanje.naslov, [Validators.required]],
+      vsebina: [this.osebnoSpremljanje.vsebina]
     });
   }
 

@@ -13,8 +13,7 @@ constructor(private http: HttpClient, private globalVar: GlobalVarService) { }
 
 public getOsebnoSpremljanjePoClanu(clanId: number){
   const url = `${this.globalVar.skavtkoApiUrl}/osebno-spremljanje`;
-  let params = new HttpParams();
-  params.set('clanId', clanId.toString());
+  let params = new HttpParams().set('clanId', clanId.toString());
 
   return this.http.get<OsebnoSpremljanje[]>(url, { params }).pipe(retry(1), catchError(this.handleError));
 }
