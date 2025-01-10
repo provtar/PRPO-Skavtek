@@ -10,8 +10,10 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
+// import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.apache.kafka.clients.producer.Producer;
@@ -20,7 +22,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import com.google.gson.Gson;
 import com.kumuluz.ee.streaming.common.annotations.StreamProducer;
 
-import si.skavtko.skupine.storitve.dto.ClanMinDTO;
 import si.skavtko.skupine.storitve.dto.ClanSkupineDTO;
 import si.skavtko.skupine.storitve.dto.SkupinaClanaDTO;
 import si.skavtko.skupine.storitve.dto.SkupinaDTO;
@@ -38,25 +39,28 @@ public class SkupinaZrno {
 
     Gson gson = null;
 
-    @PersistenceContext
-    EntityManager entityManager;
+    EntityManagerFactory emf;
 
     @PostConstruct
     private void init(){
         gson = new Gson();
+        emf = Persistence.createEntityManagerFactory("defaultPU");
     }
 
     @PreDestroy
-    private void destroy(){
+    private void deinit(){
+        emf.close();
     }
 
     public SkupinaDTO getSkupina(Long id){
+        EntityManager entityManager = emf.createEntityManager();
         Skupina skupina = entityManager.find(Skupina.class, id);
         SkupinaDTO res = new SkupinaDTO(skupina);
         return res;
     }
 
     public List<SkupinaClanaDTO> getSkupinePoClanu(Long idClan){
+        EntityManager entityManager = emf.createEntityManager();
         List<SkupinaClanaDTO> res = entityManager.createNamedQuery("Skupina.fromClan", SkupinaClanaDTO.class)
         .setParameter("clanId", idClan).getResultList();
 
@@ -64,6 +68,7 @@ public class SkupinaZrno {
     }
 
     public List<ClanSkupineDTO> getClaniPoSkupini(Long idSkupine){
+        EntityManager entityManager = emf.createEntityManager();
         List<ClanSkupineDTO> res = entityManager.createNamedQuery("Clan.fromSkupina", ClanSkupineDTO.class).setParameter("skupinaId", idSkupine).getResultList();
         
         return res;
@@ -71,6 +76,7 @@ public class SkupinaZrno {
 
     @Transactional
     public SkupinaDTO novaSkupina(SkupinaDTO skupina){//dela, manjka kaksen try catch block
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
         Skupina novaSkupina = new Skupina();
@@ -96,6 +102,7 @@ public class SkupinaZrno {
 
     @Transactional
     public SkupinaDTO posodobiSkupino(SkupinaDTO skupina){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
 
         try{
@@ -129,6 +136,7 @@ public class SkupinaZrno {
 
     @Transactional
     public ClanSkupineDTO dodajClana(Long skupinaId, Long clanId){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         ClanSkupineDTO res;
         ClanSkupina cs;
@@ -155,6 +163,7 @@ public class SkupinaZrno {
 
     @Transactional
     public Set<ClanSkupineDTO> dodajClane(Long skupinaId, List<Long> claniId){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         Skupina skupina;
         Set<ClanSkupineDTO> res = new HashSet<>();
@@ -197,6 +206,7 @@ public class SkupinaZrno {
 
     @Transactional
     public void deleteSkupino( Long skupinaId){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         Skupina skupina = entityManager.find(Skupina.class, skupinaId);
         try{
@@ -212,6 +222,7 @@ public class SkupinaZrno {
 
     @Transactional
     public void deleteClanaSkupine( Long skupinaId, Long clanId){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
                 ClanSkupina skupinaClan = entityManager.createNamedQuery("CS.fromCinS", ClanSkupina.class)
@@ -228,6 +239,7 @@ public class SkupinaZrno {
 
     @Transactional
     public void deleteClaneSkupine(Long skupinaId, List<Long> clani){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
             for(Long clanId : clani){

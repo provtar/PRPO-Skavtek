@@ -1,9 +1,11 @@
 package si.skavtko.skupine.storitve.zrna;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -19,23 +21,28 @@ public class KafkaClanConsumer {
 
     Gson gson = null;
 
-    @PersistenceContext
-    EntityManager entityManager;
+    EntityManagerFactory emf;
 
     @PostConstruct
     private void init(){
         gson = new Gson();
+        emf = Persistence.createEntityManagerFactory("defaultPU");
+    }
+
+    @PreDestroy
+    private void deinit(){
+        emf.close();
     }
 
     @StreamListener(topics = {"clan-post"})
     public void clanPost(ConsumerRecord<String, String> record) {
-	    System.out.println(record.value());
         ClanMinDTO novClanDTO = gson.fromJson(record.value(), ClanMinDTO.class);
         novClanMin(novClanDTO);
     }
 
     @Transactional
     private void novClanMin(ClanMinDTO data){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
             ClanMin novClan = new ClanMin();
@@ -45,7 +52,6 @@ public class KafkaClanConsumer {
             if(data.getSteg() != null) novClan.setSteg(data.getSteg());
             entityManager.persist(novClan);
             entityManager.getTransaction().commit();
-            // System.out.println("ustvaril clana" + novClan.getId());
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
@@ -55,13 +61,13 @@ public class KafkaClanConsumer {
 
     @StreamListener(topics = {"clan-put"})
     public void clanPut(ConsumerRecord<String, String> record) {
-	    System.out.println(record.value());
         ClanMinDTO updateClanDTO = gson.fromJson(record.value(), ClanMinDTO.class);
         putClanMin(updateClanDTO);
     }
 
     @Transactional
     private void putClanMin(ClanMinDTO data){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
             ClanMin updateClan = entityManager.find(ClanMin.class, data.getId());
@@ -78,16 +84,15 @@ public class KafkaClanConsumer {
 
     @StreamListener(topics = {"clan-delete"})
     public void clanDelete(ConsumerRecord<String, String> record) {
-	    // System.out.println("clan delete: " + record.value());
         Long id = Long.parseLong(record.value(), 10);
         deleteClanMin(id);
     }
 
     @Transactional
     private void deleteClanMin(Long id){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
-            // System.out.println(id);
             ClanMin clanToDelete = entityManager.find(ClanMin.class, id);
             if(clanToDelete != null)entityManager.remove(clanToDelete);
             entityManager.getTransaction().commit();
