@@ -1,10 +1,11 @@
-package si.skavtko.zrna;
+package si.skavtko.clani.zrna;
 
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
@@ -13,19 +14,33 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.NotFoundException;
 
-import si.skavtko.dto.ClanDTO;
-import si.skavtko.entitete.Clan;
-import si.skavtko.entitete.enums.UserRole;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+import com.google.gson.Gson;
+import com.kumuluz.ee.streaming.common.annotations.StreamProducer;
+
+import si.skavtko.clani.dto.ClanDTO;
+import si.skavtko.clani.dto.ClanMinDTO;
+import si.skavtko.clani.entitete.Clan;
+import si.skavtko.clani.entitete.enums.UserRole;
 
 @ApplicationScoped
 public class ClanZrno {
+
+    @Inject
+    @StreamProducer
+    private Producer<String, String> producer;
+
+    Gson gson = null;
 
     @PersistenceContext
     EntityManager entityManager;
     
     @PostConstruct
     private void init(){
-            }
+        gson= new Gson();
+    }
 
     @PreDestroy
     private void destroy(){
@@ -41,7 +56,7 @@ public class ClanZrno {
 
     public List<ClanDTO> getClan(String ime, String priimek){
         List<ClanDTO> res = entityManager
-        .createQuery("select new si.skavtko.dto.ClanDTO(c.id, c.ime, c.priimek, c.steg, c.skavtskoIme) from Clan c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.priimek = :arg2) and c.role = :arg3", ClanDTO.class).
+        .createQuery("select new si.skavtko.clani.dto.ClanDTO(c.id, c.ime, c.priimek, c.steg, c.skavtskoIme) from Clan c where (:arg1 is null or c.ime = :arg1) and (:arg2 is null or c.priimek = :arg2) and c.role = :arg3", ClanDTO.class).
         setParameter("arg1", ime)
         .setParameter("arg2", priimek)
         .setParameter("arg3", UserRole.ACTIVE)
@@ -73,12 +88,13 @@ public class ClanZrno {
             }else{
                 newClan.setMaster(master);
             }
-            
 
             entityManager.persist(newClan);
             entityManager.flush();
             data = new ClanDTO(newClan);
             entityManager.getTransaction().commit();
+            String novClanJson = gson.toJson(new ClanMinDTO(newClan));
+            producer.send(new ProducerRecord<String,String>("clan-post", novClanJson));
         }catch(NotFoundException nfe){
             entityManager.getTransaction().rollback();
             throw nfe;
@@ -109,6 +125,8 @@ public class ClanZrno {
             entityManager.persist(newClan);
             data = new ClanDTO(newClan);
             entityManager.getTransaction().commit();
+            String novClanJson = gson.toJson(new ClanMinDTO(newClan));
+            producer.send(new ProducerRecord<String,String>("clan-post", novClanJson));
         }catch(NonUniqueResultException nure){
             entityManager.getTransaction().rollback();
             throw nure;
@@ -164,6 +182,8 @@ public class ClanZrno {
             data = new ClanDTO(clan);
 
             entityManager.getTransaction().commit();
+            String novClanJson = gson.toJson(new ClanMinDTO(clan));
+            producer.send(new ProducerRecord<String,String>("clan-put", novClanJson));
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
@@ -181,5 +201,6 @@ public class ClanZrno {
         if(clan != null)entityManager.remove(clan);
 
         entityManager.getTransaction().commit();
+        producer.send(new ProducerRecord<String,String>("clan-delete", id.toString()));
     }
 }

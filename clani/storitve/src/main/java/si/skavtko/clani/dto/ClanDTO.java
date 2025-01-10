@@ -1,6 +1,6 @@
-package si.skavtko.dto;
+package si.skavtko.clani.dto;
 
-import si.skavtko.entitete.Clan;
+import si.skavtko.clani.entitete.Clan;
 
 //TODO mu dodat email
 public class ClanDTO {

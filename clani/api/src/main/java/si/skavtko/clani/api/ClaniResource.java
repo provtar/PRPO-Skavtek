@@ -1,4 +1,4 @@
-package si.skavtko.v1.api;
+package si.skavtko.clani.api;
 
 
 
@@ -29,9 +29,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import si.skavtko.dto.ClanAktivenDTO;
-import si.skavtko.dto.ClanDTO;
-import si.skavtko.zrna.ClanZrno;
+import si.skavtko.clani.dto.ClanAktivenDTO;
+import si.skavtko.clani.dto.ClanDTO;
+import si.skavtko.clani.zrna.ClanZrno;
 
 @Path("/clani")
 @Tag(name = "Upravljanje s clani",

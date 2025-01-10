@@ -1,4 +1,4 @@
-package si.skavtko.v1;
+package si.skavtko.clani;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

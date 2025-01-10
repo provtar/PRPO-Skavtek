@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: db
+    volumes:
+      - pgdata:/var/lib/docker/volumes/pgdata/
+    ports:
+      - 5436:5432
+ 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9081:8080
+    depends_on:
+      db:
+        condition: service_started
+
+
+volumes:
+  pgdata:
+
+

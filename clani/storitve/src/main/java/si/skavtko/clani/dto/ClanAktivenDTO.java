@@ -1,4 +1,4 @@
-package si.skavtko.dto;
+package si.skavtko.clani.dto;
 
 public class ClanAktivenDTO {
 

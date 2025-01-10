@@ -1,4 +1,4 @@
-package si.skavtko.v1.servlet;
+package si.skavtko.clani.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;

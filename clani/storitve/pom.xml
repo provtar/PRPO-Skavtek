@@ -25,9 +25,19 @@
             <artifactId>kumuluzee-cdi-weld</artifactId>
         </dependency>
 <dependency>
+    <groupId>com.kumuluz.ee.streaming</groupId>
+    <artifactId>kumuluzee-streaming-kafka</artifactId>
+</dependency>
+<dependency>
     <groupId>com.kumuluz.ee.openapi</groupId>
     <artifactId>kumuluzee-openapi</artifactId>
 </dependency>
+
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+</dependency>
+
 
         <dependency>
             <groupId>si.skavtko.clani</groupId>

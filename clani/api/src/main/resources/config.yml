@@ -5,9 +5,29 @@ kumuluzee:
     name: dev
   version: 1.0.0
   server:
-    base-url: http://localhost:8080
+    base-url: http://localhost:8071
     http:
-      port: 8080
+      port: 8071
+  streaming:
+    kafka:
+      producer:
+        bootstrap-servers: localhost:9092
+        acks: all
+        retries: 0
+        batch-size: 16384
+        linger-ms: 1
+        buffer-memory: 33554432
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+# consumer config
+      consumer:
+        bootstrap-servers: localhost:9092
+        group-id: group1
+        enable-auto-commit: true
+        auto-commit-interval-ms: 1000
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
   # datasources:
   #   demo-db:
   #     driver-class-name: org.postgresql.Driver

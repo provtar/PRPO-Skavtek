@@ -1,4 +1,4 @@
-package si.skavtko.entitete;
+package si.skavtko.clani.entitete;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,14 +22,14 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import si.skavtko.entitete.enums.UserRole;
+import si.skavtko.clani.entitete.enums.UserRole;
 
 
 @Entity
 @NamedQueries(value = {
     @NamedQuery(name = "Clan.fromEmail", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email"),
     @NamedQuery(name = "Clan.fromEmailInPassword", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email and c.password = :password"),
-    @NamedQuery(name = "Varovanci.fromMaster", query = "select new si.skavtko.dto.ClanDTO(c.id, c.ime, c.priimek, c.steg, c.skavtskoIme) from Clan c "+
+    @NamedQuery(name = "Varovanci.fromMaster", query = "select new si.skavtko.clani.dto.ClanDTO(c.id, c.ime, c.priimek, c.steg, c.skavtskoIme) from Clan c "+
         " where c.master.id = :masterId")
 
 })

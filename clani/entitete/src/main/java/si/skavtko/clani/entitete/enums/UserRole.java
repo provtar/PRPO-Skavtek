@@ -1,4 +1,4 @@
-package si.skavtko.entitete.enums;
+package si.skavtko.clani.entitete.enums;
 
 public enum UserRole {
         PASSIVE (Values.PASSIVE),
