@@ -11,6 +11,7 @@ public class SrecanjeMinDTO {
             this.id = srecanje.getId();
             this.ime = srecanje.getIme();
             this.skupinaId = srecanje.getSkupina().getId();
+            this.belezenje = srecanje.getBelezenje();
         }
     
         private Long id;
@@ -18,6 +19,16 @@ public class SrecanjeMinDTO {
         private String ime;
 
         private Long skupinaId;
+
+        private Boolean belezenje;
+
+        public Boolean getBelezenje() {
+            return belezenje;
+        }
+
+        public void setBelezenje(Boolean belezenje) {
+            this.belezenje = belezenje;
+        }
 
         public Long getSkupinaId() {
             return skupinaId;
