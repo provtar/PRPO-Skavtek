@@ -159,7 +159,7 @@ public class SkupinaZrno {
         }catch (Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
-            return null;
+            res = null;
         }finally{
             entityManager.close();
         }
@@ -179,7 +179,8 @@ public class SkupinaZrno {
         ClanSkupina cs;
 
             for(Long clanId : claniId){
-                ClanMin clan = entityManager.getReference(ClanMin.class, clanId);
+                ClanMin clan;
+                clan = entityManager.find(ClanMin.class, clanId);
                 if(clan != null){
                     // TODO suboptimalno, ampak dela, nekaj prevec poizvedb se klice, vsaj clana bi si ga lahko evitiral
                     // Resitev, dobit seznam id-jev clanov in dobt, ce ze obstaja id

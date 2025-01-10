@@ -55,6 +55,8 @@ public class KafkaClanConsumer {
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
+        }finally{
+            entityManager.close();
         }
         
     }
@@ -79,6 +81,8 @@ public class KafkaClanConsumer {
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
+        }finally{
+            entityManager.close();
         }
     }
 
@@ -99,6 +103,8 @@ public class KafkaClanConsumer {
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
+        }finally{
+            entityManager.close();
         }
         
     }
