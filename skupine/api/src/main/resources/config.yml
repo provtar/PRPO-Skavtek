@@ -23,7 +23,7 @@ kumuluzee:
 # consumer config
       consumer:
         bootstrap-servers: localhost:9092
-        group-id: group1
+        group-id: group2
         enable-auto-commit: true
         auto-commit-interval-ms: 1000
         auto-offset-reset: earliest
