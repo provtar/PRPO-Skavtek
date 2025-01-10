@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
     version = "v1.0.0", 
     contact = @Contact(name = "Peter", email = "ps11915@student.uni-lj.si"), 
     license = @License()), 
-    servers = @Server(url = "http://localhost:8080/v1"))
+    servers = @Server(url = "http://localhost:8071/v1"))
 @ApplicationPath("/v1")
 @CrossOrigin(name = "vsi", allowOrigin = "*",
     supportedMethods = "GET,POST,HEAD,OPTIONS,PUT,DELETE"
