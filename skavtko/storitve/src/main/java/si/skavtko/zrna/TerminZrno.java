@@ -31,8 +31,8 @@ public class TerminZrno {
     private void destroy(){
     }
 
-    public List<TerminDTO> getVsebovaniTermini(LocalDateTime datumOd, LocalDateTime datumDo, Long idClan) throws InvalidParameterException {
-        if (datumDo == null || datumOd == null || idClan == null) {
+    public List<TerminDTO> getVsebovaniTermini(LocalDateTime datumOd, LocalDateTime datumDo, Long clanId) throws InvalidParameterException {
+        if (datumDo == null || datumOd == null || clanId == null) {
             throw new InvalidParameterException("One or more imputs is null");
         }
         if (datumOd.compareTo(datumDo) >= 0) {
@@ -41,44 +41,51 @@ public class TerminZrno {
         List<TerminDTO> rez = entityManager.createNamedQuery("Termini.fromOdDoClan", TerminDTO.class)
         .setParameter("datumOd", datumOd)
         .setParameter("datumDo", datumDo)
-        .setParameter("idClan", idClan)
+        .setParameter("clanId", clanId)
         .getResultList();
         return rez;
     }
 
-    public List<TerminDTO> posodobiTermine(LocalDateTime datumOd, LocalDateTime datumDo, Long idClan, List<TerminDTO> noviTermini) {
-        List<TerminDTO> stari = getVsebovaniTermini(datumOd, datumDo, idClan);
-        stari.get(0).getId();
-        for(TerminDTO terminD : stari) {
-            // odstrani stare
-            if(datumOd.isAfter(terminD.getDatumOd())) { // first edge case
-                Termin termin = entityManager.find(Termin.class, terminD.getId());
-                termin.setDatumOd(datumOd);
-                entityManager.merge(termin);
+    public List<TerminDTO> posodobiTermine(LocalDateTime datumOd, LocalDateTime datumDo, Long clanId, List<TerminDTO> noviTermini) {
+        entityManager.getTransaction().begin();
+        try {
+            List<TerminDTO> stari = getVsebovaniTermini(datumOd, datumDo, clanId);
+            for(TerminDTO terminD : stari) {
+                // odstrani stare
+                if(datumOd.isAfter(terminD.getDatumOd())) { // first edge case
+                    Termin termin = entityManager.find(Termin.class, terminD.getId());
+                    termin.setDatumOd(datumOd);
+                    entityManager.merge(termin);
+                }
+                if(terminD.getDatumDo().isAfter(datumDo)) { // second edge case
+                    Termin termin = entityManager.find(Termin.class, terminD.getId());
+                    termin.setDatumDo(datumDo);
+                    entityManager.merge(termin);
+                }
+                if (!datumOd.isAfter(terminD.getDatumOd()) && !terminD.getDatumDo().isAfter(datumDo)) {
+                    Termin termin = entityManager.find(Termin.class, terminD.getId());
+                    entityManager.remove(termin);
+                }
             }
-            if(terminD.getDatumDo().isAfter(datumDo)) { // second edge case
-                Termin termin = entityManager.find(Termin.class, terminD.getId());
-                termin.setDatumDo(datumDo);
-                entityManager.merge(termin);
-            }
-            if (!datumOd.isAfter(terminD.getDatumOd()) && !terminD.getDatumDo().isAfter(datumDo)) {
-                Termin termin = entityManager.find(Termin.class, terminD.getId());
-                entityManager.remove(termin);
-            }
-        }
 
-        // Clan user = entityManager.getReference(Clan.class, idClan);
-        ArrayList<TerminDTO> seznamNovi = new ArrayList<>();
-        for(TerminDTO termin : noviTermini) {
-            if(termin.getDatumDo() != null && termin.getDatumOd() != null) {
-                Termin nov = new Termin(termin.getDatumOd(), termin.getDatumDo(), idClan, TipTermina.Zaseden);
-                nov.setDatumDo(termin.getDatumDo());
-                nov.setClanId(idClan);
-                entityManager.persist(nov);
-                seznamNovi.add(new TerminDTO(nov));
+            // Clan user = entityManager.getReference(Clan.class, clanId);
+            ArrayList<TerminDTO> seznamNovi = new ArrayList<>();
+            for(TerminDTO termin : noviTermini) {
+                if(termin.getDatumDo() != null && termin.getDatumOd() != null) {
+                    Termin nov = new Termin(termin.getDatumOd(), termin.getDatumDo(), clanId, TipTermina.Zaseden);
+                    nov.setDatumDo(termin.getDatumDo());
+                    nov.setClanId(clanId);
+                    entityManager.persist(nov);
+                    seznamNovi.add(new TerminDTO(nov));
+                }
             }
+            entityManager.getTransaction().commit();
+            return seznamNovi;
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            entityManager.getTransaction().rollback();
+            return null;
         }
-        return seznamNovi;
         
     }
 

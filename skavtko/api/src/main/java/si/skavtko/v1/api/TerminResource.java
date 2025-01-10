@@ -7,6 +7,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -37,6 +38,23 @@ public class TerminResource {
 
     @Inject
     TerminZrno terminZrno;
+
+    @GET
+    @Operation(summary = "Pridobi termine v obmocju",
+        description = "Mu poves zacetni in koncni cas")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "201", description = "Vrnjeni termini", content = @Content(mediaType = "application/json",
+            schema = @Schema(implementation = TerminDTO.class)))
+        })
+    public Response getResource(
+        @Parameter(description = "Podatki terminov, ki jih zelis dobiti")
+        TerminDTO data) {
+
+        List<TerminDTO> termini = terminZrno.getVsebovaniTermini(data.getDatumOd(), data.getDatumDo(), data.getClanId());
+        
+        return Response.status(Status.CREATED).entity(termini).build();
+        // return Response.ok(data).build();
+    }
 
     @POST
     @Path("/single")
@@ -72,13 +90,13 @@ public class TerminResource {
         String datumDoISO8601,
         @Parameter(description = "Id clana, kateremu pripadajo termini")
         @QueryParam("clanId")
-        Long idClan,
+        Long clanId,
         @Parameter(description = "Seznam novih terminov")
         List<TerminDTO> noviTermini) {
 
             LocalDateTime datumOd =LocalDateTime.parse(datumOdISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             LocalDateTime datumDo =LocalDateTime.parse(datumDoISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        List<TerminDTO> ustvarjeniTermini = terminZrno.posodobiTermine(datumOd, datumDo, idClan, noviTermini);
+        List<TerminDTO> ustvarjeniTermini = terminZrno.posodobiTermine(datumOd, datumDo, clanId, noviTermini);
         
         return Response.status(Status.CREATED).entity(ustvarjeniTermini).build();
         // return Response.ok(noviTermini).build();
