@@ -56,6 +56,7 @@ public class SkupinaZrno {
         EntityManager entityManager = emf.createEntityManager();
         Skupina skupina = entityManager.find(Skupina.class, id);
         SkupinaDTO res = new SkupinaDTO(skupina);
+        entityManager.close();
         return res;
     }
 
@@ -63,7 +64,7 @@ public class SkupinaZrno {
         EntityManager entityManager = emf.createEntityManager();
         List<SkupinaClanaDTO> res = entityManager.createNamedQuery("Skupina.fromClan", SkupinaClanaDTO.class)
         .setParameter("clanId", idClan).getResultList();
-
+        entityManager.close();
         return res;
     }
 
@@ -96,6 +97,8 @@ public class SkupinaZrno {
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             throw e;
+        }finally{
+            entityManager.close();
         }
         return skupina;
     }
@@ -129,6 +132,8 @@ public class SkupinaZrno {
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return null;
+        }finally{
+            entityManager.close();
         }
         
         return skupina;
@@ -155,6 +160,8 @@ public class SkupinaZrno {
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return null;
+        }finally{
+            entityManager.close();
         }
         
         entityManager.getTransaction().commit();
@@ -189,18 +196,16 @@ public class SkupinaZrno {
                         entityManager.merge(clan);
                         continue;
                     }
+                }
             }
-
-                
-            }
-        
-
+            entityManager.getTransaction().commit();
         }catch (Exception e){
             System.out.println(e.getMessage() + " Komi tuki sem ga ulovu");
             entityManager.getTransaction().rollback();
-            return null;
+            throw e;
+        }finally{
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
         return res;
     }
 
@@ -217,6 +222,8 @@ public class SkupinaZrno {
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
+        }finally{
+            entityManager.close();
         }
     }
 
@@ -228,13 +235,14 @@ public class SkupinaZrno {
                 ClanSkupina skupinaClan = entityManager.createNamedQuery("CS.fromCinS", ClanSkupina.class)
                 .setParameter("clanId", clanId).setParameter("skupinaId", skupinaId).getSingleResult();
                 entityManager.remove(skupinaClan);
+                entityManager.getTransaction().commit();
         }catch(NoResultException nre){
-            return;
         }
         catch(Exception e){
             System.out.println(e.getMessage());
+        }finally{
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
     }
 
     @Transactional
@@ -251,13 +259,15 @@ public class SkupinaZrno {
                     continue;
                 }
             }
+            entityManager.getTransaction().commit();
         }
         catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             throw e;
+        }finally{
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
     }
 
 }
