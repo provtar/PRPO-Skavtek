@@ -95,29 +95,6 @@ public class SrecanjeResource {
     }
 
     @POST
-    @Operation(summary = "Mu pove, da se je ustvarilo belezenje prisotnosti",
-        description = "Mu poves za kteri id so bile ustvarjene prisotnosti")
-        @ApiResponses( value = {
-            @ApiResponse(responseCode = "200", description = "Uspelo", content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = SrecanjeDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Nobeno srecanje nima tega id-ja")
-        })
-    @Path("/{id}/belezi")
-    public Response belezi(
-        @Parameter(description = "Id srecanja, ki ima prisotnosti", example = "13")
-        @PathParam("id") Long id){
-        try{
-            Boolean res = srecanjeZrno.belezi(id);
-            if(res) return Response.ok().build();
-            else return Response.status(Status.BAD_REQUEST).build();
-        }catch(NoResultException nre){
-            return Response.status(Status.NOT_FOUND).build();
-        }catch(Exception e){
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
-    }
-
-    @POST
     @Operation(summary = "Ustvari srecanje",
         description = "Mu poves skupino, mu poves kaksno srecanje")
         @ApiResponses( value = {
