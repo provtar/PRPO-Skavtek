@@ -91,8 +91,8 @@ public class SrecanjeResource {
         }catch(NoResultException nre){
             return Response.status(Status.NOT_FOUND).build();
         }catch(Exception e){
-            throw e;
-            // return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            // throw e;
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
     }
 
