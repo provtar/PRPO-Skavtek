@@ -2,6 +2,7 @@ package si.skavtko.zrna;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -72,7 +73,7 @@ public class PrisotnostZrno {
                 srecanje.getPrisotnosti().add(prisotnost);
                 prisotni.add(new PrisotnostDTO(prisotnost));
             }
-            entityManager.merge(srecanje);
+              entityManager.merge(srecanje);
             entityManager.getTransaction().commit();
             entityManager.refresh(srecanje);
             // System.out.println("Post prisotnosti" + srecanje.getBelezenje());
@@ -80,6 +81,7 @@ public class PrisotnostZrno {
             // if (srecanje != null) {
             //     System.out.println("Post prisotnosti:" + srecanje.getBelezenje());
             // }
+            }
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();

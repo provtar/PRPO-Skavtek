@@ -1,0 +1,71 @@
+# https://github.com/kumuluz/kumuluzee/wiki/Configuration documenatcija
+kumuluzee:
+  name: skavtko
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8073
+    http:
+      port: 8073
+      # producer config
+  streaming:
+    kafka:
+      producer:
+        bootstrap-servers: localhost:9092
+        acks: all
+        retries: 0
+        batch-size: 16384
+        linger-ms: 1
+        buffer-memory: 33554432
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+# consumer config
+      consumer:
+        bootstrap-servers: localhost:9092
+        group-id: group1
+        enable-auto-commit: true
+        auto-commit-interval-ms: 1000
+        auto-offset-reset: earliest
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  # datasources:
+  #   demo-db:
+  #     driver-class-name: org.postgresql.Driver
+  #     url: jdbc:postgresql://localhost:5435/db
+  #     username: admin
+  #     password: admin
+  #     #dev
+  #     hikari:
+  #       maximum-pool-size: 10
+  #       minimum-idle: 5
+  #       idle-timeout: 15000
+  #       max-lifetime: 30000
+  #     hibernate:
+  #       dialect: org.hibernate.dialect.PostgreSQLDialect
+  #       hbm2ddl-auto: create-drop
+  #       show-sql: true
+  #       format-sql: true
+  #       highlight-sql: true
+  # jpa:
+  #   persistence-units:
+  #     demoPU:  # Default persistence unit name
+  #       jdbc:
+  #         url: jdbc:postgresql://localhost:5435/db
+  #         user: admin
+  #         password: admin
+  #         driver: org.postgresql.Driver
+          
+  #       # Hibernate Settings
+  #       hibernate:
+  #         dialect: org.hibernate.dialect.PostgreSQLDialect
+  #         hbm2ddl:
+  #           auto: create-drop  # Set schema generation to drop and create on startup
+  #         show-sql: true
+  #         format-sql: true
+  #         connection:
+  #           minimum-idle: 5
+  #           maximum-pool-size: 20
+  #           idle-timeout: 30000
+  #   default-persistence-unit: demosPU

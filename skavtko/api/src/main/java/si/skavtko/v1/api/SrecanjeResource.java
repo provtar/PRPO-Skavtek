@@ -94,13 +94,6 @@ public class SrecanjeResource {
         }
     }
 
-    // private ClanDTO klici(URL url){
-    //     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-    //     conn.setRequestMethod("GET");
-    //     conn.setDoOutput(true);
-    //     DataOutputStream dos = 
-    // }
-
     @POST
     @Operation(summary = "Ustvari srecanje",
         description = "Mu poves skupino, mu poves kaksno srecanje")

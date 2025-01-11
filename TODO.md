@@ -1,4 +1,7 @@
 # TODO
+## Za locenje na mikrostoritve:
+- Eno po eno loci in ustvari drugi mvn projekt, ki se razlicno imenuje
+- Clan : ne spreminjati nic, samo loci
 ## Backend
 ### Srecanje prisotnosti jih dodaja multiple, preveri, da se ne obstaja v POST metodi
 
