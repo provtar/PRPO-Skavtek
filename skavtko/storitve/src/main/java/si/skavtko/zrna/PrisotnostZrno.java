@@ -1,11 +1,7 @@
 package si.skavtko.zrna;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -56,17 +52,14 @@ public class PrisotnostZrno {
         entityManager.getTransaction().begin();
         ArrayList<PrisotnostDTO> prisotni = new ArrayList<>();
         try{
-            System.out.println("Zacenjam ustvarjati srecanja");
             Srecanje srecanje = entityManager.find(Srecanje.class, idSrecanja);
             if(srecanje == null) throw new NoResultException();
             if(srecanje.getBelezenje() == true) return isciPoSrecanju(idSrecanja);
-            System.out.println("Dobil sem srecanje");
+            srecanje.setBelezenje(true);
             List<ClanSkupineDTO> clani = skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
-            System.out.println("Dobil clanov: " + clani.size());
 
             for(ClanSkupineDTO c : clani){
                 Clan cc = entityManager.find(Clan.class, c.getClanId());
-                System.out.println("Iskal sem clana:");
                 if(cc == null) continue; //TODO, razmisli, ce je tko bolj pametno, ali ce rajsi posljes napako, ce je en clan napacen
                 //TODO, pazi, da se prisotnosti ne podvojijo
                 //Skoraj boljse sam zaznat napako in jo poslat tistemu, ki je neumne podatke posiljal
@@ -80,19 +73,14 @@ public class PrisotnostZrno {
                 srecanje.getPrisotnosti().add(prisotnost);
                 prisotni.add(new PrisotnostDTO(prisotnost));
             }
-            System.out.println("Ce si tukaj si skoraj na koncu");
-            // srecanje.setBelezenje(true); to naredis ko se belezenje vrne
-            String targetUrl = "http://localhost:8082/v1/srecanja/"+Long.toString(idSrecanja)+"/belezi";
-            CompletableFuture<Boolean> asyncRequest = sendAsyncHttpRequest(targetUrl);
-            //Tega tukaj ne bomo vec delali:
-            Boolean belezenjeIsSet = asyncRequest.join();
-            System.out.println("Belezenje set:  " + belezenjeIsSet);
-            if (belezenjeIsSet) {
-                System.out.println("Na dnu funkcije");
-                entityManager.getTransaction().commit();   
-            }
-            else{
-                throw new NoResultException("connection ni uspela, je kej zafailalo");
+              entityManager.merge(srecanje);
+            entityManager.getTransaction().commit();
+            entityManager.refresh(srecanje);
+            // System.out.println("Post prisotnosti" + srecanje.getBelezenje());
+            entityManager.clear();
+            // if (srecanje != null) {
+            //     System.out.println("Post prisotnosti:" + srecanje.getBelezenje());
+            // }
             }
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -100,28 +88,6 @@ public class PrisotnostZrno {
             return null;
         }
         return prisotni;
-    }
-
-    public static CompletableFuture<Boolean> sendAsyncHttpRequest(String targetUrl) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                System.out.println("Connecting to: " + targetUrl);
-                URL url = new URL(targetUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("POST");
-                connection.setConnectTimeout(1000);
-                connection.setReadTimeout(1000);
-
-                // Get the response code
-                int responseCode = connection.getResponseCode();
-                System.out.println("Response: " + responseCode);
-                // Check if response is HTTP 200 OK
-                return responseCode == HttpURLConnection.HTTP_OK;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        });
     }
 
     @Transactional
