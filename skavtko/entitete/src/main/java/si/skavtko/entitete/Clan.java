@@ -56,7 +56,7 @@ public class Clan{
 
     @Basic(optional = false)
     @Enumerated(EnumType.STRING)
-    public UserRole role;
+    private UserRole role;
 
     private String password;
     // POZOR, ce zelis pasivnega v aktivnega spremenit mora biti to true
