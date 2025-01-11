@@ -1,0 +1,7 @@
+<h3>Bodi pripravljen/a {{jaz.ime}}</h3>
+<app-skupina-post-modal-button (postSuccess)="onSkupinePostSuccess($event)"></app-skupina-post-modal-button>
+<app-varovanci></app-varovanci>
+<app-skupine #mojeSkupine [clanId]="jaz.id"></app-skupine>
+<app-srecanja-clana [clanId]="jaz.id"></app-srecanja-clana>
+<p>Skavtko je aplikacija...</p>
+<p>Zadnji post na skavtski sobi?</p>

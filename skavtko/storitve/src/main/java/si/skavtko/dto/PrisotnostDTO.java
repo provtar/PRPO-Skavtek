@@ -4,16 +4,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import si.skavtko.entitete.Prisotnost;
 import si.skavtko.entitete.enums.TipPrisotnosti;
 
-@Schema(description = "DTO za prisotnosti, kdo bi si mislil...", name = "Prisotnost", example = "{\r\n" + //
-        "        \"id\": 22,\r\n" + //
-        "        \"prisotnost\": \"Prisoten\",\r\n" + //
-        "        \"opomba\": Bil je navihan,\r\n" + //
-        "        \"idClana\": 2,\r\n" + //
-        "        \"imeClana\": \"Peter\",\r\n" + //
-        "        \"priimekClana\": \"Pan\",\r\n" + //
-        "        \"idSrecanja\": 9,\r\n" + //
-        "        \"imeSrecanja\": \"Izlet na otok\"\r\n" + //
-        "    }")
+@Schema(description = "DTO za prisotnosti, kdo bi si mislil...", name = "PrisotnostDTO"
+//     example = """
+//     {
+//     \"id\": 22,"prisotnost": "Prisoten"
+//     "opomba": "Bil je navihan",
+//     "idClana": 2,
+//     "imeClana": "Peter",
+//     "priimekClana": "Pan",
+//     "idSrecanja": 9,
+//     "imeSrecanja": "Izlet na otok"
+// }"""
+)
 public class PrisotnostDTO {
 
     public PrisotnostDTO(Long id, TipPrisotnosti prisotnost, String opomba, Long idClana, String imeClana,

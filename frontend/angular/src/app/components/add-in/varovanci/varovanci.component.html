@@ -1,0 +1,19 @@
+  <div>
+  <h4>Moji varovanci:</h4>
+  <div *ngIf="initialized">
+  <app-clan-post-button [masterId]="this.user.id" (postSuccess)="onVarovanecPostSuccess()"></app-clan-post-button>
+  <ul>
+    <li *ngFor="let varovanec of mojiVarovanci">
+      <p>{{varovanec.ime}} {{varovanec.priimek}}</p>
+      <p>{{varovanec.steg}}</p>
+      <p>{{varovanec.skavtskoIme}}</p>
+      <button (click)="toClan(varovanec.id)">Prikazi</button>
+      <app-clan-put-button [clan]="varovanec" (putSuccess)="onVarovanecPutSuccess()"></app-clan-put-button>
+      <app-clan-delete-button [clanId]="varovanec.id" (deleteSuccess)="onVarovanecDeleteSuccess()"></app-clan-delete-button>
+    </li>
+  </ul>
+</div>
+<div *ngIf="!initialized">
+  <p>Varovanci se nalagajo</p>
+</div>
+</div>

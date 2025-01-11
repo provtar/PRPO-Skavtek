@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-api
+  labels:
+    app: skavtko
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skavtko
+  template:
+    metadata:
+      labels:
+        app: skavtko
+    spec:
+      containers:
+      - name: skavtko1
+        image: localhost:5000/skavtko:k8s-2
+        envFrom:
+            - secretRef:
+                name: skavtko-db-secret
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+

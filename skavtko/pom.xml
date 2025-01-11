@@ -28,6 +28,7 @@
         <kumuluzee-config-mp.version>2.0.0</kumuluzee-config-mp.version>
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
+        <kumuluzee-cors.version>2.0.0</kumuluzee-cors.version>
     </properties>
 
     <dependencyManagement>
@@ -39,7 +40,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
 <dependency>
     <groupId>com.kumuluz.ee.openapi</groupId>
     <artifactId>kumuluzee-openapi</artifactId>
@@ -49,14 +49,30 @@
     <artifactId>kumuluzee-openapi-ui</artifactId>
     <version>${kumuluzee-openapi.version}</version>
 </dependency>
+<dependency>
+    <groupId>com.kumuluz.ee.cors</groupId>
+    <artifactId>kumuluzee-cors</artifactId>
+    <version>${kumuluzee-cors.version}</version>
+</dependency>
 
 
             <dependency>
- <groupId>org.postgresql</groupId>
- <artifactId>postgresql</artifactId>
- <version>${postgresql.version}</version>
- </dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zaxxer</groupId>
+                <artifactId>HikariCP</artifactId>
+                <version>3.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-hikaricp</artifactId>
+                <version>5.4.1.Final</version>
+            </dependency>
             
+
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>

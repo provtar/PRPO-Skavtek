@@ -1,0 +1,24 @@
+<div>
+  <div *ngIf="initialized">
+    <h2>{{skupina.ime}}</h2>
+    <p>{{skupina.opis}}</p>
+    <ul>
+      <li *ngFor="let link of skupina.povezave; let  i = index">
+        <a [href]="link.link">{{link.name}}</a>
+      </li>
+    </ul>
+    <app-srecanje-post-button [skupinaId]="skupina.id" (putSuccess)="onSrecanjePostSuccess($event)"></app-srecanje-post-button>
+    <app-srecanja-skupine #srecanja [skupinaId]="skupina.id"></app-srecanja-skupine>
+
+    <app-clani-skupine #claniSkupine [skupinaId]="skupina.id"></app-clani-skupine>
+
+    <button (click)="dodajClane()">Dodaj clane</button>
+    <div *ngIf="clanPutFormOpen">
+      <app-clani-skupine-put-form [skupinaId]="skupina.id" (submitSuccess)="onClaniSkupinePutSuccess($event)"></app-clani-skupine-put-form>
+      <button (click)="closeClaniPut()">Zapri</button>
+    </div>
+  </div>
+  <div *ngIf="!initialized">
+    Skupina se nalaga.
+  </div>
+</div>

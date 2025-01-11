@@ -178,7 +178,7 @@ public class SkupinaZrno {
     public void deleteSkupino( Long skupinaId){
         entityManager.getTransaction().begin();
         Skupina skupina = entityManager.find(Skupina.class, skupinaId);
-        System.out.println("Dobil skupino");
+        // System.out.println("Dobil skupino");
         try{
         if(skupina != null) entityManager.remove(skupina);
         entityManager.getTransaction().commit();

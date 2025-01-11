@@ -27,7 +27,11 @@ import si.skavtko.entitete.enums.UserRole;
 
 @Entity
 @NamedQueries(value = {
-    @NamedQuery(name = "Clan.fromEmail", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email")
+    @NamedQuery(name = "Clan.fromEmail", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email"),
+    @NamedQuery(name = "Clan.fromEmailInPassword", query = "select c from Clan c where c.role = '" + UserRole.Values.ACTIVE + "' and c.email = :email and c.password = :password"),
+    @NamedQuery(name = "Varovanci.fromMaster", query = "select new si.skavtko.dto.ClanDTO(c.id, c.ime, c.priimek, c.steg, c.skavtskoIme) from Clan c "+
+        " where c.master.id = :masterId")
+
 })
 @Table(name = "clan")
 public class Clan{
@@ -52,9 +56,10 @@ public class Clan{
 
     @Basic(optional = false)
     @Enumerated(EnumType.STRING)
-    public UserRole role;
+    private UserRole role;
 
     private String password;
+    // POZOR, ce zelis pasivnega v aktivnega spremenit mora biti to true
     @Column(updatable = false)
     private String email;
 
@@ -62,6 +67,7 @@ public class Clan{
     @JoinColumn(name = "master")
     private Clan master;
 
+    // TODO delete, pusti samo na drugi strani (master manyTo ONe del)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany(mappedBy = "master", orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Clan> varovanci;

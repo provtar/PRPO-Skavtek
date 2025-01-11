@@ -1,0 +1,4 @@
+<div>
+  <button (click)="openModal()">Uredi prisotnosti</button>
+  <app-prisotnosti-put-modal [prisotnosti]="prisotnosti" (putSuccess)="onPutSuccess($event)"></app-prisotnosti-put-modal>
+</div>

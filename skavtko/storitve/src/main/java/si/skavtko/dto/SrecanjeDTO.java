@@ -18,10 +18,11 @@ public class SrecanjeDTO {
         this.opis = srecanje.getOpis();
         this.belezenje = srecanje.getBelezenje();
         this.idSkupine= srecanje.getSkupina().getId();
+        this.imeSkupine = srecanje.getSkupina().getIme();
     }
 
     public SrecanjeDTO(Long id, String ime, LocalDateTime datumOd, LocalDateTime datumDo, String kraj, String opis, Boolean belezenje,
-            Long idSkupine) {
+            Long idSkupine, String imeSkupine) {
         this.id = id;
         this.ime = ime;
         this.datumOd = datumOd;
@@ -30,6 +31,7 @@ public class SrecanjeDTO {
         this.opis = opis;
         this.belezenje = belezenje;
         this.idSkupine = idSkupine;
+        this.imeSkupine = imeSkupine;
     }
 
     private Long id;
@@ -47,6 +49,16 @@ public class SrecanjeDTO {
     private Boolean belezenje;
 
     private Long idSkupine;
+
+    private String imeSkupine;
+
+    public String getImeSkupine() {
+        return imeSkupine;
+    }
+
+    public void setImeSkupine(String imeSkupine) {
+        this.imeSkupine = imeSkupine;
+    }
 
     public Long getIdSkupine() {
         return idSkupine;

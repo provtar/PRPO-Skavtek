@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-api
+  labels:
+    app: skavtko
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skavtko
+  template:
+    metadata:
+      labels:
+        app: skavtko
+    spec:
+      containers:
+      - name: skavtko1
+        image: fra.ocir.io/frcrlvuwzvij/skavtko:api-1
+        envFrom:
+            - secretRef:
+                name: supabase-db-login-secret
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+        - name: ocr-login-secret

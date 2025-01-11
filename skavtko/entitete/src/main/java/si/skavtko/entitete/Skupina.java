@@ -34,8 +34,6 @@ public class Skupina {
 
     private String opis;
 
-
-    // TODO Nisem sigurn ali to dela, morem testirat
     @ElementCollection
     @CollectionTable(name = "povezave", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "povezave")

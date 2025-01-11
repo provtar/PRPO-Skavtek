@@ -1,0 +1,14 @@
+<div>
+  <h4>Skupine:</h4>
+  <div *ngIf="initialized">
+    <div *ngFor="let skupina of skupine; let i = index">
+      <h4>{{skupina.ime}}</h4>
+      <p>{{skupina.opis}}</p>
+      <button (click)="toSkupina(skupina.id)">Prikazi</button>
+      <p>dodaj nek pipe</p>
+    </div>
+  </div>
+  <div *ngIf="!initialized">
+    Skupine se nalagajo
+  </div>
+</div>

@@ -3,12 +3,12 @@ package si.skavtko.v1.api;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import si.skavtko.dto.ClanAktivenDTO;
 import si.skavtko.dto.ClanDTO;
 import si.skavtko.zrna.ClanZrno;
 
@@ -49,7 +50,7 @@ public class ClaniResource {
     @ApiResponses( value = {
         @ApiResponse(responseCode = "200", description = "Bil je dobljen vsaj en clan", content = @Content(mediaType = "application/json",
         array = @ArraySchema(schema = @Schema(implementation = ClanDTO.class)))),
-        @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
+        // @ApiResponse(responseCode = "404", description = "Noben clan ne ustreza kriterijem poizvedbe")
 
     })
     public Response getId(
@@ -59,9 +60,9 @@ public class ClaniResource {
         @QueryParam("priimek") String priimek){
         ArrayList<ClanDTO> clani = (ArrayList<ClanDTO>) clanZrno.getClan(ime, priimek);
 
-        if(clani.size() == 0){
-            return Response.status(Status.NOT_FOUND).build();
-        }
+        // if(clani.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(clani).build();
+        // }
         return Response.ok(clani).build();
     }
 
@@ -80,6 +81,27 @@ public class ClaniResource {
         @PathParam("id") Long id){
         ClanDTO result = clanZrno.getClan(id);
         if(result == null)return Response.status(Status.NOT_FOUND).build();
+        
+        return Response.ok(result).build();
+    }
+
+    @GET
+    @Path("/{id}/varovanci")
+    @Operation(summary = "Iskanje varovancev clana",
+        description = "Lepo je vedeti kdo je pod tvojo odgovornostjo")
+        @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Tu so varovanci", content = @Content(mediaType = "application/json",
+            array = @ArraySchema(schema = @Schema(implementation = ClanDTO.class)))),
+            // @ApiResponse(responseCode = "404", description = "Noben clan nima tega id-ja")
+    
+        })
+    public Response getVarovance(
+        @Parameter(description = "Id clana, katerega varovance isces", example = "2")
+        @PathParam("id") Long masterId){
+        List<ClanDTO> result = clanZrno.getVarovanci(masterId);
+        // if(result.size() == 0){
+        //     return Response.status(Status.NO_CONTENT).entity(result).build();
+        // }
         
         return Response.ok(result).build();
     }
@@ -109,21 +131,46 @@ public class ClaniResource {
         schema = @Schema(implementation = ClanDTO.class))),
         @ApiResponse(responseCode = "400", description = "Email ze v rabi, ali geslo ali email ni bilo podano")
     })
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/register")
     public Response addAktivenClan(
-        @Parameter(description = "Pove, kdo upravlja s clanom")@FormParam("ime")String ime,
-        @Parameter(description = "Priimek")@FormParam("priimek")String priimek,
-        @Parameter(description = "Email, mora biti enolicna za aktivnega clana", required = true)@FormParam("email")String email,
-        @Parameter(description = "Geslo, po moznosti varno", required = true)@FormParam("password")String password
+        // @Parameter(description = "Pove, kdo upravlja s clanom")@FormParam("ime")String ime,
+        // @Parameter(description = "Priimek")@FormParam("priimek")String priimek,
+        // @Parameter(description = "Email, mora biti enolicna za aktivnega clana", required = true)@FormParam("email")String email,
+        // @Parameter(description = "Geslo, po moznosti varno", required = true)@FormParam("password")String password
+        @Parameter(description = "Podatki potrebni za vpis, ni se validacije")
+            ClanAktivenDTO data
         ){
         ClanDTO ustvarjen = null;
         try{
-            ustvarjen = clanZrno.registrirajClana(ime, priimek, password, email);
+            ustvarjen = clanZrno.registrirajClana(data.getIme(), data.getPriimek(), data.getPassword(), data.getEmail());
         }catch(Exception e){
             return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
         }        
         return Response.status(Status.CREATED).entity(ustvarjen).build();
+    }
+
+    @POST
+    @Operation(summary = "Ustvarjanje clana",
+        description = "Ce si to res ti, lahko vstopis")
+    @ApiResponses( value = {
+        @ApiResponse(responseCode = "201", description = "Uspel si se loggat nutr", content = @Content(mediaType = "application/json",
+        schema = @Schema(implementation = ClanDTO.class))),
+        @ApiResponse(responseCode = "400", description = "Napacen username ali geslo")
+    })
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/login")
+    public Response login(
+        @Parameter(description = "Podatki potrebni za vpis, ni se validacije")
+            ClanAktivenDTO data
+        ){
+        ClanDTO user = null;
+        try{
+            user = clanZrno.login(data.getPassword(), data.getEmail());
+        }catch(Exception e){
+            return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+        }        
+        return Response.status(Status.CREATED).entity(user).build();
     }
 
     @PUT
