@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import si.skavtko.dto.SrecanjeDTO;
+import si.skavtko.dto.SrecanjeVremeDTO;
 import si.skavtko.zrna.SrecanjeZrno;
 
 @Path("/srecanja")
@@ -63,7 +64,7 @@ public class SrecanjeResource {
             if(datumOd != null) dod = LocalDateTime.parse(datumOd, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             LocalDateTime ddo = null;
             if(datumDo != null) ddo =LocalDateTime.parse(datumDo, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        List<SrecanjeDTO> srecanja = srecanjeZrno.getSrecanjaPoClanuInSkupini(clanId, skupinaId, dod, ddo);
+        List<SrecanjeVremeDTO> srecanja = srecanjeZrno.getSrecanjaPoClanuInSkupini(clanId, skupinaId, dod, ddo);
 
         // if(srecanja.size() == 0){
         //     return Response.status(Status.NO_CONTENT).entity(srecanja).build();

@@ -1,7 +1,16 @@
 package si.skavtko.zrna;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -11,7 +20,16 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+
+import si.skavtko.dto.ClanSkupineDTO;
 import si.skavtko.dto.SrecanjeDTO;
+import si.skavtko.dto.SrecanjeVremeDTO;
 import si.skavtko.entitete.Skupina;
 import si.skavtko.entitete.Srecanje;
 
@@ -39,7 +57,7 @@ public class SrecanjeZrno {
     }
 
     //TODO dodat pametne query parametre, ki so potrebni, al tukaj al v prisotnosti spada iskanje po stanju prisotnosti
-    public List<SrecanjeDTO> getSrecanjaPoClanuInSkupini(Long idClan, Long idSkupina, LocalDateTime datumOd, LocalDateTime datumDo){
+    public List<SrecanjeVremeDTO> getSrecanjaPoClanuInSkupini(Long idClan, Long idSkupina, LocalDateTime datumOd, LocalDateTime datumDo){
         List<SrecanjeDTO> res = entityManager.createNamedQuery("Srecanje.fromIdinDatum", SrecanjeDTO.class)
         .setParameter("skid", idSkupina)
         .setParameter("cid", idClan)
@@ -47,9 +65,18 @@ public class SrecanjeZrno {
         .setParameter("do", datumDo)
         .getResultList();
 
+        List<SrecanjeVremeDTO> rez = new ArrayList<>();
         // entityManager.getCriteriaBuilder().createQuery(null)
-
-        return res;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+        ListIterator<SrecanjeDTO> iterator = res.listIterator();
+        while (iterator.hasNext()) {
+            SrecanjeDTO naslednji = iterator.next();
+            String Url = "https://api.open-meteo.com/v1/forecast?latitude=46.0512116&longitude=14.5382698&hourly=temperature_2m,rain&timezone=Europe%2FBerlin&start_date="+naslednji.getDatumOd().format(formatter).toString()+"&end_date="+naslednji.getDatumDo().format(formatter).toString();
+            String data = getWeatherInfo(Url).join();
+            rez.add(new SrecanjeVremeDTO(naslednji, data));
+        }
+        
+        return rez;
     }
 
     //TODO ce je belezenje ustvari prisotnosti, za zdaj preskocim, pa kaksne clane se doda v srecanje da so obvesceni, dolocit kataera stran klice drugo, ce sploh klice
@@ -121,4 +148,54 @@ public class SrecanjeZrno {
         entityManager.getTransaction().commit();
     }
 
+public static CompletableFuture<String> getWeatherInfo(String targetUrl) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                System.out.println("Connecting to: " + targetUrl);
+                URL url = new URL(targetUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setConnectTimeout(1000);
+                connection.setReadTimeout(1000);
+
+                // Get the response code
+                int responseCode = connection.getResponseCode();
+                System.out.println("Response get vreme: " + responseCode);
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = in.readLine()) != null) {
+                        response.append(line);
+                    }
+                    in.close();
+
+                    // Parse JSON response
+                    JsonObject jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
+                    JsonArray temperatures = jsonObject.getAsJsonObject("hourly").getAsJsonArray("temperature_2m");
+                    JsonArray rains = jsonObject.getAsJsonObject("hourly").getAsJsonArray("rain");
+
+                    // Calculate average temperature and max rain
+                    double totalTemperature = 0.0;
+                    double maxRain = 0.0;
+
+                    for (JsonElement tempElement : temperatures) {
+                        totalTemperature += tempElement.getAsDouble();
+                    }
+                    for (JsonElement rainElement : rains) {
+                        maxRain = Math.max(maxRain, rainElement.getAsDouble());
+                    }
+
+                    double averageTemperature = totalTemperature / temperatures.size();
+
+                    return String.format("%.2f;%.2f", averageTemperature, maxRain);
+                } else {
+                    return "Failed to fetch weather data.";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "An error occurred while fetching weather data.";
+            }
+        });
+    }
 }
