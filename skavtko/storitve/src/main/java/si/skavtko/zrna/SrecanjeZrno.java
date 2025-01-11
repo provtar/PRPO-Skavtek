@@ -10,6 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.PostConstruct;
@@ -46,37 +47,28 @@ public class SrecanjeZrno {
     private void destroy(){
     }
 
-    public SrecanjeDTO getSrecanje(Long id) throws NoResultException{
+    public SrecanjeVremeDTO getSrecanje(Long id) throws NoResultException{
         
         Srecanje srecanje = entityManager.find(Srecanje.class, id);
         entityManager.refresh(srecanje);
         if(srecanje == null) throw new NoResultException("Srecanja z id: " + id + "ni.\n");
-        SrecanjeDTO res = new SrecanjeDTO(srecanje);
         // System.out.println("Srecanje:" +srecanje.getBelezenje());
-        return res;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
+        String Url = "https://api.open-meteo.com/v1/forecast?latitude=46.0512116&longitude=14.5382698&hourly=temperature_2m,rain&timezone=Europe%2FBerlin&start_date="+srecanje.getDatumOd().format(formatter).toString()+"&end_date="+srecanje.getDatumDo().format(formatter).toString();
+        String data = getWeatherInfo(Url).join();
+        return new SrecanjeVremeDTO(new SrecanjeDTO(srecanje), data);
     }
 
     //TODO dodat pametne query parametre, ki so potrebni, al tukaj al v prisotnosti spada iskanje po stanju prisotnosti
-    public List<SrecanjeVremeDTO> getSrecanjaPoClanuInSkupini(Long idClan, Long idSkupina, LocalDateTime datumOd, LocalDateTime datumDo){
+    public List<SrecanjeDTO> getSrecanjaPoClanuInSkupini(Long idClan, Long idSkupina, LocalDateTime datumOd, LocalDateTime datumDo){
         List<SrecanjeDTO> res = entityManager.createNamedQuery("Srecanje.fromIdinDatum", SrecanjeDTO.class)
         .setParameter("skid", idSkupina)
         .setParameter("cid", idClan)
         .setParameter("od", datumOd)
         .setParameter("do", datumDo)
         .getResultList();
-
-        List<SrecanjeVremeDTO> rez = new ArrayList<>();
-        // entityManager.getCriteriaBuilder().createQuery(null)
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
-        ListIterator<SrecanjeDTO> iterator = res.listIterator();
-        while (iterator.hasNext()) {
-            SrecanjeDTO naslednji = iterator.next();
-            String Url = "https://api.open-meteo.com/v1/forecast?latitude=46.0512116&longitude=14.5382698&hourly=temperature_2m,rain&timezone=Europe%2FBerlin&start_date="+naslednji.getDatumOd().format(formatter).toString()+"&end_date="+naslednji.getDatumDo().format(formatter).toString();
-            String data = getWeatherInfo(Url).join();
-            rez.add(new SrecanjeVremeDTO(naslednji, data));
-        }
         
-        return rez;
+        return res;
     }
 
     //TODO ce je belezenje ustvari prisotnosti, za zdaj preskocim, pa kaksne clane se doda v srecanje da so obvesceni, dolocit kataera stran klice drugo, ce sploh klice
@@ -176,19 +168,25 @@ public static CompletableFuture<String> getWeatherInfo(String targetUrl) {
                     JsonArray rains = jsonObject.getAsJsonObject("hourly").getAsJsonArray("rain");
 
                     // Calculate average temperature and max rain
-                    double totalTemperature = 0.0;
-                    double maxRain = 0.0;
+                    float totalTemperature = 0.0f;
+                    float maxRain = 0.0f;
 
                     for (JsonElement tempElement : temperatures) {
-                        totalTemperature += tempElement.getAsDouble();
+                        totalTemperature += tempElement.getAsFloat();
                     }
                     for (JsonElement rainElement : rains) {
-                        maxRain = Math.max(maxRain, rainElement.getAsDouble());
+                        maxRain = Math.max(maxRain, rainElement.getAsFloat());
                     }
 
                     double averageTemperature = totalTemperature / temperatures.size();
 
-                    return String.format("%.2f;%.2f", averageTemperature, maxRain);
+                    String res = String.format(Locale.US,"%.2f;%.2f", averageTemperature, maxRain);
+
+                    System.out.println(averageTemperature);
+                    System.out.println(maxRain);
+                    System.out.println(res);
+
+                    return res;
                 } else {
                     return "Failed to fetch weather data.";
                 }

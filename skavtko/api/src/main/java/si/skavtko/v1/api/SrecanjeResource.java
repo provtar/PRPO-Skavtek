@@ -64,7 +64,7 @@ public class SrecanjeResource {
             if(datumOd != null) dod = LocalDateTime.parse(datumOd, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
             LocalDateTime ddo = null;
             if(datumDo != null) ddo =LocalDateTime.parse(datumDo, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        List<SrecanjeVremeDTO> srecanja = srecanjeZrno.getSrecanjaPoClanuInSkupini(clanId, skupinaId, dod, ddo);
+        List<SrecanjeDTO> srecanja = srecanjeZrno.getSrecanjaPoClanuInSkupini(clanId, skupinaId, dod, ddo);
 
         // if(srecanja.size() == 0){
         //     return Response.status(Status.NO_CONTENT).entity(srecanja).build();
@@ -86,12 +86,13 @@ public class SrecanjeResource {
         @Parameter(description = "Id srecanja, ki ga isces", example = "13")
         @PathParam("id") Long id){
         try{
-            SrecanjeDTO srecanje = srecanjeZrno.getSrecanje(id);
+            SrecanjeVremeDTO srecanje = srecanjeZrno.getSrecanje(id);
             return Response.ok(srecanje).build();
         }catch(NoResultException nre){
             return Response.status(Status.NOT_FOUND).build();
         }catch(Exception e){
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            throw e;
+            // return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
     }
 
