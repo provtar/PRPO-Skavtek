@@ -20,13 +20,13 @@ import si.skavtko.termini.entitete.enums.TipTermina;
 @NamedQueries({
     @NamedQuery(
         name = "Termini.fromOdDoClan",
-        query = "select new si.skavtko.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip, t.clanId) " +
+        query = "select new si.skavtko.termini.dto.TerminDTO(t.id, t.datumOd, t.datumDo, t.tip, t.clanId) " +
                 "from Termin t " +
                 "WHERE t.clanId = :clanId AND t.datumOd <= :datumDo AND t.datumDo >= :datumOd"
     ),
     @NamedQuery(
         name = "Termini.fromOdDoClanKratko",
-        query = "select new si.skavtko.dto.TerminKratkoDTO(t.id, t.datumOd, t.datumDo, t.tip) " +
+        query = "select new si.skavtko.termini.dto.TerminKratkoDTO(t.id, t.datumOd, t.datumDo, t.tip) " +
                 "from Termin t " +
                 "WHERE t.clanId = :clanId AND t.datumOd <= :datumDo AND t.datumDo >= :datumOd"
     )
