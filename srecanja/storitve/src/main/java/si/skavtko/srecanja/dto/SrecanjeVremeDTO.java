@@ -1,4 +1,4 @@
-package si.skavtko.dto;
+package si.skavtko.srecanja.dto;
 
 import java.time.LocalDateTime;
 

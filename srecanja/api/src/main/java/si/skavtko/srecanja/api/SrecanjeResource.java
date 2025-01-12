@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -30,6 +31,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import si.skavtko.srecanja.dto.SrecanjeDTO;
+import si.skavtko.srecanja.dto.SrecanjeVremeDTO;
 import si.skavtko.srecanja.zrna.SrecanjeZrno;
 
 @Path("/srecanja")
@@ -88,7 +90,7 @@ public class SrecanjeResource {
         @Parameter(description = "Id srecanja, ki ga isces", example = "13")
         @PathParam("id") Long id){
         try{
-            SrecanjeDTO srecanje = srecanjeZrno.getSrecanje(id);
+            SrecanjeVremeDTO srecanje = srecanjeZrno.getSrecanje(id);
             return Response.ok(srecanje).build();
         }catch(NoResultException nre){
             return Response.status(Status.NOT_FOUND).build();
@@ -171,4 +173,13 @@ public class SrecanjeResource {
 
     }
 
+        @GET
+        @Path("/liveness")
+        @Hidden
+        public Response livenessTest(){
+            if(srecanjeZrno.checkDBconnection()){
+                return Response.ok().build();
+            }
+            else return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        }
 }
