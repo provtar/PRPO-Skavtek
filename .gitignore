@@ -12,6 +12,8 @@ buildNumber.properties
 
 ObjectStore
 
+#file z env varsi
+envs
 #VScode settings
 .vscode/
 

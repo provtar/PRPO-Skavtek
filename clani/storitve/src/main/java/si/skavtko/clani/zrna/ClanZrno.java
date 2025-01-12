@@ -1,6 +1,7 @@
 package si.skavtko.clani.zrna;
 
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -16,6 +17,7 @@ import javax.ws.rs.NotFoundException;
 
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 
 import com.google.gson.Gson;
 import com.kumuluz.ee.streaming.common.annotations.StreamProducer;
@@ -94,7 +96,16 @@ public class ClanZrno {
             data = new ClanDTO(newClan);
             entityManager.getTransaction().commit();
             String novClanJson = gson.toJson(new ClanMinDTO(newClan));
-            producer.send(new ProducerRecord<String,String>("clan-post", novClanJson));
+            System.out.println("Sending topic post:");
+            Future<RecordMetadata> rec = producer.send(new ProducerRecord<String,String>("clan-post", novClanJson),(metadata, res) ->{
+                System.out.println("Sent data to topic" + metadata.topic());
+                System.err.println("Sent data to topic" + metadata.topic());
+            });
+            RecordMetadata recdata = rec.get();
+            System.out.println("Data record: " +  recdata.topic());
+            // System.out.println("Data partition: " +  recdata.partition());
+            System.out.println("Data value: " +  recdata.serializedValueSize());
+
         }catch(NotFoundException nfe){
             entityManager.getTransaction().rollback();
             throw nfe;
@@ -183,7 +194,9 @@ public class ClanZrno {
 
             entityManager.getTransaction().commit();
             String novClanJson = gson.toJson(new ClanMinDTO(clan));
-            producer.send(new ProducerRecord<String,String>("clan-put", novClanJson));
+            producer.send(new ProducerRecord<String,String>("clan-put", novClanJson), (metadata, res) ->{
+                System.out.println("Sent data to topic" + metadata.topic());
+            });
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
@@ -202,5 +215,21 @@ public class ClanZrno {
 
         entityManager.getTransaction().commit();
         producer.send(new ProducerRecord<String,String>("clan-delete", id.toString()));
+    }
+    
+    public Boolean checkDBconnection(){
+        try {
+            // Test connection by interacting with the database
+            entityManager.getTransaction().begin();
+            entityManager.createNativeQuery("SELECT 1").getSingleResult(); // Simple query to test the connection
+            entityManager.getTransaction().commit();
+            
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while connecting to the database.");
+            return false;
+        }
     }
 }
