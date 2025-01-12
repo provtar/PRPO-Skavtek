@@ -271,4 +271,23 @@ public class SkupinaZrno {
         }
     }
 
+    public Boolean checkDBconnection(){
+        EntityManager entityManager = emf.createEntityManager();
+        
+        try {
+            // Test connection by interacting with the database
+            entityManager.getTransaction().begin();
+            entityManager.createNativeQuery("SELECT 1").getSingleResult(); // Simple query to test the connection
+            entityManager.getTransaction().commit();
+            
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while connecting to the database.");
+            return false;
+        }finally{
+            entityManager.close();
+        }
+    }
 }

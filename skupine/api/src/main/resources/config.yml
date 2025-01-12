@@ -5,14 +5,14 @@ kumuluzee:
     name: dev
   version: 1.0.0
   server:
-    base-url: http://localhost:8072
+    base-url: http://localhost:8062
     http:
       port: 8072
       # producer config
   streaming:
     kafka:
       producer:
-        bootstrap-servers: localhost:9092
+        bootstrap-servers:  ${KAFKA_URL}
         acks: all
         retries: 0
         batch-size: 16384
@@ -22,7 +22,7 @@ kumuluzee:
         value-serializer: org.apache.kafka.common.serialization.StringSerializer
 # consumer config
       consumer:
-        bootstrap-servers: localhost:9092
+        bootstrap-servers:  ${KAFKA_URL}
         group-id: group2
         enable-auto-commit: true
         auto-commit-interval-ms: 1000
