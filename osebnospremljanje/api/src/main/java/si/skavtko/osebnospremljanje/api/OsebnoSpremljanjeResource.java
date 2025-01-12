@@ -1,6 +1,9 @@
 package si.skavtko.osebnospremljanje.api;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -18,6 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -105,5 +109,39 @@ public class OsebnoSpremljanjeResource {
             osebnoSpremljanjeZrno.removeOsebnoSpremljanje(id);
             return Response.status(Status.NO_CONTENT).build();
     
+        }
+
+        @POST
+        @Path("/panic")
+        @Hidden
+        public Response scalingTest(){
+            ArrayList<Long> list = new ArrayList<>();
+            Random rnd = new Random(System.nanoTime());
+            for(int i = 0; i < 100000; i++){
+                list.add(rnd.nextLong());
+            }
+            System.out.println("ARRAY INITILIZED");
+            boolean ordered = false;
+            int poskus = 0;
+            while (!ordered) {
+                ordered = true;
+                Collections.shuffle(list);
+                for (int i = 0; i < list.size() - 1; i++) {
+                        if (list.get(i) > list.get(i + 1))ordered =  false;
+                }
+                if(!ordered)System.out.println("Not ordered, poskus: " + ++poskus);
+            }
+            for(int i = 0; i < 100; i++) System.out.println(list.get(i));
+            return Response.ok("List je urejen, tako zgleda").build();
+        }
+
+        @GET
+        @Path("/liveness")
+        @Hidden
+        public Response livenessTest(){
+            if(osebnoSpremljanjeZrno.checkDBconnection()){
+                return Response.ok().build();
+            }
+            else return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
 }
