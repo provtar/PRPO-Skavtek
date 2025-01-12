@@ -40,6 +40,9 @@ DB_DRIVER=org.postgresql.Driver
 ```
 #### Zagon v kubernetesu
 ##### Pogoji: usposobljen kubernetes na dockerju, kubectl
+
+kubectl create configmap skavtko-ms-config --from-env-file=.env
+
 Preveri, da ciljas na pravi cluster (docker-desktop):
 ```
 kubectl config current-context

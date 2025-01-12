@@ -17,6 +17,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -126,4 +127,14 @@ public class PrisotnostResource {
         prisotnostZrno.zbrisiPrisotnostiSrecanja(srecanjeId);
         return Response.status(Status.NO_CONTENT).build();
     }
+    
+        @GET
+        @Path("/liveness")
+        @Hidden
+        public Response livenessTest(){
+            if(prisotnostZrno.checkDBconnection()){
+                return Response.ok().build();
+            }
+            else return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        }
 }

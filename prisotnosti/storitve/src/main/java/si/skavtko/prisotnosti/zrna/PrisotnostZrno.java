@@ -11,10 +11,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 
 import com.google.gson.Gson;
@@ -31,48 +33,50 @@ import si.skavtko.prisotnosti.entitete.enums.TipPrisotnosti;
 @ApplicationScoped
 public class PrisotnostZrno {
 
-    @PersistenceContext
-    EntityManager entityManager;
-
-    //se isce po srecanju, po clanu in skupini
-    //se doda za vse prisotne na srecanju hkrati, za sedaj, pole se jih lahko doloci po tagu
-    //filtri za odsotnosti
-    //se posodablja eno prisotnost na enkrat ali celo listo in bulk, kar celo listo in bulk
-    //se brise vse prisotnosti hkrati
-    //kasneje dodamo anlitiko
+    EntityManagerFactory emf;
 
     @PostConstruct
     private void init(){
-        System.out.println("Initaialized prisZrno");
+        emf = Persistence.createEntityManagerFactory("defaultPU");
+    }
+
+    @PreDestroy
+    private void deinit(){
+        emf.close();
     }
 
     public List<PrisotnostDTO> isciPoSrecanju(Long idSrecanja){
+        EntityManager entityManager = emf.createEntityManager();
         List<PrisotnostDTO> res = entityManager.createNamedQuery("Prisotnosti.fromSrecanje", PrisotnostDTO.class)
         .setParameter("srecanjeId", idSrecanja).getResultList();
+            entityManager.close();
         return res;
     }
 
     public List<PrisotnostDTO> isciPoClanuInSkupini(Long idClana
     // , Long idSkupine
     ){
+        EntityManager entityManager = emf.createEntityManager();
         List<PrisotnostDTO> res = entityManager.createNamedQuery("Prisotnosti.fromClanInSkupina", PrisotnostDTO.class)
         .setParameter("clanId", idClana)
         // .setParameter("skupinaId", idSkupine)
         .getResultList();
+            entityManager.close();
         return res;
     }
 
     // TODO verzijo, ki ji samo posljes listo prisotnosti in jo persista namesto te stale
     @Transactional
     public List<PrisotnostDTO> dodajPrisotnosti(Long idSrecanja){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         ArrayList<PrisotnostDTO> prisotni = new ArrayList<>();
         try{
-            // System.out.println("Zacenjam ustvarjati srecanja");
+            System.out.println("Zacenjam ustvarjati srecanja");
             SrecanjeMin srecanje = entityManager.find(SrecanjeMin.class, idSrecanja);
             if(srecanje == null) throw new NoResultException();
             if(srecanje.getBelezenje() == true) return isciPoSrecanju(idSrecanja);
-            // System.out.println("Dobil sem srecanje");
+            System.out.println("Dobil sem srecanje");
             
             String claniSkupineUrl = "http://skupine.default.svc.cluster.local:8072/v1/skupine/"+Long.toString(srecanje.getSkupinaId())+"/clani";
             List<ClanSkupineDTO> clani = getClaniSkupine(claniSkupineUrl).join();
@@ -105,7 +109,7 @@ public class PrisotnostZrno {
             entityManager.merge(srecanje);
             if (belezenjeIsSet) {
                 // System.out.println("Na dnu funkcije");
-                entityManager.getTransaction().commit();   
+                entityManager.getTransaction().commit();
             }
             else{
                 throw new NoResultException("connection ni uspela, je kej zafailalo");
@@ -114,6 +118,8 @@ public class PrisotnostZrno {
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return null;
+        }finally{
+            entityManager.close();
         }
         return prisotni;
     }
@@ -172,6 +178,7 @@ public class PrisotnostZrno {
 
     @Transactional
     public List<PrisotnostDTO> posodobiPrisotnosti(List<PrisotnostPutDTO> prisotnosti){
+        EntityManager entityManager = emf.createEntityManager();
         ArrayList<PrisotnostDTO> res = new ArrayList<>(prisotnosti.size());
         entityManager.getTransaction().begin();
         try{
@@ -184,17 +191,20 @@ public class PrisotnostZrno {
                     res.add(new PrisotnostDTO(prisotnost));
                 }
             }
+        entityManager.getTransaction().commit();
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return null;
+        }finally{
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
         return res;
     }
 
     @Transactional
     public void zbrisiPrisotnosti(List<Long> prisotnosti){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         try{
             for(Long id : prisotnosti){
@@ -203,15 +213,18 @@ public class PrisotnostZrno {
                     entityManager.remove(prisotnost);
                 }
             }
+        entityManager.getTransaction().commit();
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return;
+        }finally{
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
     }
 
     public void zbrisiPrisotnostiSrecanja(Long srecanjeId){
+        EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         List<PrisotnostDTO> prisotnosti = entityManager.createNamedQuery("Prisotnosti.fromSrecanje", PrisotnostDTO.class)
         .setParameter("srecanjeId", srecanjeId).getResultList();
@@ -225,16 +238,20 @@ public class PrisotnostZrno {
                     entityManager.remove(prisotnost);
                 }
             }
+        entityManager.getTransaction().commit();
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
             return;
+        }finally{
+            entityManager.close();
         }
-        entityManager.getTransaction().commit();
     }
     
-    public Boolean checkDBconnection(){
+    public Boolean checkDBconnection(){    
+        EntityManager entityManager = emf.createEntityManager();
         try {
+        
             // Test connection by interacting with the database
             entityManager.getTransaction().begin();
             entityManager.createNativeQuery("SELECT 1").getSingleResult(); // Simple query to test the connection
@@ -246,6 +263,8 @@ public class PrisotnostZrno {
             e.printStackTrace();
             System.out.println("An error occurred while connecting to the database.");
             return false;
+        }finally{
+            entityManager.close();
         }
     }
 }

@@ -12,7 +12,7 @@ kumuluzee:
   streaming:
     kafka:
       producer:
-        bootstrap-servers: localhost:9092
+        bootstrap-servers:  ${KAFKA_URL}
         acks: all
         retries: 0
         batch-size: 16384
@@ -22,7 +22,7 @@ kumuluzee:
         value-serializer: org.apache.kafka.common.serialization.StringSerializer
 # consumer config
       consumer:
-        bootstrap-servers: localhost:9092
+        bootstrap-servers:  ${KAFKA_URL}
         group-id: group6
         enable-auto-commit: true
         auto-commit-interval-ms: 1000
