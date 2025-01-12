@@ -68,16 +68,16 @@ public class PrisotnostZrno {
         entityManager.getTransaction().begin();
         ArrayList<PrisotnostDTO> prisotni = new ArrayList<>();
         try{
-            System.out.println("Zacenjam ustvarjati srecanja");
+            // System.out.println("Zacenjam ustvarjati srecanja");
             SrecanjeMin srecanje = entityManager.find(SrecanjeMin.class, idSrecanja);
             if(srecanje == null) throw new NoResultException();
             if(srecanje.getBelezenje() == true) return isciPoSrecanju(idSrecanja);
-            System.out.println("Dobil sem srecanje");
+            // System.out.println("Dobil sem srecanje");
             
-            String claniSkupineUrl = "http://localhost:8072/v1/skupine/"+Long.toString(srecanje.getSkupinaId())+"/clani";
+            String claniSkupineUrl = "http://skupine.default.svc.cluster.local:8072/v1/skupine/"+Long.toString(srecanje.getSkupinaId())+"/clani";
             List<ClanSkupineDTO> clani = getClaniSkupine(claniSkupineUrl).join();
             //skupinaZrno.getClaniPoSkupini(srecanje.getSkupina().getId());
-            System.out.println("Dobil clanov: " + clani.size());
+            // System.out.println("Dobil clanov: " + clani.size());
 
             for(ClanSkupineDTO c : clani){
                 ClanMin cc = entityManager.find(ClanMin.class, c.getClanId());
@@ -96,15 +96,15 @@ public class PrisotnostZrno {
             }
             System.out.println("Ce si tukaj si skoraj na koncu");
             // srecanje.setBelezenje(true); to naredis ko se belezenje vrne
-            String targetUrl = "http://localhost:8073/v1/srecanja/"+Long.toString(idSrecanja)+"/belezi";
+            String targetUrl = "http://srecanja.default.svc.cluster.local:8073/v1/srecanja/"+Long.toString(idSrecanja)+"/belezi";
             CompletableFuture<Boolean> asyncRequest = sendAsyncHttpRequest(targetUrl);
             //Tega tukaj ne bomo vec delali:
             Boolean belezenjeIsSet = asyncRequest.join();
-            System.out.println("Belezenje set:  " + belezenjeIsSet);
+            // System.out.println("Belezenje set:  " + belezenjeIsSet);
             srecanje.setBelezenje(belezenjeIsSet);
             entityManager.merge(srecanje);
             if (belezenjeIsSet) {
-                System.out.println("Na dnu funkcije");
+                // System.out.println("Na dnu funkcije");
                 entityManager.getTransaction().commit();   
             }
             else{
@@ -231,5 +231,21 @@ public class PrisotnostZrno {
             return;
         }
         entityManager.getTransaction().commit();
+    }
+    
+    public Boolean checkDBconnection(){
+        try {
+            // Test connection by interacting with the database
+            entityManager.getTransaction().begin();
+            entityManager.createNativeQuery("SELECT 1").getSingleResult(); // Simple query to test the connection
+            entityManager.getTransaction().commit();
+            
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred while connecting to the database.");
+            return false;
+        }
     }
 }
