@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import javax.ws.rs.NotFoundException;
 
 import si.skavtko.dto.TerminDTO;
-import si.skavtko.dto.TerminKratkoDTO;
 import si.skavtko.entitete.Termin;
 import si.skavtko.entitete.enums.TipTermina;
 

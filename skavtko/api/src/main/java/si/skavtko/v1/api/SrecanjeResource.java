@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import si.skavtko.dto.SrecanjeDTO;
+import si.skavtko.dto.SrecanjeVremeDTO;
 import si.skavtko.zrna.SrecanjeZrno;
 
 @Path("/srecanja")
@@ -85,11 +86,12 @@ public class SrecanjeResource {
         @Parameter(description = "Id srecanja, ki ga isces", example = "13")
         @PathParam("id") Long id){
         try{
-            SrecanjeDTO srecanje = srecanjeZrno.getSrecanje(id);
+            SrecanjeVremeDTO srecanje = srecanjeZrno.getSrecanje(id);
             return Response.ok(srecanje).build();
         }catch(NoResultException nre){
             return Response.status(Status.NOT_FOUND).build();
         }catch(Exception e){
+            // throw e;
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
     }
