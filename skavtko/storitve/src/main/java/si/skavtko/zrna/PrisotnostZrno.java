@@ -81,7 +81,6 @@ public class PrisotnostZrno {
             // if (srecanje != null) {
             //     System.out.println("Post prisotnosti:" + srecanje.getBelezenje());
             // }
-            }
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
