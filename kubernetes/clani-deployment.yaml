@@ -50,6 +50,6 @@ spec:
         livenessProbe:
           httpGet:
             path: /v1/clani/liveness
-            port: 8075
-          initialDelaySeconds: 20
+            port: 8071
+          initialDelaySeconds: 40
           periodSeconds: 10

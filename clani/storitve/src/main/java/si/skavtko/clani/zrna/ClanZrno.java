@@ -1,7 +1,7 @@
 package si.skavtko.clani.zrna;
 
 import java.util.List;
-import java.util.concurrent.Future;
+// import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -17,7 +17,7 @@ import javax.ws.rs.NotFoundException;
 
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
+// import org.apache.kafka.clients.producer.RecordMetadata;
 
 import com.google.gson.Gson;
 import com.kumuluz.ee.streaming.common.annotations.StreamProducer;
@@ -96,15 +96,17 @@ public class ClanZrno {
             data = new ClanDTO(newClan);
             entityManager.getTransaction().commit();
             String novClanJson = gson.toJson(new ClanMinDTO(newClan));
-            System.out.println("Sending topic post:");
-            Future<RecordMetadata> rec = producer.send(new ProducerRecord<String,String>("clan-post", novClanJson),(metadata, res) ->{
-                System.out.println("Sent data to topic" + metadata.topic());
-                System.err.println("Sent data to topic" + metadata.topic());
-            });
-            RecordMetadata recdata = rec.get();
-            System.out.println("Data record: " +  recdata.topic());
+            // System.out.println("Sending topic post:");
+            // Future<RecordMetadata> rec = 
+            producer.send(new ProducerRecord<String,String>("clan-post", novClanJson)
+                // ,(metadata, res) ->{
+                // System.out.println("Sent data to topic" + metadata.topic());
+                // System.err.println("Sent data to topic" + metadata.topic());}
+            );
+            // RecordMetadata recdata = rec.get();
+            // System.out.println("Data record: " +  recdata.topic());
             // System.out.println("Data partition: " +  recdata.partition());
-            System.out.println("Data value: " +  recdata.serializedValueSize());
+            // System.out.println("Data value: " +  recdata.serializedValueSize());
 
         }catch(NotFoundException nfe){
             entityManager.getTransaction().rollback();
@@ -194,9 +196,9 @@ public class ClanZrno {
 
             entityManager.getTransaction().commit();
             String novClanJson = gson.toJson(new ClanMinDTO(clan));
-            producer.send(new ProducerRecord<String,String>("clan-put", novClanJson), (metadata, res) ->{
-                System.out.println("Sent data to topic" + metadata.topic());
-            });
+            producer.send(new ProducerRecord<String,String>("clan-put", novClanJson)
+            // , (metadata, res) ->{             System.out.println("Sent data to topic" + metadata.topic());            }
+            );
         }catch(Exception e){
             System.out.println(e.getMessage());
             entityManager.getTransaction().rollback();
