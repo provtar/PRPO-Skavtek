@@ -101,6 +101,7 @@ Imamo devet tem (topic) na katere se lahko mikrostoritev priklopi, če želi dob
 * Dostop do podatkov o skupini
 
 ### 3 - Beleženje prisotnosti
+
 - Pridobivanje prisotnosti clanov na enem srečanju
 - Pridobivanje prisotnosti člana skozi časovno obdobje
 - Priodobivanje prisotnosti za vsa srečanje skupine (v časovnem intervalu)
@@ -126,16 +127,22 @@ Imamo devet tem (topic) na katere se lahko mikrostoritev priklopi, če želi dob
 * Dostop do podatkov
 
 ### 6 - Ustvarjanje zapisov osebnega napredovanja
-* Voditelj lahko spremlja svoje varovance in jim dodaja zapiske s ssvojimi opažanji
+
+* Voditelj lahko spremlja svoje varovance in jim dodaja zapiske s svojimi opažanji
 * Zapise lahko posodablja in briše
-* Ter si ogleda zapiske sovoditeljev.
+* Ter si ogleda zapiske sovoditeljev
 
 ## Primeri uporabe
 
 ### Jurij si beleži prisotnost udeležencev skupine Bobri
 
-Jurij si želi na enostaven in preprost način beležiti prisotnost udeležencev na njegovih srečanj in želi do teh podatkov dostopati na več platformah. Ustvaril si bo račun na Skavtku, potem bo ustvaril skupino Bobri, pa dodal v njo člane skupine. Prihodnje srečanje začne z beleženjem prisotnosti. Po pomoti je napisal, da je bil Pavel odsoten, ko se tega zave, popravi zapis in ga označi za prisotnega. Po nekaj časa se Franc zapusti skupino, zato ga Jurij odstrani iz skupine. Konec leta pregleda prisotnosti vseh članov, da ugotovi kdo je bil prisoten na več kot 80% srečanjih.
+Jurij si želi na enostaven in preprost način beležiti prisotnost udeležencev na njegovih srečanj in želi do teh podatkov dostopati na več platformah. Ustvaril si bo račun na Skavtku, potem bo ustvaril skupino Bobri, pa dodal v njo člane skupine. Ustvari novo srečanje, da bo lahko beležil prisotnost.
 
-### Srečanje skupine Štirih
-
-Ana, Blaž, Cene in Dana organizirajo športne igre, in se morajo dobiti vsi skupaj na sestanku med 13. in 20. oktobrom, da se pomenijo. Ana jih prepriča naj se vsi vpišejo v Skavtka. Ustvari skupino, doda ostale tri v skupino in jim pošlje anketo, kjer vsak označi, kdaj je tiste dni razpoložljiv. Vsi odgovorijo, Cene si po nekaj urah premisli in odstrani svojo razpoložljivost 19. oktobra med 8.00 in 10.30, Dana pa se spomne, da je tudi 14. oktobra med 4.00 in 6.00 razpoložljiva in ta doda. Ana pregleda rezultate in se odloči, da se bodo dobili 18. oktobra med 12.00 in 15.00, na Skavtku ustvari srečanje, vsi ji potrdijo prisotnost v živo, samo Blaž si potem premisli in označi, da bo prisoten na daljavo. Ana med vsebino srečanje doda link na Zoom.
+![alt text](slike/image-5.png)
+![alt text](slike/image-6.png)
+![alt text](slike/image-7.png)
+![alt text](slike/image-8.png)
+![alt text](slike/image-9.png)
+![alt text](slike/image-10.png)
+![alt text](slike/image-11.png)
+![alt text](slike/image-12.png)
