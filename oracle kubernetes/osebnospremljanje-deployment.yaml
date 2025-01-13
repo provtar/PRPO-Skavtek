@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-os
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: skavtko-os
+  template:
+    metadata:
+      labels:
+        app: skavtko-os
+    spec:
+      containers:
+      - name: skavtko-os-container
+        image: fra.ocir.io/frcrlvuwzvij/skavtko-osebnospremljanje:oke
+        ports:
+          - containerPort: 8075
+        env:
+        - name: KAFKA_URL
+          value: "kafka:29092"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_USER
+        - name: DB_PSW
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_PSW
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_URL
+        - name: DB_DRIVER
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_DRIVER
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /v1/osebno-spremljanje/liveness
+            port: 8075
+          initialDelaySeconds: 40
+          periodSeconds: 10
+      imagePullSecrets:
+        - name: ocr-login-secret

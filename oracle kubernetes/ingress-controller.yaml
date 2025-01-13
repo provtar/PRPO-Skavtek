@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-ms-ingress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: skavtko-ms-ingress
+  template:
+    metadata:
+      labels:
+        app: skavtko-ms-ingress
+    spec:
+      serviceAccountName: ingress-account
+      containers:
+      - name: traefik
+        image: traefik:v2.9
+        args:
+          - "--api.insecure=true"
+          - "--providers.kubernetesIngress=true"
+          - "--entrypoints.web.address=:80"
+          - "--entrypoints.websecure.address=:443"
+        ports:
+          - name: web
+            containerPort: 80
+          - name: websecure
+            containerPort: 443
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

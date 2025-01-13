@@ -12,6 +12,10 @@ buildNumber.properties
 
 ObjectStore
 
+zkubernetes-local
+
+#file z env varsi
+envs
 #VScode settings
 .vscode/
 

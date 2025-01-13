@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-prisotnosti
+spec:
+  replicas: 1  # Set the number of replicas to 3
+  selector:
+    matchLabels:
+      app: skavtko-prisotnosti
+  template:
+    metadata:
+      labels:
+        app: skavtko-prisotnosti
+    spec:
+      containers:
+      - name: skavtko-prisotnosti-container
+        image: fra.ocir.io/frcrlvuwzvij/skavtko-prisotnosti:oke
+        ports:
+          - containerPort: 8074
+        env:
+        - name: KAFKA_URL
+          value: "kafka:29092"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_USER
+        - name: DB_PSW
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_PSW
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_URL  # Fetches the DB_USER from the Secret
+        - name: DB_DRIVER
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_DRIVER
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /v1/prisotnosti/liveness
+            port: 8074
+          initialDelaySeconds: 40
+          periodSeconds: 10
+      imagePullSecrets:
+        - name: ocr-login-secret

@@ -1,0 +1,32 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServer
+metadata:
+  name: my-virtual-server
+  namespace: default
+spec:
+  routes:
+    paths:
+    - path: /v1/clani
+      pathType: Prefix
+      action:
+        pass: skavtko-clani
+    - path: /v1/skupine
+      pathType: Prefix
+      action:
+        pass:  skavtko-skupine
+    - path: /v1/srecanja
+      pathType: Prefix
+      action:
+        pass:  skavtko-srecanja
+    - path: /v1/prisotnosti
+      pathType: Prefix
+      action:
+        pass:  skavtko-prisotnosti
+    - path: /v1/osebnospremljnanje
+      pathType: Prefix
+      action:
+        pass:  skavtko-osebnospremljanje
+    - path: /v1/termini
+      pathType: Prefix
+      action:
+        pass: skavtko-termini

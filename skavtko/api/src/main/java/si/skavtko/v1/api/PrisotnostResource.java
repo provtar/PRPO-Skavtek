@@ -80,6 +80,7 @@ public class PrisotnostResource {
         @PathParam("id") Long skupinaId
     ){
         List<PrisotnostDTO> res = prisotnostZrno.dodajPrisotnosti(skupinaId);
+        if(res == null) return Response.status(Status.BAD_REQUEST).build();
         return Response.status(Status.CREATED).entity(res).build();
     }
 

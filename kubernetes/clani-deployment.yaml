@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-clani
+spec:
+  replicas: 1  # Set the number of replicas to 3
+  selector:
+    matchLabels:
+      app: skavtko-clani
+  template:
+    metadata:
+      labels:
+        app: skavtko-clani
+    spec:
+      containers:
+      - name: skavtko-clani-container
+        image: skavtko-clani:alpine-1
+        ports:
+          - containerPort: 8071
+        env:
+        - name: KAFKA_URL
+          value: "kafka:29092"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: local-db-secret
+              key: DB_USER
+        - name: DB_PSW
+          valueFrom:
+            secretKeyRef:
+              name: local-db-secret
+              key: DB_PSW
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: local-db-secret
+              key: DB_URL  # Fetches the DB_USER from the Secret
+        - name: DB_DRIVER
+          valueFrom:
+            secretKeyRef:
+              name: local-db-secret
+              key: DB_DRIVER
+        # envFrom:
+        #   - configMapRef:
+        #       name: skavtko-ms-config  # Referencing the ConfigMap for environment variables
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /v1/clani/liveness
+            port: 8071
+          initialDelaySeconds: 40
+          periodSeconds: 10

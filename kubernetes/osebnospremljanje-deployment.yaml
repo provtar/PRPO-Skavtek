@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-os
+spec:
+  replicas: 1  # Set the number of replicas to 3
+  selector:
+    matchLabels:
+      app: skavtko-os
+  template:
+    metadata:
+      labels:
+        app: skavtko-os
+    spec:
+      containers:
+      - name: skavtko-os-container
+        image: skavtko-osebnospremljanje:alpine-1
+        ports:
+          - containerPort: 8075
+        envFrom:
+          - configMapRef:
+              name: skavtko-ms-config  # Referencing the ConfigMap for environment variables
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /v1/osebno-spremljanje/liveness
+            port: 8075
+          initialDelaySeconds: 40
+          periodSeconds: 10

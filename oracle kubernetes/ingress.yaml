@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx  # This must match the IngressClass name referenced in your Ingress resources
+spec:
+  controller: traefik.io/ingress-controller  # This is the controller identifier for Traefik
+  parameters:
+    apiGroup: networking.k8s.io
+    kind: Ingress
+    name: nginx This refers to the NGINX ingress controller
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx
+  annotations:
+    kubernetes.io/ingress.class: "traefik" 
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /v1/clani
+        pathType: Prefix
+        backend:
+          service:
+            name: skavtko-clani
+            port:
+              number: 8071
+      - path: /v1/skupine
+        pathType: Prefix
+        backend:
+          service:
+            name: skavtko-skupine
+            port:
+              number: 8072
+      - path: /v1/srecanja
+        pathType: Prefix
+        backend:
+          service:
+            name: skavtko-srecanja
+            port:
+              number: 8073
+      - path: /v1/prisotnosti
+        pathType: Prefix
+        backend:
+          service:
+            name: skavtko-prisotnosti
+            port:
+              number: 8074
+      - path: /v1/osebno-spremljanje
+        pathType: Prefix
+        backend:
+          service:
+            name: skavtko-osebnospremljanje
+            port:
+              number: 8075
+      - path: /v1/termini
+        pathType: Prefix
+        backend:
+          service:
+            name: skavtko-termini
+            port:
+              number: 8076

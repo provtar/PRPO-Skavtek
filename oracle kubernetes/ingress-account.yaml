@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: ingress-account
+  namespace: default
+
+# ---
+# apiVersion: rbac.authorization.k8s.io/v1
+# kind: ClusterRole
+# metadata:
+#   name: nginx-ingress-clusterrole
+# rules:
+# - apiGroups: ["networking.k8s.io"]
+#   resources: ["ingressclasses", "ingressclasses/status"]
+#   verbs: ["get", "list", "create", "update", "patch", "delete"]  # Ensure permissions for IngressClass
+# - apiGroups: [""]
+#   resources: ["services", "endpoints", "configmaps"]
+#   verbs: ["get", "list", "create", "update", "patch"]
+# - apiGroups: ["apps"]
+#   resources: ["deployments"]
+#   verbs: ["get", "list", "create", "update", "patch"]
+# - apiGroups: ["extensions"]
+#   resources: ["ingresses"]
+#   verbs: ["get", "list", "create", "update", "patch"]
+# - apiGroups: ["discovery.k8s.io"]
+#   resources: ["endpointslices"]
+#   verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nginx-ingress-clusterrolebinding
+subjects:
+- kind: ServiceAccount
+  name: ingress-account  # This should match the service account's name
+  namespace: default           # This should match the namespace of the service account
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+
