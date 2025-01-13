@@ -47,10 +47,22 @@ public class TerminResource {
             schema = @Schema(implementation = TerminDTO.class)))
         })
     public Response getResource(
-        @Parameter(description = "Podatki terminov, ki jih zelis dobiti")
-        TerminDTO data) {
+        @Parameter(description = "Od katerega casa urejas", example = "2024-12-03T10:53:46")
+        @QueryParam("od")
+        String datumOdISO8601,
+        @Parameter(description = "Do katerega casa urejas", example = "2024-12-03T10:53:46")
+        @QueryParam("do")
+        String datumDoISO8601,
+        @Parameter(description = "Id clana, kateremu pripadajo termini")
+        @QueryParam("clanId")
+        Long clanId
+        // @Parameter(description = "Podatki terminov, ki jih zelis dobiti")
+        // TerminDTO data
+        ) {
 
-        List<TerminDTO> termini = terminZrno.getVsebovaniTermini(data.getDatumOd(), data.getDatumDo(), data.getClanId());
+            LocalDateTime datumOd =LocalDateTime.parse(datumOdISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            LocalDateTime datumDo =LocalDateTime.parse(datumDoISO8601, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        List<TerminDTO> termini = terminZrno.getVsebovaniTermini(datumOd, datumDo, clanId);
         
         return Response.status(Status.CREATED).entity(termini).build();
         // return Response.ok(data).build();

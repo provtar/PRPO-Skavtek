@@ -9,17 +9,21 @@ import { VarovanciComponent } from "../../add-in/varovanci/varovanci.component";
 import { SkupineComponent } from "../../add-in/skupine/skupine.component";
 import { SrecanjaComponent } from "../srecanja/srecanja.component";
 import { SrecanjaClanaComponent } from "../../add-in/srecanja-clana/srecanja-clana.component";
+import { MenuComponent } from "../../common/menu/menu.component";
+import { TerminiComponent } from "../../termini/termini.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, VarovanciComponent, SkupineComponent, SrecanjaClanaComponent, SkupinaPostModalButtonComponent],
+  imports: [CommonModule, VarovanciComponent, SkupineComponent, SrecanjaClanaComponent, SkupinaPostModalButtonComponent, MenuComponent, TerminiComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
 
   @ViewChild("mojeSkupine") mojeSkupine : SkupineComponent | undefined;
+
+
 
   constructor(private userData: UserDataService) {}
   jaz! : Clan;

@@ -1,0 +1,71 @@
+<div>
+  <h4>Termini:</h4>
+  <div>
+    <form [formGroup]="getForm" (ngSubmit)="getSubmit()">
+      <div>
+        <label for="datumOd">Datum Od:</label>
+        <input type="datetime-local" formControlName="datumOd" />
+        <!-- <input id="datumOd" formControlName="datumOd" type="date" /> -->
+        <!-- <input formControlName="uraOd" type="time" /> -->
+        <div *ngIf="getForm.controls['datumOd'].invalid && getForm.controls['uraOd'].touched">
+          <p *ngIf="getForm.controls['datumOd'].hasError('required')">Izberite prosim uro.</p>
+          <!-- settaj default date in tima-->
+          <!-- TODO custom opomba za datum, ki je minil, da te opozori, ni èa validator, tako ti vsaj dovoli submittat -->
+        </div>
+        <p style="background-color: red;">Opomba za programera, dodaj default vrednosti za uro in datum</p>
+      </div>
+
+      <div>
+        <label for="datumDo">Datum Do:</label>
+        <input type="datetime-local" formControlName="datumDo" />
+        <!-- <input id="datumDo" formControlName="datumDo" type="date" /> -->
+        <div *ngIf="getForm.controls['datumDo'].invalid && getForm.controls['datumDo'].touched">
+          <p *ngIf="getForm.controls['datumDo'].hasError('required')">Izberite prosim datum.</p>
+          <!-- TODO custom opomba za datum, ki je minil, da te opozori, ni èa validator, tako ti vsaj dovoli submittat -->
+        </div>
+      <button type="submit" [disabled]="getForm.invalid">Shrani</button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="initialized">
+    <div *ngIf="!uredi">
+      <div *ngFor="let termin of termini; let i = index">
+        <p>{{termin.datumOd}}</p>
+        <p>{{termin.datumDo}}</p>
+        <p>{{termin.tip}}</p>
+      </div>
+      <button (click)="urediJih()">Uredi</button>
+    </div>
+    <div *ngIf="uredi">
+        <form [formGroup]="putForm" (ngSubmit)="putSubmit()">
+          <div formArrayName="formArray">
+            <div *ngFor="let group of formArray.controls; let i = index" [formGroupName]="i">
+              <div>
+                <label>Datum od:</label>
+                <input formControlName="datumOd" type="datetime" />
+              </div>
+
+              <div>
+                <label >Do:</label>
+                <input formControlName="datumDo" type="datetime" />
+              </div>
+
+              <div>
+                <select  formControlName="tip">
+                  <option *ngFor="let tip of values" [value]="tip">{{ tip }}</option>
+                </select>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <button (click)="neuredi()">Zapri</button>
+
+          <button type="submit" [disabled]="putForm.invalid">Submit</button>
+        </form>
+    </div>
+  </div>
+
+  <!-- izbiar datuma -->
+   <!-- prikaz§ -->
+    <!-- uredi -->
+</div>

@@ -1,1 +1,185 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.scout-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scout-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between item text and button */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.badge {
+  font-size: 18px;
+  color: #2c8f2c;
+  margin-right: 10px;
+  background-color: #d0f7d0;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.item-text {
+  font-size: 16px;
+  flex-grow: 1; /* Ensure item text takes up available space */
+}
+
+.scout-item button {
+  max-width: min-content;
+  max-height: fit-content;
+  padding: 12px 12px 24px 12px;
+}
+
+p {
+  font-size: x-small;
+}
+
+button {
+  max-width: 120px;
+  min-width: 100px;
+  background-color: #2c8f2c;
+  margin: 12px;
+  color: white;
+  font-size: 14px;
+  width: 80px; /* Smaller width for buttons inside .scout-item */
+  height: 30px; /* Smaller height */
+  /* padding: 5px 10px; Reduced padding for smaller buttons */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #268c24;
+  transform: scale(1.05);
+}
+
+button:active {
+  background-color: #1f7c1f;
+  transform: scale(0.98);
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Verdana', sans-serif;
+  font-weight: bold;
+  color: #2c8f2c;
+  margin-bottom: 10px;
+  position: relative;
+  text-align: center;
+}
+
+h1::before, h2::before, h3::before, h4::before, h5::before, h6::before {
+  /* content: "🔖";  */
+  position: absolute;
+  left: -30px;
+  top: 0;
+  font-size: 20px;
+  color: #2c8f2c;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form .form-group {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+input, select, textarea, button {
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #2c8f2c;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #268c24;
+  box-shadow: 0 0 5px rgba(40, 140, 36, 0.5);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+select {
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+label {
+  font-size: 10px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: inline-block;
+  color: #2c8f2c;
+}
+
+form button {
+  background-color: #2c8f2c;
+  width: 100%;
+  padding: 12px;
+  font-size: 12px;
+  color: white;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #268c24;
+}
+
+form button:active {
+  background-color: #1f7c1f;
+}

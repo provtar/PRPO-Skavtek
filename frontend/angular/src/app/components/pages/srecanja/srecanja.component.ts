@@ -9,11 +9,12 @@ import { PrisotnostiComponent } from "../../add-in/prisotnosti/prisotnosti.compo
 import { SrecanjePutButtonComponent } from "../../modal-button/srecanje-put-button/srecanje-put-button.component";
 import { SrecanjeDeleteButtonComponent } from "../../modal-button/srecanje-delete-button/srecanje-delete-button.component";
 import { PrisotnostiDeleteVseButtonComponent } from "../../modal-button/prisotnosti-delete-vse-button/prisotnosti-delete-vse-button.component";
+import { MenuComponent } from "../../common/menu/menu.component";
 
 @Component({
   selector: 'app-srecanja',
   standalone: true,
-  imports: [CommonModule, PrisotnostiPostButtonComponent, PrisotnostiComponent, SrecanjePutButtonComponent, SrecanjeDeleteButtonComponent, PrisotnostiPutFormComponent, PrisotnostiDeleteVseButtonComponent],
+  imports: [CommonModule, PrisotnostiPostButtonComponent, PrisotnostiComponent, SrecanjePutButtonComponent, SrecanjeDeleteButtonComponent, PrisotnostiPutFormComponent, PrisotnostiDeleteVseButtonComponent, MenuComponent],
   templateUrl: './srecanja.component.html',
   styleUrl: './srecanja.component.css'
 })

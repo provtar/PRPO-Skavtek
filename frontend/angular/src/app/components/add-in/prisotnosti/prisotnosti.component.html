@@ -1,7 +1,7 @@
 <div>
   <h4>Prisotnosti:</h4>
-  <div *ngIf="initialized">
-  <div *ngFor="let prisotnost of prisotnosti; let i = index">
+  <div *ngIf="initialized" class="scout-list">
+  <div *ngFor="let prisotnost of prisotnosti; let i = index" class="scout-item">
     <h4>{{prisotnost.imeClana}} {{prisotnost.priimekClana}}</h4>
     <h5>{{prisotnost.prisotnost}}</h5>
     <p>{{prisotnost.opomba}}</p>

@@ -7,11 +7,13 @@ import { SkupineComponent } from "../../add-in/skupine/skupine.component";
 import { SrecanjaClanaComponent } from "../../add-in/srecanja-clana/srecanja-clana.component";
 import { VarovanciComponent } from "../../add-in/varovanci/varovanci.component";
 import { OsebnoSpremljanjeComponent } from "../../add-in/osebno-spremljanje/osebno-spremljanje.component";
+import { TerminiComponent } from "../../termini/termini.component";
+import { MenuComponent } from "../../common/menu/menu.component";
 
 @Component({
   selector: 'app-clan',
   standalone: true,
-  imports: [CommonModule, SkupineComponent, OsebnoSpremljanjeComponent],
+  imports: [CommonModule, SkupineComponent, OsebnoSpremljanjeComponent, TerminiComponent, MenuComponent],
   templateUrl: './clan.component.html',
   styleUrl: './clan.component.css'
 })

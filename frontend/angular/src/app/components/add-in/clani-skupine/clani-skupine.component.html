@@ -1,7 +1,7 @@
 <div>
   <h4>Clani skupine {{skupinaId}}</h4>
-  <div *ngIf="initialized">
-  <div *ngFor="let clan of claniSkupine; let i = index">
+  <div *ngIf="initialized" class="scout-list">
+  <div *ngFor="let clan of claniSkupine; let i = index" class="scout-item">
     <h4>{{clan.ime}} {{clan.priimek}}</h4>
     <h5>{{clan.steg}}</h5>
     <button (click)="toClan(clan.clanId)">Prikazi</button>

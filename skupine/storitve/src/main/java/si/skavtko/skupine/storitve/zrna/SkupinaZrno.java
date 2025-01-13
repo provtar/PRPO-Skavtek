@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 // import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -43,6 +44,7 @@ public class SkupinaZrno {
 
     @PostConstruct
     private void init(){
+        System.out.println("Da se ve, da se je posodobilo");
         gson = new Gson();
         emf = Persistence.createEntityManagerFactory("defaultPU");
     }
@@ -52,11 +54,14 @@ public class SkupinaZrno {
         emf.close();
     }
 
+    @PersistenceContext
+    EntityManager fixEntityManager;
+
     public SkupinaDTO getSkupina(Long id){
-        EntityManager entityManager = emf.createEntityManager();
-        Skupina skupina = entityManager.find(Skupina.class, id);
+        
+        Skupina skupina = fixEntityManager.find(Skupina.class, id);
         SkupinaDTO res = new SkupinaDTO(skupina);
-        entityManager.close();
+        System.out.println("Nova verzija");
         return res;
     }
 

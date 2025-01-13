@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: skavtko-skupine-container
-        image: fra.ocir.io/frcrlvuwzvij/skavtko-skupine:oke
+        image: fra.ocir.io/frcrlvuwzvij/skavtko-skupine:oke-2
         ports:
           - containerPort: 8072
         env:

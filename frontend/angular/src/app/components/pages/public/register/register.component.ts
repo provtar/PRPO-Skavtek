@@ -33,7 +33,7 @@ export class RegisterComponent {
       this.registerService.register(this.registerForm.value).subscribe(
         (response) => {
           localStorage.setItem('user', JSON.stringify(response));
-          if(localStorage.getItem('user')) this.router.navigate(['/home'])
+          if(localStorage.getItem('user')) this.router.navigate(['/jaz'])
         }
       )
     } else {

@@ -1,5 +1,5 @@
-<div *ngIf="isVisible" style="background-color: aquamarine;">
-  <div>
+<div *ngIf="isVisible" class="modal-overlay">
+  <div class="modal-content">
     <app-clan-post-form [masterId]="masterId" (submitSuccess)="onPostSuccess($event)"></app-clan-post-form>
     <button (click)="close()">Zapri</button>
   </div>

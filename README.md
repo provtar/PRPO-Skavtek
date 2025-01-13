@@ -12,7 +12,7 @@ Projekt po novem uporablja enviromental variables v persistence.xml datoteki, za
 
 #### Primer zagona z javo direktno (powershell, bash, ipd):
 ```
-java -DDB_URL="jdbc:postgresql://localhost:5435/db" -DDB_USER=admin -DDB_PSW=admin -DDB_DRIVER="org.postgresql.Driver" -jar .\api\target\api-1.0.0-SNAPSHOT.jar
+java -DDB_URL="jdbc:postgresql://localhost:5435/db" -DDB_USER=admin -DDB_PSW=admin -DDB_DRIVER="org.postgresql.Driver" -DKAFKA_URL="localhost:9093" -jar .\api\target\api-1.0.0-SNAPSHOT.jar
 ```
 
 #### Zagon v dockerju brez compose filu (ne vem zakaj bi si tega zelel)

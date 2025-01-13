@@ -3,8 +3,8 @@
   <div *ngIf="!initialized">
     <p>Srecanja se nalagajo</p>
   </div>
-  <div *ngIf="initialized">
-    <div *ngFor="let srecanje of srecanja; let i = index">
+  <div *ngIf="initialized" class="scout-list">
+    <div *ngFor="let srecanje of srecanja; let i = index" class="scout-item">
       <h4>{{srecanje.ime}}</h4>
       <h5>{{srecanje.imeSkupine}}</h5>
       <h5>{{srecanje.kraj}}</h5>

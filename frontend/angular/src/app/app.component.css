@@ -1,3 +1,80 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+}
+
+.scout-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.scout-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+}
+
+.scout-item:last-child {
+  border-bottom: none;
+}
+
+.badge {
+  font-size: 20px;
+  color: #2c8f2c;
+  margin-right: 10px;
+  background-color: #d0f7d0;
+  border-radius: 50%;
+  padding: 5px;
+}
+
+.item-text {
+  font-size: 16px;
+}
+
+.scout-item:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.scout-item:active {
+  background-color: #e0e0e0;
+}
+
+button {
+  background-color: #2c8f2c;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+  background-color: #268c24;
+  transform: scale(1.05);
+}
+
+button:active {
+  background-color: #1f7c1f;
+  transform: scale(0.98);
+}
+
 /* :host {
   --bright-blue: oklch(51.01% 0.274 263.83);
   --electric-violet: oklch(53.18% 0.28 296.97);

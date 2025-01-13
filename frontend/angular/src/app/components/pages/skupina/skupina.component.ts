@@ -7,11 +7,12 @@ import { ClaniSkupineComponent } from "../../add-in/clani-skupine/clani-skupine.
 import { ClaniSkupinePutFormComponent } from "../../form/clani-skupine-put-form/clani-skupine-put-form.component";
 import { SrecanjePostButtonComponent } from "../../modal-button/srecanje-post-button/srecanje-post-button.component";
 import { SrecanjaSkupineComponent } from "../../add-in/srecanja-skupine/srecanja-skupine.component";
+import { MenuComponent } from "../../common/menu/menu.component";
 
 @Component({
   selector: 'app-skupina',
   standalone: true,
-  imports: [CommonModule, ClaniSkupineComponent, ClaniSkupinePutFormComponent, SrecanjePostButtonComponent, SrecanjaSkupineComponent],
+  imports: [CommonModule, ClaniSkupineComponent, ClaniSkupinePutFormComponent, SrecanjePostButtonComponent, SrecanjaSkupineComponent, MenuComponent],
   templateUrl: './skupina.component.html',
   styleUrl: './skupina.component.css'
 })
