@@ -32,9 +32,10 @@ export class SrecanjaComponent {
     const srecanjeId = parseInt(this.route.snapshot.queryParamMap.get('srecanjeId')!);
     this.srecanjaService.getSrecanje(srecanjeId).subscribe({
       next: (srecanje) => {
-        srecanje.datumOd = new Date(srecanje.datumOd);
-        srecanje.datumDo = new Date(srecanje.datumDo);
         this.srecanje = srecanje;
+        console.log(srecanje);
+        // srecanje.datumOd = new Date(srecanje.datumOd);
+        // srecanje.datumDo = new Date(srecanje.datumDo);
         this.initialized = true;
       },
       error: (error) => {

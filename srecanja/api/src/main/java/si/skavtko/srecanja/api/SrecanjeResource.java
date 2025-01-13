@@ -134,8 +134,8 @@ public class SrecanjeResource {
         SrecanjeDTO data){
 
         SrecanjeDTO novoSrecanje = srecanjeZrno.novoSrecanje(data, data.getIdSkupine());
-        
-        return Response.status(Status.CREATED).entity(novoSrecanje).build();
+        if(novoSrecanje!= null)return Response.status(Status.CREATED).entity(novoSrecanje).build();
+        else return Response.status(Status.BAD_REQUEST).build();
     }
 
     @PUT

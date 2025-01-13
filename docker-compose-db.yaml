@@ -12,7 +12,7 @@ services:
     volumes:
       - pgdata:/var/lib/docker/volumes/pgdata/
     ports:
-      - 5436:5432
+      - 5435:5432
  
   adminer:
     image: adminer

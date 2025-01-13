@@ -15,8 +15,8 @@ public class SrecanjeVremeDTO {
         this.kraj = srecanje.getKraj();
         this.opis = srecanje.getOpis();
         this.belezenje = srecanje.getBelezenje();
-        this.idSkupine= srecanje.getId();
-        this.imeSkupine = srecanje.getIme();
+        this.idSkupine= srecanje.getIdSkupine();
+        this.imeSkupine = srecanje.getImeSkupine();
         if (data != null) {
             String[] parts = data.split(";");
             this.temperatura = Float.parseFloat(parts[0]);

@@ -11,7 +11,7 @@ Peter Šavron
 ### Github povezava
 
 https://github.com/provtar/PRPO-Skavtek
-IP naslov zaledja
+IP naslov zaledja 89.168.78.91:80
 
 ## Kratek opis
 
