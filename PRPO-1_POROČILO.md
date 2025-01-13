@@ -83,7 +83,7 @@ Imamo devet tem (topic) na katere se lahko mikrostoritev priklopi, če želi dob
 
 ## Shema arhitekture
 
-![image](https://github.com/user-attachments/assets/e051d697-7713-4a44-b330-c76288e284d5)
+![alt text](slike/image-17.png)
 
 ## Mikrostoritve
 
