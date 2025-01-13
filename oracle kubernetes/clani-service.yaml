@@ -9,4 +9,4 @@ spec:
     - protocol: TCP
       port: 8071
       targetPort: 8071
-  type: LoadBalancer  # or ClusterIP, NodePort depending on your needs
+  type: LoadBalancer
