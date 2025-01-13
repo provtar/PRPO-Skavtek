@@ -44,6 +44,7 @@ public class SkupinaZrno {
 
     @PostConstruct
     private void init(){
+        System.out.println("Da se ve, da se je posodobilo");
         gson = new Gson();
         emf = Persistence.createEntityManagerFactory("defaultPU");
     }
@@ -58,10 +59,9 @@ public class SkupinaZrno {
 
     public SkupinaDTO getSkupina(Long id){
         
-        
-        SkupinaDTO res = new SkupinaDTO(fixEntityManager.createQuery("SELECT s " +
-             "FROM Skupina s WHERE s.id = :id", Skupina.class).setParameter("id", id).getSingleResult());
-        
+        Skupina skupina = fixEntityManager.find(Skupina.class, id);
+        SkupinaDTO res = new SkupinaDTO(skupina);
+        System.out.println("Nova verzija");
         return res;
     }
 
