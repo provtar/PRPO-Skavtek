@@ -2,8 +2,8 @@
   <h4>Osebno spremljanje:</h4>
   <div *ngIf="initialized">
   <app-osebno-spremljanje-post-button [clanId]="clanId" (postSuccess)="onOSPostSuccess($event)"></app-osebno-spremljanje-post-button>
-  <ul>
-    <li *ngFor="let zapis of osZapisi">
+  <ul class="scout-list">
+    <li *ngFor="let zapis of osZapisi" class="scout-item">
       <h4>{{zapis.naslov}}</h4>
       <p>{{zapis.datum}}</p>
       <p>{{zapis.vsebina}}</p>

@@ -1,5 +1,5 @@
-<div *ngIf="isVisible" style="background-color: aquamarine;">
-  <div>
+<div *ngIf="isVisible" class="modal-overlay">
+  <div class="modal-content">
       <app-clan-put-form [clan]="clan" (submitSuccess)="onPutSuccess($event)"></app-clan-put-form>
   </div>
 </div>

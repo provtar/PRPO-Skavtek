@@ -1,7 +1,7 @@
 <div>
   <h4>Skupine:</h4>
-  <div *ngIf="initialized">
-    <div *ngFor="let skupina of skupine; let i = index">
+  <div *ngIf="initialized" class="scout-list">
+    <div *ngFor="let skupina of skupine; let i = index" class="scout-item">
       <h4>{{skupina.ime}}</h4>
       <p>{{skupina.opis}}</p>
       <button (click)="toSkupina(skupina.id)">Prikazi</button>

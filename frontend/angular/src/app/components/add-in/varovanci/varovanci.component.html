@@ -2,8 +2,8 @@
   <h4>Moji varovanci:</h4>
   <div *ngIf="initialized">
   <app-clan-post-button [masterId]="this.user.id" (postSuccess)="onVarovanecPostSuccess()"></app-clan-post-button>
-  <ul>
-    <li *ngFor="let varovanec of mojiVarovanci">
+  <ul class="scout-list">
+    <li *ngFor="let varovanec of mojiVarovanci" class="scout-item">
       <p>{{varovanec.ime}} {{varovanec.priimek}}</p>
       <p>{{varovanec.steg}}</p>
       <p>{{varovanec.skavtskoIme}}</p>
