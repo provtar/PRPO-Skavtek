@@ -17,9 +17,11 @@ public class SrecanjeVremeDTO {
         this.belezenje = srecanje.getBelezenje();
         this.idSkupine= srecanje.getId();
         this.imeSkupine = srecanje.getIme();
-        String[] parts = data.split(";");
-        this.temperatura = Float.parseFloat(parts[0]);
-        this.padavine = Float.parseFloat(parts[1]);
+        if (data != null) {
+            String[] parts = data.split(";");
+            this.temperatura = Float.parseFloat(parts[0]);
+            this.padavine = Float.parseFloat(parts[1]);
+        }
     }
 
     private Long id;

@@ -2,7 +2,7 @@
   <div *ngIf="initialized">
     <h2>{{srecanje.ime}}</h2>
     <h4>{{srecanje.imeSkupine}}</h4>
-    <h4>{{srecanje.datumOd}} - {{srecanje.datumDo}}</h4>
+    <h4>{{srecanje.datumOd.toISOString()}} - {{srecanje.datumDo.toISOString()}}</h4>
     <h4>{{srecanje.kraj}}</h4>
     <p>{{srecanje.opis}}</p>
     <p *ngIf="srecanje.temperatura">Temperatura bo okoli {{srecanje.temperatura}}</p>

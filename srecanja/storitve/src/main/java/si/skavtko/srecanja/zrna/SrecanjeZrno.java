@@ -64,7 +64,13 @@ public class SrecanjeZrno {
         // System.out.println("Srecanje:" +srecanje.getBelezenje());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd");
         String Url = "https://api.open-meteo.com/v1/forecast?latitude=46.0512116&longitude=14.5382698&hourly=temperature_2m,rain&timezone=Europe%2FBerlin&start_date="+srecanje.getDatumOd().format(formatter).toString()+"&end_date="+srecanje.getDatumDo().format(formatter).toString();
-        String data = getWeatherInfo(Url).join();
+        String data = null;
+        try{
+            data = getWeatherInfo(Url).join();
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        
         return new SrecanjeVremeDTO(new SrecanjeDTO(srecanje), data);
     }
 
@@ -251,11 +257,11 @@ public class SrecanjeZrno {
 
                     return res;
                 } else {
-                    return "Failed to fetch weather data.";
+                    throw new Error( "Failed to fetch weather data.");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                return "An error occurred while fetching weather data.";
+                throw new Error(e.getMessage());
             }
         });
     }
