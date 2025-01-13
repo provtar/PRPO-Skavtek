@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 // import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
@@ -52,11 +53,15 @@ public class SkupinaZrno {
         emf.close();
     }
 
+    @PersistenceContext
+    EntityManager fixEntityManager;
+
     public SkupinaDTO getSkupina(Long id){
-        EntityManager entityManager = emf.createEntityManager();
-        Skupina skupina = entityManager.find(Skupina.class, id);
-        SkupinaDTO res = new SkupinaDTO(skupina);
-        entityManager.close();
+        
+        
+        SkupinaDTO res = new SkupinaDTO(fixEntityManager.createQuery("SELECT s " +
+             "FROM Skupina s WHERE s.id = :id", Skupina.class).setParameter("id", id).getSingleResult());
+        
         return res;
     }
 

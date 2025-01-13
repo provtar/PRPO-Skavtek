@@ -1,5 +1,6 @@
 package si.skavtko.skupine.storitve.dto;
 
+import java.util.Collection;
 import java.util.List;
 
 import si.skavtko.skupine.entitete.Skupina;
@@ -26,11 +27,11 @@ public class SkupinaDTO {
         this.povezave = skupina.getPovezave();
     }
 
-    public SkupinaDTO(Long id, String ime, String opis, List<NamedLink> povezave) {
+    public SkupinaDTO(Long id, String ime, String opis, Collection<NamedLink> povezave) {
         this.id = id;
         this.ime = ime;
         this.opis = opis;
-        this.povezave = povezave;
+        this.povezave = (List<NamedLink>) povezave;
     }
 
     public String getIme() {
