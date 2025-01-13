@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalVarService {
 
-  readonly skavtkoApiUrl: string = 'http://localhost:8080/v1';
+  readonly skavtkoApiUrl: string = 'http://89.168.78.91:80/v1';
   readonly modalPutFadeTime: number = 3000;
 
   constructor() { }

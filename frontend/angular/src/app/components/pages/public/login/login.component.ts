@@ -36,7 +36,7 @@ export class LoginComponent {
           localStorage.setItem('user', JSON.stringify(response));
           var user = localStorage.getItem('user');
           if(user){
-            this.router.navigate(['/home']);
+            this.router.navigate(['/jaz']);
           }
         })
     } else {

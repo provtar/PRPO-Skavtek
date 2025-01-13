@@ -122,6 +122,8 @@ export class Srecanje {
   belezenje!: boolean;
   readonly idSkupine!: number;
   imeSkupine!: string;
+  temperatura?: number;
+  padavine?: number;
 }
 
 export class Prisotnost {
@@ -152,5 +154,13 @@ export class OsebnoSpremljanje {
   datum!: Date;
   naslov!: string;
   vsebina?: string;
+  clanId!: number;
+}
+
+export class Termin {
+  id! : number;
+  datumOd!: Date;
+  datumDo!: Date;
+  tip!: string;
   clanId!: number;
 }
