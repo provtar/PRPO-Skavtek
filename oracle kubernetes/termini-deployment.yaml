@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: skavtko-termini
+spec:
+  replicas: 1  # Set the number of replicas to 3
+  selector:
+    matchLabels:
+      app: skavtko-termini
+  template:
+    metadata:
+      labels:
+        app: skavtko-termini
+    spec:
+      containers:
+      - name: skavtko-termini-container
+        image: fra.ocir.io/frcrlvuwzvij/skavtko-termini:oke
+        ports:
+          - containerPort: 8076
+        env:
+        - name: KAFKA_URL
+          value: "kafka:29092"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_USER
+        - name: DB_PSW
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_PSW
+        - name: DB_URL
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_URL  # Fetches the DB_USER from the Secret
+        - name: DB_DRIVER
+          valueFrom:
+            secretKeyRef:
+              name: supabase-db-login-secret
+              key: DB_DRIVER
+        # envFrom:
+        #   - configMapRef:
+        #       name: skavtko-ms-config  # Referencing the ConfigMap for environment variables
+        resources:
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /v1/termini/liveness
+            port: 8076
+          initialDelaySeconds: 40
+          periodSeconds: 10
+      imagePullSecrets:
+        - name: ocr-login-secret
