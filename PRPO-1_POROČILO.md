@@ -116,5 +116,13 @@ Lokalno jih lahko zaganjamo z ukazom java -ja, z docker run, preko docker compos
 
 ### Jurij si beleži prisotnost udeležencev skupine Bobri
 
-Jurij si želi na enostaven in preprost način beležiti prisotnost udeležencev na njegovih srečanj in želi do teh podatkov dostopati na več platformah. Ustvaril si bo račun na Skavtku, potem bo ustvaril skupino Bobri, pa dodal v njo člane skupine. Prihodnje srečanje začne z beleženjem prisotnosti. Po pomoti je napisal, da je bil Pavel odsoten, ko se tega zave, popravi zapis in ga označi za prisotnega. Po nekaj časa se Franc zapusti skupino, zato ga Jurij odstrani iz skupine. Konec leta pregleda prisotnosti vseh članov, da ugotovi kdo je bil prisoten na več kot 80% srečanjih.
+Jurij si želi na enostaven in preprost način beležiti prisotnost udeležencev na njegovih srečanj in želi do teh podatkov dostopati na več platformah. Ustvaril si bo račun na Skavtku, potem bo ustvaril skupino Bobri, pa dodal v njo člane skupine. Ustvari novo srečanje, da bo lahko beležil prisotnost.
 
+![alt text](slike/image-5.png)
+![alt text](slike/image-6.png)
+![alt text](slike/image-7.png)
+![alt text](slike/image-8.png)
+![alt text](slike/image-9.png)
+![alt text](slike/image-10.png)
+![alt text](slike/image-11.png)
+![alt text](slike/image-12.png)
